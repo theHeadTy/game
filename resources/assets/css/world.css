@@ -1,0 +1,32 @@
+/* World Canvas Container */
+#stage {
+  padding: 0px;
+  width: 350px;
+  height: 350px;
+  position: relative;
+  border: 2px solid black;
+}
+
+/* Default Canvas */
+canvas {
+  position: absolute;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* World Canvas */
+#newMap {
+  z-index: 1;
+}
+
+/* Player Canvas */
+#player {
+  z-index: 2;
+}
+
+/* Pathfinding Canvas */
+#path {
+  z-index: 3;
+}
