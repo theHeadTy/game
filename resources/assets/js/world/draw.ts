@@ -18,12 +18,13 @@ let canvas = new Canvas(mapCanvas);
 
 export namespace Draw {
 
-  interface SpritesheetInterface {
+  /*interface SpritesheetInterface {
     [tile: number]: {
       x: number;
       y: number;
     }
   }
+  */
 
   export class Spritesheet {
 
@@ -44,20 +45,14 @@ export namespace Draw {
 
         })
       })
-
-
-      //console.log(this.sprite);
-
     }
-
   }
 
-  interface ViewportInterface {
+  /*interface ViewportInterface {
     start: { x: number, y: number };
     end: { x: number, y: number };
     offset: { x: number, y: number };
-
-  }
+  }*/
 
   interface PlayerInterface {
     x: number;
@@ -165,9 +160,9 @@ export namespace Draw {
       this.x = _.clamp(this.x, this.min.x, this.max.x);
       this.y = _.clamp(this.y, this.min.y, this.max.y);
 
-      axios(`/mobs/x/${_.floor(this.x / 32)}/y/${_.floor(this.y / 32)}`).then((response: any) => {
-          $('#mobs').html(response.data);
-      });
+      //axios.get(`/mobs/x/${_.floor(this.x / 32)}/y/${_.floor(this.y / 32)}`).then((response: any) => {
+      //    $('#mobs').html(response.data);
+      //  });
 
       //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -225,8 +220,6 @@ export namespace Draw {
 
     public spriteSheet: any;
 
-    public viewport: ViewportInterface
-
     private image: HTMLImageElement;
 
     public sheet: any;
@@ -249,9 +242,8 @@ export namespace Draw {
 
       // Tileset
       this.tileset = new Tileset().tileset;
-      this.loadImage();
 
-      //this.testDraw();
+      this.loadImage();
 
       this.player;
 
@@ -265,7 +257,7 @@ export namespace Draw {
 
     buildMap(): any[] {
 
-      let node: any[] = [], mob: any = [], mobid: number = 0;
+      let node: any[] = [], mob: any = [];
 
       _.times(this.tileset.columns, (row: number) => {
         node[row] = [];
@@ -309,13 +301,14 @@ export namespace Draw {
 
     }
 
+
     canvasClear(): void {
       let can = <HTMLCanvasElement>document.getElementById('path'),
         cctx = can.getContext('2d');
       cctx.clearRect(0, 0, 350, 350);
     }
 
-    testDraw(): void {
+    clickEventOn(): void {
       document.getElementById('stage').addEventListener('click', this.canvasClick.bind(this), false);
       document.getElementById('stage').addEventListener('mouseup', this.canvasClear.bind(this), false);
     }
@@ -336,7 +329,6 @@ export namespace Draw {
     }
 
     draw(layer: number, camera: Camera): void {
-
 
       this.canvas.clear();
 
@@ -439,7 +431,7 @@ export namespace Draw {
             finder = new PF.AStarFinder(),
             path = finder.findPath(startX, startY, endX, endY, grid);
 
-        //console.log(this.path);
+        console.log(this.path);
 
         new Promise((resolve, reject) => {
           let image = new Image();
@@ -453,8 +445,8 @@ export namespace Draw {
         let cameraW = this.camera.width, cameraH = this.camera.height,
           cameraX = this.camera.x, cameraY = this.camera.y;
 
-        let pCanvas = <HTMLCanvasElement>document.createElement('canvas'),
-          pctx = pCanvas.getContext('2d');
+        //let pCanvas = <HTMLCanvasElement>document.createElement('canvas'),
+        //  pctx = pCanvas.getContext('2d');
 
         _.times(path.length, (index: number) => {
 
@@ -469,14 +461,12 @@ export namespace Draw {
           let offsetX = _.round(-cameraX / 32);
           let offsetY = _.round(-cameraY / 32);
 
-          dx = _.round(path[index][0] * 32 - offsetX); //-this.player.x / 32);
-          dy = _.round(path[index][1] * 32 - offsetY); //-this.player.y / 32)
+          dx = _.round(path[index][0] * 32); //-this.player.x / 32);
+          dy = _.round(path[index][1] * 32); //-this.player.y / 32)
 
           //(-this.camera.y / 32);
 
-          pathCtx.save();
           pathCtx.drawImage(sprite, sx, sy, 32, 32, dx, dy, 32, 32);
-          pathCtx.restore();
 
         });
 
@@ -484,7 +474,7 @@ export namespace Draw {
 
     }
 
-    createView(camera: Camera): any {
+    /*createView(camera: Camera): any {
       let width = this.tileset.tile.width,
         height = this.tileset.tile.height,
         columns = this.tileset.columns,
@@ -494,6 +484,6 @@ export namespace Draw {
         endY = startY + (camera.height / height) >> 0,
         viewX = _.round(-camera.x + (startX * width)),
         viewY = _.round(-camera.y + (startY * height));
-    }
+    }*/
   }
 }

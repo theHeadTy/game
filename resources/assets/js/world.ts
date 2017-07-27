@@ -1,7 +1,9 @@
+import * as Vue from 'vue'
 import * as _ from 'lodash'
 import axios from 'axios'
-import {Draw, Camera, Keyboard, KeyboardSettings, Key } from './world/index'
+import { Draw, Camera, Keyboard, KeyboardSettings, Key } from './world/index'
 
+// @todo needs to be called from the database, but for dev this works.
 import * as jTiled from './world/maps/map1.json'
 
 let keyboard = new Keyboard(),
@@ -17,12 +19,11 @@ let keyboard = new Keyboard(),
 
 camera.startFollow(player);
 
-map.testDraw();
-
 function draw() {
   drawPending = false;
   requestDraw();
 }
+
 
 function requestDraw() {
   if (!drawPending) {
@@ -51,42 +52,69 @@ function loop(timestamp: number): void  {
 
   _.each(keyboard.keys, (key: Key) => {
     if (key.isDown) {
-      let [action, ...params] = key.action.split(' ');
+      let [action, ...params]: any = key.action.split(' ');
       if (action == 'move') {
-        let [deltaX, deltaY]: number[] = _.map(params, _.toInteger);
+        let [deltaX, deltaY]: any = _.map(params, _.toInteger);
         player.move(delta, deltaX, deltaY);
+
         update();
         render();
+
+        getNewMobs();
+
       }
     }
   });
 
 }
 
+
 function update() {
   camera.update();
 }
 
 function render() {
+
   map.draw(0, camera);
   map.drawPlayer(camera, player);
   map.drawPath();
+
+}
+
+async function getNewMobs(): Promise<any> {
+  try {
+    let data = await findMobs();
+    $('#mobs').html(data);
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+function findMobs(): Promise<any> {
+  let x = _.floor(player.x / 32),
+      y = _.floor(player.y / 32),
+      url: string = `/mobs/x/${y}/y/${x}`
+  return new Promise((resolve) => {
+    let data = axios.get(url).then((response) => {
+      return response.data;
+    });
+    resolve(data);
+  }).then((val: any) => {
+    return val;
+  });
 }
 
 function start() {
-  axios(`/mobs/x/${_.floor(player.x / 32)}/y/${_.floor(player.y / 32)}`).then((response: any) => {
-    $('#mobs').html(response.data);
-  });
-  setTimeout(() => {
+
+  map.clickEventOn();
+
+  /* Draw Game */
+  _.delay(() => {
       render();
       draw();
+      getNewMobs();
   }, 10);
-  /*let timer = setInterval(() => {
-    render();
-    draw();
-    clearInterval(timer);
-  }, 10);
-  */
+
 }
 
 window.onload = () => {

@@ -14,8 +14,10 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
+   .js('resources/assets/js/map.ts', 'public/js')
    .js('resources/assets/js/world.ts', 'public/js')
-   .extract(['jquery', 'bootstrap-sass', 'vue', 'axios', 'lodash'])
+   .extract(['jquery', 'bootstrap-sass', 'vue', 'axios', 'lodash',
+     'pathfinding', 'pusher-js', 'laravel-echo'])
    .autoload({ jquery: ['$', 'jQuery', 'window.jQuery'] })
    .sass('resources/assets/sass/app.scss', 'public/css')
    .styles(['resources/assets/css/world.css'], 'public/css/all.css')

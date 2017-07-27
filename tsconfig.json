@@ -1,14 +1,12 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
-        "lib": [
-          "es6",
-          "dom"
-        ],
-        "noImplicitAny": false,
-        "sourceMap": false,
-        "allowJs": true
+      "module": "es2015",
+      "moduleResolution": "node",
+      "target": "es6",
+      "allowSyntheticDefaultImports": true,
+      "noImplicitAny": false,
+      "sourceMap": false,
+      "allowJs": true
     },
     "exclude": [
       "node_modules", "vendor"
