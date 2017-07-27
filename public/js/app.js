@@ -502,8 +502,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.player = new __WEBPACK_IMPORTED_MODULE_4__world_player__["a" /* Player */](playerConfig);
         this.camera.start(this.player);
         this.camera.update();
-        let mobData = new __WEBPACK_IMPORTED_MODULE_6__world_mobs__["a" /* Mob */](this.allMobs);
-        console.log(mobData.nmobs);
+        console.log(this.mobData.nmobs);
         /* Start the game */
         this.init();
     },
@@ -773,6 +772,11 @@ class Mob {
         this.mobs = mobs;
         this.getAllMobs(1);
     }
+    /**
+     * Send an ajax request to get all of the mobs in the current world zone.
+     * @param {Number} id - ID of the zone.
+     * @return void
+     */
     getAllMobs(id) {
         let mobArr = [];
         __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(`/mobs/room/${id}`).then((response) => {

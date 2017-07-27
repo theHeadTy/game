@@ -159,9 +159,7 @@ export default {
     this.camera.start(this.player);
     this.camera.update();
 
-    let mobData = new Mob(this.allMobs)
-
-    console.log(mobData.nmobs)
+    console.log(this.mobData.nmobs)
 
     /* Start the game */
     this.init()
