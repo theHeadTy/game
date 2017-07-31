@@ -2,25 +2,35 @@ import './../../bootstrap.js'
 import * as _ from 'lodash'
 import axios from 'axios'
 
-export class Mob {
-  public mobs: any[];
-  public nmobs: any[];
-  constructor(mobs: any[]) {
-    this.mobs = mobs;
-    this.getAllMobs(1);
+/*axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+let token: any = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}*/
+
+export class Mobs {
+  public allMobs: any[];
+  public roomMobs: any[];
+  private roomId: number;
+  constructor(id: number) {
+    this.roomId = id;
+    this.getAllMobs(id);
   }
 
   /**
-   * Send an ajax request to get all of the mobs in the current world zone.
+   * Send an ajax request to get all of the mobs in the current zone.
    * @param {Number} id - ID of the zone.
    * @return void
    */
-  getAllMobs(id: number): void {
-    let mobArr: any[] = [];
+  getAllMobs(id?: number): void {
+    id = id || this.roomId;
     axios.get(`/mobs/room/${id}`).then((response: any) => {
-      mobArr.push(response.data);
+      this.allMobs = response.data;
     });
-    this.nmobs = mobArr;
   }
 
   /**
@@ -33,7 +43,7 @@ export class Mob {
    */
   inRoom(x: number, y: number): any[] {
     let mobArr: any = [];
-    _.find(this.mobs, (obj: any) => {
+    _.find(this.allMobs, (obj: any) => {
       if (obj.x === x && obj.y === y) {
         mobArr.push(obj);
       }

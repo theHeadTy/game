@@ -16,7 +16,6 @@
                 <div class="panel-body">
 
                     <world-map
-                        :all-mobs="{{ $mobs }}"
                         :world="{{ $world->data }}"
                         v-on:send="sendMobs">
                     </world-map>

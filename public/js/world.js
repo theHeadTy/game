@@ -1,10 +1,130 @@
 webpackJsonp([2],{
 
-/***/ 10:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rectangle__ = __webpack_require__(106);
+//import * as jTiled from './maps/map1.json';
+
+//import {Tile} from './tilemap/tile'
+//let Tiled = (<any>jTiled);
+class Camera {
+    constructor(map) {
+        this.map = map;
+        this.x = 0;
+        this.y = 0;
+        this.width = map.canvas.width;
+        this.height = map.canvas.height;
+        this.max = {
+            x: map.tileset.image.width - this.width,
+            y: map.tileset.image.height - this.height
+        };
+        this.follow = false;
+        // Viewport Rectangle (canvas sized)
+        this.viewRect = new __WEBPACK_IMPORTED_MODULE_0__rectangle__["a" /* Rectangle */]({
+            left: this.x, top: this.y,
+            width: this.width, height: this.height
+        });
+        // Map Rectangle (full sized)
+        this.mapRect = new __WEBPACK_IMPORTED_MODULE_0__rectangle__["a" /* Rectangle */]({
+            left: 0, top: 0,
+            width: map.tileset.image.width, height: map.tileset.image.height
+        });
+        //this.buildTileset();
+        //this.cull();
+    }
+    startFollow(player) {
+        this.follow = player;
+        this.screen = { x: this.width / 2, y: this.height / 2 };
+    }
+    update() {
+        if (this.follow.x - this.x + this.screen.x > this.width) {
+            this.x = this.follow.x - (this.width - this.screen.x);
+        }
+        else if (this.follow.x - this.screen.x < this.x) {
+            this.x = this.follow.x - this.screen.x;
+        }
+        if (this.follow.y - this.y + this.screen.y > this.height) {
+            this.y = this.follow.y - (this.height - this.screen.y);
+        }
+        else if (this.follow.y - this.screen.y < this.y) {
+            this.y = this.follow.y - this.screen.y;
+        }
+        this.viewRect.set(this.x, this.y);
+        if (!this.viewRect.within(this.mapRect)) {
+            if (this.viewRect.left < this.mapRect.left) {
+                this.x = this.mapRect.left;
+            }
+            if (this.viewRect.top < this.mapRect.top) {
+                this.y = this.mapRect.top;
+            }
+            if (this.viewRect.right > this.mapRect.right) {
+                this.x = this.mapRect.right - this.width;
+            }
+            if (this.viewRect.bottom > this.mapRect.bottom) {
+                this.y = this.mapRect.bottom - this.height;
+            }
+        }
+        //this.cull();
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Camera;
+
+
+
+/***/ }),
+
+/***/ 106:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * World Rectangle
+ *
+ * @class Rectangle
+ * @implements RectangleInterface
+ */
+class Rectangle {
+    constructor(config) {
+        this.left = config.left;
+        this.top = config.top;
+        this.width = config.width;
+        this.height = config.height;
+        this.right = (this.left + this.width);
+        this.bottom = (this.top + this.height);
+    }
+    set(left, top, width, height) {
+        this.left = left;
+        this.top = top;
+        this.width = width || this.width;
+        this.height = height || this.height;
+        this.right = (this.left + this.width);
+        this.bottom = (this.top + this.height);
+    }
+    within(rect) {
+        return (rect.left <= this.left &&
+            rect.right >= this.right &&
+            rect.top <= this.top &&
+            rect.bottom >= this.bottom);
+    }
+    offset(rect, left, top) {
+        rect.left += left;
+        rect.top += top;
+        return rect;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Rectangle;
+
+
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 ;
@@ -73,7 +193,7 @@ class Keyboard {
 
 /***/ }),
 
-/***/ 27:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125,24 +245,24 @@ class Canvas {
 
 /***/ }),
 
-/***/ 65:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(66);
+module.exports = __webpack_require__(86);
 
 
 /***/ }),
 
-/***/ 66:
+/***/ 86:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function(Promise, $) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_index__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_index__ = __webpack_require__(87);
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -236,18 +356,18 @@ window.onload = () => {
     start();
 };
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(7)))
 
 /***/ }),
 
-/***/ 67:
+/***/ 87:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__canvas__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__draw__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__camera__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__keyboard__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__canvas__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__draw__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__camera__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__keyboard__ = __webpack_require__(16);
 /* unused harmony reexport Canvas */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__draw__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__camera__["a"]; });
@@ -261,17 +381,17 @@ window.onload = () => {
 
 /***/ }),
 
-/***/ 68:
+/***/ 88:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Draw; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function(Promise) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Draw; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__maps_map1_json__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__maps_map1_json__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__maps_map1_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__maps_map1_json__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__canvas__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pathfinding__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__canvas__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pathfinding__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_pathfinding___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_pathfinding__);
 
 
@@ -525,10 +645,11 @@ var Draw;
     Draw.Map = Map;
 })(Draw || (Draw = {}));
 
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
 
-/***/ 69:
+/***/ 89:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -849,9 +970,6 @@ module.exports = {
 				0,
 				0,
 				0,
-				1,
-				1,
-				1,
 				0,
 				0,
 				0,
@@ -865,9 +983,6 @@ module.exports = {
 				0,
 				0,
 				0,
-				1,
-				1,
-				1,
 				0,
 				0,
 				0,
@@ -880,10 +995,9 @@ module.exports = {
 				0,
 				0,
 				0,
+				190,
+				191,
 				0,
-				1,
-				1,
-				1,
 				0,
 				0,
 				0,
@@ -896,6 +1010,10 @@ module.exports = {
 				0,
 				0,
 				0,
+				205,
+				206,
+				207,
+				208,
 				0,
 				0,
 				0,
@@ -908,6 +1026,10 @@ module.exports = {
 				0,
 				0,
 				0,
+				221,
+				222,
+				223,
+				224,
 				0,
 				0,
 				0,
@@ -920,6 +1042,10 @@ module.exports = {
 				0,
 				0,
 				0,
+				237,
+				238,
+				239,
+				240,
 				0,
 				0,
 				0,
@@ -932,6 +1058,10 @@ module.exports = {
 				0,
 				0,
 				0,
+				253,
+				254,
+				255,
+				256,
 				0,
 				0,
 				0,
@@ -983,12 +1113,12 @@ module.exports = {
 				0,
 				0,
 				0,
+				62,
+				63,
+				64,
 				0,
 				0,
 				0,
-				1,
-				1,
-				1,
 				0,
 				0,
 				0,
@@ -999,12 +1129,15 @@ module.exports = {
 				0,
 				0,
 				0,
+				78,
+				79,
+				80,
 				0,
+				62,
+				63,
+				64,
 				0,
 				0,
-				1,
-				1,
-				1,
 				0,
 				0,
 				0,
@@ -1012,15 +1145,18 @@ module.exports = {
 				0,
 				0,
 				0,
+				94,
+				95,
+				96,
 				0,
+				78,
+				79,
+				80,
 				0,
 				0,
 				0,
 				0,
 				0,
-				1,
-				1,
-				1,
 				0,
 				0,
 				0,
@@ -1029,24 +1165,9 @@ module.exports = {
 				0,
 				0,
 				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
+				94,
+				95,
+				96,
 				0,
 				0,
 				0,
@@ -1062,8 +1183,8 @@ module.exports = {
 				0
 			],
 			"height": 16,
-			"name": "meta",
-			"opacity": 0,
+			"name": "Tile Layer 2",
+			"opacity": 1,
 			"type": "tilelayer",
 			"visible": true,
 			"width": 16,
@@ -1098,126 +1219,6 @@ module.exports = {
 	"width": 16
 };
 
-/***/ }),
-
-/***/ 85:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rectangle__ = __webpack_require__(86);
-//import * as jTiled from './maps/map1.json';
-
-//import {Tile} from './tilemap/tile'
-//let Tiled = (<any>jTiled);
-class Camera {
-    constructor(map) {
-        this.map = map;
-        this.x = 0;
-        this.y = 0;
-        this.width = map.canvas.width;
-        this.height = map.canvas.height;
-        this.max = {
-            x: map.tileset.image.width - this.width,
-            y: map.tileset.image.height - this.height
-        };
-        this.follow = false;
-        // Viewport Rectangle (canvas sized)
-        this.viewRect = new __WEBPACK_IMPORTED_MODULE_0__rectangle__["a" /* Rectangle */]({
-            left: this.x, top: this.y,
-            width: this.width, height: this.height
-        });
-        // Map Rectangle (full sized)
-        this.mapRect = new __WEBPACK_IMPORTED_MODULE_0__rectangle__["a" /* Rectangle */]({
-            left: 0, top: 0,
-            width: map.tileset.image.width, height: map.tileset.image.height
-        });
-        //this.buildTileset();
-        //this.cull();
-    }
-    startFollow(player) {
-        this.follow = player;
-        this.screen = { x: this.width / 2, y: this.height / 2 };
-    }
-    update() {
-        if (this.follow.x - this.x + this.screen.x > this.width) {
-            this.x = this.follow.x - (this.width - this.screen.x);
-        }
-        else if (this.follow.x - this.screen.x < this.x) {
-            this.x = this.follow.x - this.screen.x;
-        }
-        if (this.follow.y - this.y + this.screen.y > this.height) {
-            this.y = this.follow.y - (this.height - this.screen.y);
-        }
-        else if (this.follow.y - this.screen.y < this.y) {
-            this.y = this.follow.y - this.screen.y;
-        }
-        this.viewRect.set(this.x, this.y);
-        if (!this.viewRect.within(this.mapRect)) {
-            if (this.viewRect.left < this.mapRect.left) {
-                this.x = this.mapRect.left;
-            }
-            if (this.viewRect.top < this.mapRect.top) {
-                this.y = this.mapRect.top;
-            }
-            if (this.viewRect.right > this.mapRect.right) {
-                this.x = this.mapRect.right - this.width;
-            }
-            if (this.viewRect.bottom > this.mapRect.bottom) {
-                this.y = this.mapRect.bottom - this.height;
-            }
-        }
-        //this.cull();
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Camera;
-
-
-
-/***/ }),
-
-/***/ 86:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * World Rectangle
- *
- * @class Rectangle
- * @implements RectangleInterface
- */
-class Rectangle {
-    constructor(config) {
-        this.left = config.left;
-        this.top = config.top;
-        this.width = config.width;
-        this.height = config.height;
-        this.right = (this.left + this.width);
-        this.bottom = (this.top + this.height);
-    }
-    set(left, top, width, height) {
-        this.left = left;
-        this.top = top;
-        this.width = width || this.width;
-        this.height = height || this.height;
-        this.right = (this.left + this.width);
-        this.bottom = (this.top + this.height);
-    }
-    within(rect) {
-        return (rect.left <= this.left &&
-            rect.right >= this.right &&
-            rect.top <= this.top &&
-            rect.bottom >= this.bottom);
-    }
-    offset(rect, left, top) {
-        rect.left += left;
-        rect.top += top;
-        return rect;
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Rectangle;
-
-
-
 /***/ })
 
-},[65]);
+},[85]);

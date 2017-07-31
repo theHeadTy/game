@@ -1,5 +1,7 @@
 let mix = require('laravel-mix');
 
+let webpack = require('webpack');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -17,7 +19,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/map.ts', 'public/js')
    .js('resources/assets/js/world.ts', 'public/js')
    .extract(['jquery', 'bootstrap-sass', 'vue', 'axios', 'lodash',
-     'pathfinding', 'pusher-js', 'laravel-echo'])
+     'pathfinding', 'pusher-js', 'laravel-echo', 'bluebird'])
    .autoload({ jquery: ['$', 'jQuery', 'window.jQuery'] })
    .sass('resources/assets/sass/app.scss', 'public/css')
    .styles(['resources/assets/css/world.css'], 'public/css/all.css')
@@ -36,4 +38,12 @@ mix.js('resources/assets/js/app.js', 'public/js')
      resolve: {
        extensions: ['*', '.js', '.jsx', '.vue', '.ts', '.tsx'],
      },
+     plugins: [
+       new webpack.ProvidePlugin({
+         Promise: "imports-loader?this=>global!exports-loader?global.Promise!bluebird",
+         fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch",
+         $: "jquery",
+         jQuery: "jquery"
+       }),
+     ]
    });

@@ -24,20 +24,19 @@
 import Vue from 'vue'
 import * as _ from 'lodash'
 import axios from 'axios'
-/* @todo - add these to a global export file */
-import { Keyboard, Key } from './../world/keyboard'
-import { CanvasInterface, Canvas } from './world/canvas'
-import { Render } from './world/render'
-import { Player, PlayerInterface } from './world/player'
-import { Camera, CameraSettings } from './world/camera'
-import { Mob } from './world/mobs'
 
+import { loadMap, loadTileAtlas }  from './../util/loader'
+
+import {
+  GameInterface, Game, Keyboard, Key, CanvasInterface, Canvas,
+  Render, PlayerInterface, Player, CameraSettings, Camera, Mobs
+} from './world/index'
 
 export default {
 
   name: 'world-map',
 
-  props: ['all-mobs', 'world'],
+  props: ['world'],
 
   data() {
     return {
@@ -47,22 +46,30 @@ export default {
       camera: null,
       player: null,
       canvasPool: null,
+      mobData: null,
+      mapData: '',
       elapsed: 0,
       delta: 0,
+
     }
   },
-
   computed: {
     keyboard() {
       return new Keyboard();
-    },
-    mobData() {
-      return new Mob(this.allMobs);
     }
+  },
+  created() {
+    axios.get('/map/1').then((res: any) => {
+      let data = JSON.parse(res.data);
+      this.world = (_.isEqual(data, this.world)) ? this.world : data;
+      this.mapData = data;
+    });
   },
   methods: {
 
     mobs(): void {
+      let inRoom = this.mobData.inRoom(this.x, this.y);
+
       this.$emit('send', this.mobData.inRoom(this.x, this.y));
     },
 
@@ -74,8 +81,17 @@ export default {
     },
 
     draw(): void {
+
       Canvas.clearWorld(this.canvasPool);
-      this.render.map();
+
+      let world = this.world,
+          length = world.layers.length,
+          image = world.tilesets[0].image;
+      _.times(length, (i: number) => {
+        loadMap(image).then(img => {
+          this.render.map(i, img);
+        })
+      })
       this.render.player(this.player);
     },
 
@@ -102,9 +118,11 @@ export default {
     },
 
     init(): void {
-      this.update();
-      this.draw();
-      requestAnimationFrame(this.loop)
+      _.delay(() => {
+        this.update();
+        this.draw();
+        requestAnimationFrame(this.loop)
+      }, 10)
     }
   },
 
@@ -157,9 +175,15 @@ export default {
 
     this.player = new Player(playerConfig);
     this.camera.start(this.player);
-    this.camera.update();
 
-    console.log(this.mobData.nmobs)
+    this.mobData = new Mobs(1);
+
+
+    //let g = new Game();
+    //console.log(g.map)
+
+    console.log(this.mapData);
+
 
     /* Start the game */
     this.init()

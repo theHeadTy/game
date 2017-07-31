@@ -26,14 +26,18 @@ Route::get('world', function() {
     return view('world');
 });
 
+Route::get('/map', 'MapController@index');
+Route::get('/map/{id}', 'MapController@show');
 
-Route::get('map', function() {
+/*Route::get('map', function() {
+
     $world = World::find(1);
 
-    $mobs = Mob::where('world_id', 1)->get();
+    //$mobs = Mob::where('world_id', $id)->get();
 
-    return view('world.world', compact('mobs', 'world'));
+    return view('world.world', compact('world'));
 });
+*/
 
 Route::get('mobs/x/{x}/y/{y}', 'MobController@getMobs');
 Route::get('mobs/room/{id}', 'MobController@getAllMobs');

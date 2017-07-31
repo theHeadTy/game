@@ -4,24 +4,21 @@
 import './bootstrap';
 import Vue from 'vue';
 
-//Vue.component('world-map', require('./components/Map.vue'))
-
-import Map from './components/Map.vue'
-import Mobs from './components/Mobs.vue'
-
-//Vue.component('world-mobs', require('./components/Mobs.vue'))
+import WorldMap from './components/Map.vue'
+import WorldMobs from './components/Mobs.vue'
 
 const app = new Vue({
+
     el: '#app',
 
     components: {
-      'world-map': Map,
-      'world-mobs': Mobs
+      WorldMap,
+      WorldMobs
     },
 
     data: {
       mobs: null,
-
+      attackMob: null,
     },
 
     methods: {
@@ -30,6 +27,9 @@ const app = new Vue({
         this.mobs = mobs;
       },
 
+      sendAttackMob(mob) {
+        this.attackMob = mob;
+      }
 
     },
 

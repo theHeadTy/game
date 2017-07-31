@@ -1,14 +1,14 @@
 webpackJsonp([3],{
 
-/***/ 63:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(64);
+module.exports = __webpack_require__(84);
 
 
 /***/ }),
 
-/***/ 64:
+/***/ 84:
 /***/ (function(module, exports) {
 
 /*import './bootstrap'
@@ -27,4 +27,4 @@ new Vue({
 
 /***/ })
 
-},[63]);
+},[83]);

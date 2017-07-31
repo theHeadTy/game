@@ -1,5 +1,6 @@
-import {RectangleInterface, Rectangle} from './rectangle'
-import { Canvas } from './canvas'
+import * as _ from 'lodash'
+import { RectangleInterface, Rectangle } from './rectangle'
+//import { Canvas } from './canvas'
 import { Player } from './player'
 
 export interface CameraSettings {
@@ -90,4 +91,5 @@ export class Camera {
       }
     }
   }
+
 }
