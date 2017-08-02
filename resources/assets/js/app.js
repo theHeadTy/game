@@ -1,6 +1,3 @@
-/**
- * App - Main vue instance
- */
 import './bootstrap';
 import Vue from 'vue';
 
@@ -19,6 +16,7 @@ const app = new Vue({
     data: {
       mobs: null,
       attackMob: null,
+      map: null,
     },
 
     methods: {
@@ -29,12 +27,19 @@ const app = new Vue({
 
       sendAttackMob(mob) {
         this.attackMob = mob;
+      },
+
+      loadMapData() {
+        axios.get('/map/1').then(response => {
+          this.map = response.data
+        })
       }
+
 
     },
 
     created() {
-      /* Websocket */
+      this.loadMapData();
       //Echo.join('mobs').listen('Mobs', (e) => {
       //  this.mobs = e.mobs;
       //});

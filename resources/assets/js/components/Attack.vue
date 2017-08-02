@@ -4,44 +4,78 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <button class="modal-default-button" @click="$emit('close')">X</button>
-
-          <div text-align="center">
-            <div class="row">
-
-              <div class="col-md-4">
-                <div class="row">
-                  <h1>Player</h1>
+          <!-- Character Names -->
+          <table border="0" cellspacing="0" cellpadding="0" width="600px;" style="font-family:Impact,sans-serif;font-weight:normal;font-size:18pt;">
+            <tr>
+              <td width="250" align="center" valign="middle">
+          		  <div id="attacker_name">
+                  <a href="/characters/687030">Player Name</a>
                 </div>
-                <transition name="fade">
-                  <h1 v-if="showTurn === 'target'">- {{ targetDamage }}</h1>
-                </transition>
-              </div>
+          		</td>
+          		<td width="100"></td>
+          		<td width="250" align="center" valign="middle">
+          		  <div id="defender_name">Target Name</div>
+          		</td>
+          	</tr>
+          </table>
 
-              <div class="col-md-4">
-                <div class="row">
-                  <h1>Target</h1>
-                </div>
-                <transition name="fade">
-                  <h1 v-if="showTurn === 'player'">- {{ playerDamage }}</h1>
-                </transition>
-              </div>
+          <!-- Character Pics -->
+          <table border="0" cellspacing="0" cellpadding="0" width="580" height="280" style="margin-top:20px;">
+            <tr>
+              <td width="270" valign="middle" align="center" style="background-image:url('http://placehold.it/250x250');background-repeat:no-repeat;background-position:center center;">
+                <table>
+                  <tr>
+                    <!--<td id="attacker_window"></td>-->
+                    <td v-if="showTurn === 'target'">
+                      <div class="targetHit">{{ targetDamage }}</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td width="40"></td>
+          		<td width="270" valign="middle" align="center" style="background-image:url('http://placehold.it/250x250');background-repeat:no-repeat;background-position:center center;">
+            		<table>
+                  <tr>
+                    <!--<td id="defender_window"></td>-->
+                    <td v-if="showTurn === 'player'">
+                      <div class="playerHit">{{ playerDamage }}</div>
+                    </td>
+                  </tr>
+                </table>
+          		</td>
+          	</tr>
+          </table>
 
-            </div> <!-- end row -->
-          </div> <!-- end center -->
+          <!-- Character Health Bars -->
+          <table border="0" cellspacing="0" cellpadding="0" width="550" height="40" style="margin-left:8px;margin-top:50px;">
+			      <tr>
+              <!--style="background-image:url(/images/health_bar.jpg);background-repeat:no-repeat;background-position:center center;"-->
+              <td width="245" valign="top" align="right">
+                <div class="playerHealth" v-bind:style="{ width: pHealth + 'px' }"></div>
 
-          <div class="col-md-8">
-            <div class="row">
-            <!-- Show attack message -->
-            <transition name="fade">
-              <div align="center" v-if="showMessage">
-                <span>{{ displayMessage }}</span>
-              </div>
-            </transition>
-            </div>
+                <!--:style="{ width: pHealth + 'px' }"></div>-->
+
+              </td>
+              <td width="60"></td>
+              <td width="245" valign="top" align="left">
+              <!-- style="background-image:url(/images/health_bar.jpg);background-repeat:no-repeat;background-position:center center;"> -->
+                <div class="targetHealth" v-bind:style="{ width: tHealth + 'px' }"></div>
+
+                <!--:style="{ width: tHealth + 'px' }"></div>-->
+
+              </td>
+            </tr>
+          </table>
+
+
+
+          <span v-if="showMessage">{{ displayMessage }}</span>
+
+          <a @click="$emit('close')">back to world</a>
+
+
+
           </div>
-
-
         </div>
       </div>
     </div>
@@ -64,7 +98,7 @@ export default {
     /* @note - will be stored in the database */
     let playerStats = {
       name: 'Player',
-      hp: 100,
+      hp: 30,
       attack: 10,
       critical: 0,
       block: 0
@@ -73,7 +107,7 @@ export default {
     /* @note - will be stored in the database */
     let mobStats = {
       name: this.attackMob.name,
-      hp: 90,
+      hp: 20,
       attack: 10,
       critical: 0,
       block: 0
@@ -83,6 +117,7 @@ export default {
     this.target = mobStats;
 
     this.fight();
+
   },
 
   data() {
@@ -98,42 +133,88 @@ export default {
 
       showResult: false,
       displayResult: '',
+
+      tHealth: 228,
+      pHealth: 228
+
     }
   },
 
   methods: {
-    fight() {
 
+    fightTurn(val) {
+      let turn = val.turn,
+          damage = val.damage,
+          message = val.message;
+      this.showTurn = turn;
+
+      if (turn === 'player') {
+        this.playerDamage = damage;
+
+        this.tHealth = val.hp.width;
+        console.log('player - ' + val.hp.width);
+
+      } else if (turn === 'target') {
+        this.targetDamage = damage;
+
+        console.log('target - ' + val.hp.width)
+
+        this.pHealth = val.hp.width;
+
+      } else if (turn === 'winner') {
+        this.showResult = true;
+        this.displayResult = message;
+        this.showMessage = false;
+      }
+      if (turn !== 'winner') {
+        this.showMessage = true;
+        this.displayMessage = message;
+      }
+    },
+
+    fight() {
+      let attackArr = this.attack.buildAttack();
+      _.each(attackArr, (val, key) => {
+        setTimeout(() => {
+          this.fightTurn(val)
+        }, (key * 800))
+      })
+
+      /*
       var attackArr = this.attack.buildAttack(),
           len = attackArr.length,
           self = this;
 
-      (function loop(i) {
+      const loop = (i) => {
         if (i <= len) {
-          ++i;
-          _.delay(() => {
-            loop(i)
+          setTimeout(() => {
 
             let turn = attackArr[i]['turn'],
                 damage = attackArr[i]['damage'],
                 message = attackArr[i]['message'];
 
-            self.showTurn = turn;
-            self.showMessage = true;
+            this.showTurn = turn;
 
             if (turn === 'player') {
-              self.playerDamage = damage;
+              this.playerDamage = damage;
             } else if (turn === 'target') {
-              self.targetDamage = damage;
+              this.targetDamage = damage;
             } else if (turn === 'winner') {
-              self.showResult = true;
-              self.displayResult = message;
+              this.showResult = true;
+              this.displayResult = message;
             }
-            self.displayMessage = message;
+            if (turn !== 'winner') {
+              this.showMessage = true;
+              this.displayMessage = message;
+            }
+
+            loop(++i)
 
           }, 800);
         }
-      })(0);
+      }
+      loop(0);
+      */
     }
   },
 

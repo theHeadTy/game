@@ -30,3 +30,45 @@ canvas {
 #path {
   z-index: 3;
 }
+
+/*
+ * CSS for World Attack
+ */
+
+.playerHit {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #333333;
+  background-color: black;
+  font-weight: bold;
+  font-size: 18pt;
+  color: #CC0000;
+}
+
+.targetHit {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #333333;
+  background-color: black;
+  font-weight: bold;
+  font-size: 18pt;
+  color: #CC0000;
+}
+
+.playerHealth {
+  margin-top: 10px;
+  margin-right: 9px;
+  background-color: #009900;
+  border: 0px solid #000;
+  height: 15px;
+  margin: 0px auto;
+}
+
+.targetHealth {
+  margin-top: 10px;
+  margin-left: 8px;
+  background-color: #009900;
+  border: 0px solid #000;
+  height: 15px;
+  margin: 0px auto;
+}

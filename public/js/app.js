@@ -1,121 +1,400 @@
-webpackJsonp([1],[
-/* 0 */,
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */
-/***/ (function(module, exports) {
+webpackJsonp([1],{
 
-/* globals __VUE_SSR_CONTEXT__ */
+/***/ 110:
+/***/ (function(module, exports, __webpack_require__) {
 
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
+__webpack_require__(111);
+module.exports = __webpack_require__(156);
 
 
 /***/ }),
-/* 16 */
+
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Map_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__);
+
+
+
+
+
+
+var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
+
+  el: '#app',
+
+  components: {
+    WorldMap: __WEBPACK_IMPORTED_MODULE_2__components_Map_vue___default.a,
+    WorldMobs: __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue___default.a
+  },
+
+  data: {
+    mobs: null,
+    attackMob: null,
+    map: null
+  },
+
+  methods: {
+    sendMobs: function sendMobs(mobs) {
+      this.mobs = mobs;
+    },
+    sendAttackMob: function sendAttackMob(mob) {
+      this.attackMob = mob;
+    },
+    loadMapData: function loadMapData() {
+      var _this = this;
+
+      axios.get('/map/1').then(function (response) {
+        _this.map = response.data;
+      });
+    }
+  },
+
+  created: function created() {
+    this.loadMapData();
+    //Echo.join('mobs').listen('Mobs', (e) => {
+    //  this.mobs = e.mobs;
+    //});
+  }
+});
+
+/***/ }),
+
+/***/ 131:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(43)(
+  /* script */
+  __webpack_require__(132),
+  /* template */
+  __webpack_require__(143),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/vagrant/Code/game/resources/assets/js/components/Map.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Map.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3a16fb86", Component.options)
+  } else {
+    hotAPI.reload("data-v-3a16fb86", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 132:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_loader__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_index__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__);
+
+
+
+
+let Tiled = __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__;
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'world-map',
+    props: ['map', 'world'],
+    data() {
+        return {
+            x: null,
+            y: null,
+            render: null,
+            camera: null,
+            player: null,
+            canvasPool: null,
+            mobData: null,
+            mapData: null,
+            elapsed: 0,
+            delta: 0,
+        };
+    },
+    computed: {
+        keyboard() {
+            return new __WEBPACK_IMPORTED_MODULE_2__world_index__["c" /* Keyboard */]();
+        },
+        mapD() {
+            return this.map;
+        }
+    },
+    methods: {
+        mobs() {
+            this.$emit('send', this.mobData.inRoom(this.x, this.y));
+        },
+        update() {
+            this.camera.update();
+            this.x = this.player.nodeX;
+            this.y = this.player.nodeY;
+            this.mobs();
+        },
+        draw() {
+            __WEBPACK_IMPORTED_MODULE_2__world_index__["b" /* Canvas */].clearWorld(this.canvasPool);
+            //let world = this.world,
+            //    length = world.layers.length,
+            //    image = world.tilesets[0].image;
+            let world = Tiled, length = Tiled.layers.length, image = Tiled.tilesets[0].image;
+            let gid;
+            Object(__WEBPACK_IMPORTED_MODULE_1__util_loader__["a" /* loadMap */])(image).then(img => {
+                __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](world.layers, (val, key) => {
+                    gid = (world.tilesets.length)
+                        ? world.tilesets[key].firstgid
+                        : world.tilesets[0].firstgid;
+                    this.render.map(gid, val, img);
+                });
+            });
+            this.render.player(this.player);
+        },
+        loop(time) {
+            requestAnimationFrame(this.loop);
+            this.delta = (time - this.elapsed) / 1000;
+            this.delta = __WEBPACK_IMPORTED_MODULE_0_lodash__["min"]([this.delta, .25]);
+            this.elapsed = time;
+            __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](this.keyboard.keys, (key) => {
+                if (key.isDown) {
+                    let [action, ...params] = key.action.split(' ');
+                    if (action === 'move') {
+                        let [deltaX, deltaY] = __WEBPACK_IMPORTED_MODULE_0_lodash__["map"](params, __WEBPACK_IMPORTED_MODULE_0_lodash__["toInteger"]);
+                        this.player.update(this.delta, deltaX, deltaY);
+                    }
+                }
+            });
+            this.update();
+            this.draw();
+        },
+        init() {
+            setTimeout(() => {
+                this.update();
+                this.draw();
+                requestAnimationFrame(this.loop);
+            }, 10);
+        }
+    },
+    mounted() {
+        const mapCanvas = this.$refs.map;
+        const mapCtx = mapCanvas.getContext('2d');
+        const playerCanvas = this.$refs.player;
+        const playerCtx = playerCanvas.getContext('2d');
+        /* Add Canvas Pool to vue data */
+        let canvasPool = {
+            canvas: {
+                map: mapCanvas,
+                player: playerCanvas
+            },
+            ctx: {
+                map: mapCtx,
+                player: playerCtx
+            }
+        };
+        this.canvasPool = canvasPool;
+        /* Create new Render instance. */
+        let renderConfig = {
+            canvas: canvasPool.canvas.map,
+            ctx: canvasPool.ctx.map,
+        };
+        this.render = new __WEBPACK_IMPORTED_MODULE_2__world_index__["f" /* Render */](renderConfig, Tiled);
+        let cameraConfig = {
+            width: canvasPool.canvas.map.width,
+            height: canvasPool.canvas.map.height,
+            mapWidth: Tiled.width * Tiled.tilewidth,
+            mapHeight: Tiled.height * Tiled.tileheight
+            //mapWidth: this.world.width * this.world.tilewidth,
+            //mapHeight: this.world.height * this.world.tileheight
+        };
+        this.camera = new __WEBPACK_IMPORTED_MODULE_2__world_index__["a" /* Camera */](cameraConfig);
+        this.render.setCamera(this.camera);
+        /* Create new Player instance. */
+        let playerConfig = {
+            map: {
+                width: Tiled.width * Tiled.tilewidth,
+                height: Tiled.height * Tiled.tileheight
+            },
+            canvas: new __WEBPACK_IMPORTED_MODULE_2__world_index__["b" /* Canvas */](canvasPool.canvas.player, canvasPool.ctx.player)
+        };
+        this.player = new __WEBPACK_IMPORTED_MODULE_2__world_index__["e" /* Player */](playerConfig);
+        this.camera.start(this.player);
+        this.mobData = new __WEBPACK_IMPORTED_MODULE_2__world_index__["d" /* Mobs */](1);
+        /* Start */
+        this.init();
+    },
+});
+
+
+/***/ }),
+
+/***/ 133:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {/* harmony export (immutable) */ __webpack_exports__["a"] = loadMap;
+/* unused harmony export loadMapData */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bluebird__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bluebird___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bluebird__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+/**
+ * Load world map image.
+ * @param {String} src
+ * @return {Promise}
+ *
+ * @example
+ *  loadMap('src_to_image_here').then(img => {
+ *    canvasRender(img)
+ *  })
+ */
+function loadMap(src) {
+    function load(src) {
+        if (!src) {
+            return __WEBPACK_IMPORTED_MODULE_0_bluebird___default.a.reject(src);
+        }
+        let image = new Image();
+        image.src = src;
+        return new __WEBPACK_IMPORTED_MODULE_0_bluebird___default.a((resolve, reject) => {
+            if (image.naturalWidth) {
+                resolve(image);
+            }
+            else if (image.complete) {
+                reject(image);
+            }
+            image.onload = () => {
+                resolve(image);
+            };
+            image.onerror = (error) => {
+                reject(image);
+                console.log(error);
+            };
+        });
+    }
+    function initLoad() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield load(src);
+            }
+            catch (error) {
+                console.log(error);
+                return;
+            }
+        });
+    }
+    return initLoad();
+}
+function loadMapData(url) {
+    function load(url) {
+        return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(url).then((response) => {
+            return JSON.parse(response.data);
+        });
+    }
+    function getMap() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield load(url);
+            }
+            catch (error) {
+                console.log(error);
+                return null;
+            }
+        });
+    }
+    return getMap();
+}
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
+
+/***/ }),
+
+/***/ 134:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_keyboard__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__canvas__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__render__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__player__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__camera__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mobs__ = __webpack_require__(68);
+/* unused harmony reexport Game */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__world_keyboard__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__canvas__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_3__render__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__player__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_5__camera__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_6__mobs__["a"]; });
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ 135:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap_js__ = __webpack_require__(38);
+
+class Game {
+    constructor(map) {
+    }
+}
+/* unused harmony export Game */
+
+
+
+/***/ }),
+
+/***/ 136:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 ;
@@ -183,549 +462,8 @@ class Keyboard {
 
 
 /***/ }),
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_laravel_echo__);
-
-window._ = __webpack_require__(3);
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(7);
-
-  __webpack_require__(22);
-} catch (e) {}
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = __webpack_require__(5);
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
-
-var token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-
-
-window.Pusher = __webpack_require__(30);
-
-window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-  broadcaster: 'pusher',
-  key: '6e9c65913659d602f052',
-  encrypted: true,
-  cluster: 'mt1'
-});
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))
-
-/***/ }),
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap_js__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-
-
-
-/*axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-let token: any = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-  axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}*/
-class Mobs {
-    constructor(id) {
-        this.roomId = id;
-        this.getAllMobs(id);
-    }
-    /**
-     * Send an ajax request to get all of the mobs in the current zone.
-     * @param {Number} id - ID of the zone.
-     * @return void
-     */
-    getAllMobs(id) {
-        id = id || this.roomId;
-        __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(`/mobs/room/${id}`).then((response) => {
-            this.allMobs = response.data;
-        });
-    }
-    /**
-     * Iterates over the array of the mobs in the current zone,
-     * and matches the players x & y coordinates finding the mobs
-     * that belong in that room.
-     * @param {Number} x
-     * @param {Number} y
-     * @return {Array}
-     */
-    inRoom(x, y) {
-        let mobArr = [];
-        __WEBPACK_IMPORTED_MODULE_1_lodash__["find"](this.allMobs, (obj) => {
-            if (obj.x === x && obj.y === y) {
-                mobArr.push(obj);
-            }
-        });
-        return mobArr;
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Mobs;
-
-
-
-/***/ }),
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(39);
-module.exports = __webpack_require__(82);
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Map_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__);
-/**
- * App - Main vue instance
- */
-
-
-
-
-
-
-var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
-
-  el: '#app',
-
-  components: {
-    WorldMap: __WEBPACK_IMPORTED_MODULE_2__components_Map_vue___default.a,
-    WorldMobs: __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue___default.a
-  },
-
-  data: {
-    mobs: null,
-    attackMob: null
-  },
-
-  methods: {
-    sendMobs: function sendMobs(mobs) {
-      this.mobs = mobs;
-    },
-    sendAttackMob: function sendAttackMob(mob) {
-      this.attackMob = mob;
-    }
-  },
-
-  created: function created() {
-    /* Websocket */
-    //Echo.join('mobs').listen('Mobs', (e) => {
-    //  this.mobs = e.mobs;
-    //});
-  }
-});
-
-/***/ }),
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var Component = __webpack_require__(15)(
-  /* script */
-  __webpack_require__(60),
-  /* template */
-  __webpack_require__(69),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/home/vagrant/Code/game/resources/assets/js/components/Map.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Map.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3a16fb86", Component.options)
-  } else {
-    hotAPI.reload("data-v-3a16fb86", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_loader__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__world_index__ = __webpack_require__(62);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'world-map',
-    props: ['world'],
-    data() {
-        return {
-            x: null,
-            y: null,
-            render: null,
-            camera: null,
-            player: null,
-            canvasPool: null,
-            mobData: null,
-            mapData: '',
-            elapsed: 0,
-            delta: 0,
-        };
-    },
-    computed: {
-        keyboard() {
-            return new __WEBPACK_IMPORTED_MODULE_3__world_index__["c" /* Keyboard */]();
-        }
-    },
-    created() {
-        __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/map/1').then((res) => {
-            let data = JSON.parse(res.data);
-            this.world = (__WEBPACK_IMPORTED_MODULE_0_lodash__["isEqual"](data, this.world)) ? this.world : data;
-            this.mapData = data;
-        });
-    },
-    methods: {
-        mobs() {
-            let inRoom = this.mobData.inRoom(this.x, this.y);
-            this.$emit('send', this.mobData.inRoom(this.x, this.y));
-        },
-        update() {
-            this.camera.update();
-            this.x = this.player.nodeX;
-            this.y = this.player.nodeY;
-            this.mobs();
-        },
-        draw() {
-            __WEBPACK_IMPORTED_MODULE_3__world_index__["b" /* Canvas */].clearWorld(this.canvasPool);
-            let world = this.world, length = world.layers.length, image = world.tilesets[0].image;
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["times"](length, (i) => {
-                Object(__WEBPACK_IMPORTED_MODULE_2__util_loader__["a" /* loadMap */])(image).then(img => {
-                    this.render.map(i, img);
-                });
-            });
-            this.render.player(this.player);
-        },
-        loop(time) {
-            requestAnimationFrame(this.loop);
-            this.delta = (time - this.elapsed) / 1000;
-            this.delta = __WEBPACK_IMPORTED_MODULE_0_lodash__["min"]([this.delta, .25]);
-            this.elapsed = time;
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](this.keyboard.keys, (key) => {
-                if (key.isDown) {
-                    let [action, ...params] = key.action.split(' ');
-                    if (action === 'move') {
-                        let [deltaX, deltaY] = __WEBPACK_IMPORTED_MODULE_0_lodash__["map"](params, __WEBPACK_IMPORTED_MODULE_0_lodash__["toInteger"]);
-                        this.player.update(this.delta, deltaX, deltaY);
-                    }
-                }
-            });
-            this.update();
-            this.draw();
-        },
-        init() {
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["delay"](() => {
-                this.update();
-                this.draw();
-                requestAnimationFrame(this.loop);
-            }, 10);
-        }
-    },
-    mounted() {
-        const mapCanvas = this.$refs.map;
-        const mapCtx = mapCanvas.getContext('2d');
-        const playerCanvas = this.$refs.player;
-        const playerCtx = playerCanvas.getContext('2d');
-        /* Add Canvas Pool to vue data */
-        let canvasPool = {
-            canvas: {
-                map: mapCanvas,
-                player: playerCanvas
-            },
-            ctx: {
-                map: mapCtx,
-                player: playerCtx
-            }
-        };
-        this.canvasPool = canvasPool;
-        /* Create new Render instance. */
-        let renderConfig = {
-            canvas: canvasPool.canvas.map,
-            ctx: canvasPool.ctx.map,
-        };
-        this.render = new __WEBPACK_IMPORTED_MODULE_3__world_index__["f" /* Render */](renderConfig, this.world);
-        let cameraConfig = {
-            width: canvasPool.canvas.map.width,
-            height: canvasPool.canvas.map.height,
-            mapWidth: this.world.width * this.world.tilewidth,
-            mapHeight: this.world.height * this.world.tileheight
-        };
-        this.camera = new __WEBPACK_IMPORTED_MODULE_3__world_index__["a" /* Camera */](cameraConfig);
-        this.render.setCamera(this.camera);
-        /* Create new Player instance. */
-        let playerConfig = {
-            map: {
-                width: this.world.tilesets[0].imagewidth,
-                height: this.world.tilesets[0].imageheight,
-            },
-            canvas: new __WEBPACK_IMPORTED_MODULE_3__world_index__["b" /* Canvas */](canvasPool.canvas.player, canvasPool.ctx.player)
-        };
-        this.player = new __WEBPACK_IMPORTED_MODULE_3__world_index__["e" /* Player */](playerConfig);
-        this.camera.start(this.player);
-        this.mobData = new __WEBPACK_IMPORTED_MODULE_3__world_index__["d" /* Mobs */](1);
-        //let g = new Game();
-        //console.log(g.map)
-        console.log(this.mapData);
-        /* Start the game */
-        this.init();
-    },
-});
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {/* harmony export (immutable) */ __webpack_exports__["a"] = loadMap;
-/* unused harmony export loadTileAtlas */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bluebird__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bluebird___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bluebird__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-
-
-/**
- * Load world map image.
- * @param {String} src
- * @return {Callback|Promise}
- */
-function loadMap(src) {
-    function load(src) {
-        if (!src) {
-            return __WEBPACK_IMPORTED_MODULE_0_bluebird___default.a.reject();
-        }
-        let image = new Image();
-        image.src = src;
-        return new __WEBPACK_IMPORTED_MODULE_0_bluebird___default.a((resolve, reject) => {
-            if (image.naturalWidth) {
-                resolve(image);
-            }
-            else if (image.complete) {
-                reject(image);
-            }
-            image.onload = () => {
-                resolve(image);
-            };
-            image.onerror = (error) => {
-                reject(image);
-                console.log(error);
-            };
-        });
-    }
-    function create() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield load(src);
-            }
-            catch (error) {
-                console.log(error);
-            }
-        });
-    }
-    return create();
-}
-function loadTileAtlas(url) {
-    let map;
-    function load(url) {
-        __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(url).then((response) => {
-            return response.data;
-        });
-    }
-    function init() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield load(url);
-            }
-            catch (error) {
-                console.log(error);
-            }
-        });
-    }
-    return init();
-}
-
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
-
-/***/ }),
-/* 62 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_keyboard__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__canvas__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__render__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__player__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__camera__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mobs__ = __webpack_require__(32);
-/* unused harmony reexport Game */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__world_keyboard__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__canvas__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_3__render__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__player__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_5__camera__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_6__mobs__["a"]; });
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-/* 63 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
- //, {AxiosResponse} from 'axios'
-class Game {
-    constructor() {
-        this.loadMap('/map/1');
-    }
-    loadMap(url) {
-        let map;
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/map/1').then((res) => {
-            map = 'fucking fuck';
-        });
-        map = (!map) ? 'fuck fuck' : map;
-        this.map = map;
-    }
-}
-/* unused harmony export Game */
-
-
-
-/***/ }),
-/* 64 */
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -761,11 +499,12 @@ class Canvas {
 
 
 /***/ }),
-/* 65 */
+
+/***/ 138:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 class Render {
@@ -790,15 +529,20 @@ class Render {
         });
         return mapArr;
     }
-    map(layerId, image) {
+    map(gid, layerId, image) {
         //console.time('#f')
-        let layer = this.tiled.layers[layerId].data, firstgid = 1, view = this.cullTiles(), width = this.tiled.width, tileWidth = this.tiled.tilewidth, tileHeight = this.tiled.tileheight;
+        //console.log(layerId)
+        let layer = layerId, 
+        //layer = this.tiled.layers[layerId].data,
+        firstgid = 1, view = this.cullTiles(), width = this.tiled.width, columns = this.tiled.tilesets[0].columns, tileWidth = this.tiled.tilewidth, tileHeight = this.tiled.tileheight;
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.save();
         this.ctx.translate(__WEBPACK_IMPORTED_MODULE_0_lodash__["round"](-this.camera.x), __WEBPACK_IMPORTED_MODULE_0_lodash__["round"](-this.camera.y));
         __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](__WEBPACK_IMPORTED_MODULE_0_lodash__["range"](view.startX, view.endX), (r) => {
             __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](__WEBPACK_IMPORTED_MODULE_0_lodash__["range"](view.startY, view.endY), (c) => {
-                let tile = layer[r + width * c] - firstgid, frame = this.createTile(tile, r, c);
+                //_.times(20, (r: number) => {
+                //  _.times(20, (c: number) => {
+                let tile = layer.data[r + width * c] - gid, frame = this.createTile(tile, r, c);
                 this.ctx.drawImage(image, frame.sx, frame.sy, tileWidth, tileHeight, frame.dx, frame.dy, tileWidth, tileHeight);
             });
         });
@@ -811,7 +555,7 @@ class Render {
         ctx.fillRect(screenX, screenY, player.width, player.height);
     }
     createTile(tile, row, col) {
-        let width = this.tiled.width, tileWidth = this.tiled.tilewidth, tileHeight = this.tiled.tileheight, sx = __WEBPACK_IMPORTED_MODULE_0_lodash__["floor"](tile % width) * tileWidth, sy = __WEBPACK_IMPORTED_MODULE_0_lodash__["floor"](tile / width) * tileHeight, dx = row * tileWidth, dy = col * tileHeight;
+        let width = this.tiled.tilesets[0].columns, tileWidth = this.tiled.tilewidth, tileHeight = this.tiled.tileheight, sx = __WEBPACK_IMPORTED_MODULE_0_lodash__["floor"](tile % width) * tileWidth, sy = __WEBPACK_IMPORTED_MODULE_0_lodash__["floor"](tile / width) * tileHeight, dx = row * tileWidth, dy = col * tileHeight;
         return { sx, sy, dx, dy };
     }
     cullTiles() {
@@ -826,11 +570,12 @@ class Render {
 
 
 /***/ }),
-/* 66 */
+
+/***/ 139:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 class Player {
@@ -878,11 +623,15 @@ class Player {
 
 
 /***/ }),
-/* 67 */
+
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rectangle__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rectangle__ = __webpack_require__(141);
+
 
 class Camera {
     constructor(settings) {
@@ -898,12 +647,12 @@ class Camera {
         };
         this.follow = false;
         // Viewport Rectangle (canvas sized)
-        this.viewRect = new __WEBPACK_IMPORTED_MODULE_0__rectangle__["a" /* Rectangle */]({
+        this.viewRect = new __WEBPACK_IMPORTED_MODULE_1__rectangle__["a" /* Rectangle */]({
             left: this.x, top: this.y,
             width: this.width, height: this.height
         });
         // Map Rectangle (full sized)
-        this.mapRect = new __WEBPACK_IMPORTED_MODULE_0__rectangle__["a" /* Rectangle */]({
+        this.mapRect = new __WEBPACK_IMPORTED_MODULE_1__rectangle__["a" /* Rectangle */]({
             left: 0, top: 0,
             width: this.mapWidth, height: this.mapHeight
         });
@@ -925,6 +674,7 @@ class Camera {
         else if (this.follow.y - this.screen.y < this.y) {
             this.y = this.follow.y - this.screen.y;
         }
+        this.clamp();
         this.viewRect.set(this.x, this.y);
         if (!this.viewRect.within(this.mapRect)) {
             if (this.viewRect.left < this.mapRect.left) {
@@ -941,13 +691,18 @@ class Camera {
             }
         }
     }
+    clamp() {
+        this.x = Object(__WEBPACK_IMPORTED_MODULE_0_lodash__["clamp"])(this.x, 0, this.width);
+        this.y = Object(__WEBPACK_IMPORTED_MODULE_0_lodash__["clamp"])(this.y, 0, this.height);
+    }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Camera;
 
 
 
 /***/ }),
-/* 68 */
+
+/***/ 141:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -991,7 +746,872 @@ class Rectangle {
 
 
 /***/ }),
-/* 69 */
+
+/***/ 142:
+/***/ (function(module, exports) {
+
+module.exports = {
+	"height": 20,
+	"layers": [
+		{
+			"data": [
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365,
+				365
+			],
+			"height": 20,
+			"name": "Tile Layer 1",
+			"opacity": 1,
+			"type": "tilelayer",
+			"visible": true,
+			"width": 20,
+			"x": 0,
+			"y": 0
+		},
+		{
+			"data": [
+				1314,
+				1315,
+				0,
+				0,
+				1089,
+				1090,
+				1090,
+				1090,
+				1090,
+				1059,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1346,
+				1347,
+				1089,
+				1090,
+				1059,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				0,
+				1089,
+				1059,
+				1122,
+				1122,
+				1122,
+				1026,
+				1154,
+				1154,
+				1154,
+				1027,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1377,
+				1121,
+				1122,
+				1122,
+				1026,
+				1154,
+				1155,
+				1116,
+				1117,
+				1118,
+				1121,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				0,
+				1121,
+				1122,
+				1026,
+				1155,
+				0,
+				1377,
+				1148,
+				1212,
+				1150,
+				1121,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				0,
+				1121,
+				1122,
+				1123,
+				1377,
+				1381,
+				0,
+				1180,
+				1181,
+				1182,
+				1153,
+				1027,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1026,
+				1154,
+				1154,
+				1381,
+				1121,
+				1122,
+				1058,
+				1091,
+				0,
+				1089,
+				1090,
+				1090,
+				1090,
+				1090,
+				1059,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1123,
+				1381,
+				0,
+				0,
+				1121,
+				1122,
+				1122,
+				1123,
+				1380,
+				1121,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1123,
+				0,
+				0,
+				0,
+				1153,
+				1027,
+				1122,
+				1058,
+				1091,
+				1121,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1123,
+				0,
+				0,
+				0,
+				1377,
+				1121,
+				1122,
+				1122,
+				1058,
+				1059,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1026,
+				1155,
+				0,
+				0,
+				0,
+				0,
+				1153,
+				1027,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1123,
+				1116,
+				1117,
+				1118,
+				1281,
+				1282,
+				1283,
+				1153,
+				1027,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1026,
+				1155,
+				1148,
+				1212,
+				1150,
+				1313,
+				1314,
+				1315,
+				0,
+				1121,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1026,
+				1155,
+				1380,
+				1148,
+				1214,
+				1150,
+				1345,
+				1346,
+				1347,
+				0,
+				1121,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1122,
+				1026,
+				1154,
+				1155,
+				0,
+				1116,
+				1086,
+				1212,
+				1150,
+				1381,
+				1382,
+				0,
+				1089,
+				1059,
+				1122,
+				1122,
+				1026,
+				1154,
+				1154,
+				1154,
+				1154,
+				1155,
+				0,
+				0,
+				1116,
+				1086,
+				1212,
+				1214,
+				1150,
+				0,
+				0,
+				1089,
+				1059,
+				1122,
+				1026,
+				1154,
+				1155,
+				1116,
+				1117,
+				1117,
+				1117,
+				1117,
+				1117,
+				1117,
+				1086,
+				1213,
+				1213,
+				1053,
+				1182,
+				1089,
+				1090,
+				1059,
+				1122,
+				1122,
+				1123,
+				1381,
+				1382,
+				1148,
+				1214,
+				1213,
+				1214,
+				1213,
+				1214,
+				1214,
+				1213,
+				1214,
+				1053,
+				1182,
+				0,
+				1059,
+				1122,
+				1122,
+				1122,
+				1026,
+				1155,
+				0,
+				0,
+				1180,
+				1181,
+				1181,
+				1181,
+				1181,
+				1181,
+				1181,
+				1181,
+				1181,
+				1182,
+				0,
+				0,
+				1122,
+				1122,
+				1026,
+				1154,
+				1155,
+				0,
+				1377,
+				0,
+				0,
+				0,
+				0,
+				1379,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				1381,
+				1382,
+				1122,
+				1026,
+				1155,
+				1381,
+				1382,
+				0,
+				0,
+				0,
+				0,
+				1381,
+				1382,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				1379,
+				0,
+				0
+			],
+			"height": 20,
+			"name": "Tile Layer 2",
+			"opacity": 1,
+			"type": "tilelayer",
+			"visible": true,
+			"width": 20,
+			"x": 0,
+			"y": 0
+		}
+	],
+	"nextobjectid": 1,
+	"orientation": "orthogonal",
+	"renderorder": "right-down",
+	"tiledversion": "1.0.2",
+	"tileheight": 32,
+	"tilesets": [
+		{
+			"columns": 32,
+			"firstgid": 1,
+			"image": "http://i.imgur.com/N4x9MX9.png",
+			"imageheight": 1024,
+			"imagewidth": 1024,
+			"margin": 0,
+			"name": "terrain",
+			"spacing": 0,
+			"tilecount": 1024,
+			"tileheight": 32,
+			"tilewidth": 32,
+			"transparentcolor": "#000000"
+		},
+		{
+			"firstgid": 1025,
+			"source": "tilesets/Terrain-tileset.json"
+		}
+	],
+	"tilewidth": 32,
+	"type": "map",
+	"version": 1,
+	"width": 20
+};
+
+/***/ }),
+
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1036,15 +1656,16 @@ if (false) {
 }
 
 /***/ }),
-/* 70 */
+
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(15)(
+var Component = __webpack_require__(43)(
   /* script */
-  __webpack_require__(71),
+  __webpack_require__(145),
   /* template */
-  __webpack_require__(81),
+  __webpack_require__(155),
   /* styles */
   null,
   /* scopeId */
@@ -1076,16 +1697,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 71 */
+
+/***/ 145:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Attack_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Attack_vue__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Attack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Attack_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_mobs_ts__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_mobs_ts__ = __webpack_require__(68);
 //
 //
 //
@@ -1128,6 +1750,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
+  name: 'world-mobs',
+
   props: ['mob'],
 
   data: function data() {
@@ -1163,19 +1787,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 72 */
+
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(73)
+  __webpack_require__(147)
 }
-var Component = __webpack_require__(15)(
+var Component = __webpack_require__(43)(
   /* script */
-  __webpack_require__(78),
+  __webpack_require__(152),
   /* template */
-  __webpack_require__(80),
+  __webpack_require__(154),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -1207,17 +1832,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 73 */
+
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(74);
+var content = __webpack_require__(148);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(76)("20a9d086", content, false);
+var update = __webpack_require__(150)("20a9d086", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1233,10 +1859,11 @@ if(false) {
 }
 
 /***/ }),
-/* 74 */
+
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(75)(undefined);
+exports = module.exports = __webpack_require__(149)(undefined);
 // imports
 
 
@@ -1247,7 +1874,8 @@ exports.push([module.i, "\n.modal-mask[data-v-e3156be4] {\n  position: fixed;\n 
 
 
 /***/ }),
-/* 75 */
+
+/***/ 149:
 /***/ (function(module, exports) {
 
 /*
@@ -1329,7 +1957,8 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 76 */
+
+/***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1348,7 +1977,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(77)
+var listToStyles = __webpack_require__(151)
 
 /*
 type StyleObject = {
@@ -1550,7 +2179,8 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 77 */
+
+/***/ 151:
 /***/ (function(module, exports) {
 
 /**
@@ -1583,14 +2213,49 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 78 */
+
+/***/ 152:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_attack_ts__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_attack_ts__ = __webpack_require__(153);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1657,7 +2322,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /* @note - will be stored in the database */
     var playerStats = {
       name: 'Player',
-      hp: 100,
+      hp: 30,
       attack: 10,
       critical: 0,
       block: 0
@@ -1665,7 +2330,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       /* @note - will be stored in the database */
     };var mobStats = {
       name: this.attackMob.name,
-      hp: 90,
+      hp: 20,
       attack: 10,
       critical: 0,
       block: 0
@@ -1688,43 +2353,82 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       displayMessage: '',
 
       showResult: false,
-      displayResult: ''
+      displayResult: '',
+
+      tHealth: 228,
+      pHealth: 228
+
     };
   },
 
 
   methods: {
-    fight: function fight() {
+    fightTurn: function fightTurn(val) {
+      var turn = val.turn,
+          damage = val.damage,
+          message = val.message;
+      this.showTurn = turn;
 
+      if (turn === 'player') {
+        this.playerDamage = damage;
+
+        this.tHealth = val.hp.width;
+        console.log('player - ' + val.hp.width);
+      } else if (turn === 'target') {
+        this.targetDamage = damage;
+
+        console.log('target - ' + val.hp.width);
+
+        this.pHealth = val.hp.width;
+      } else if (turn === 'winner') {
+        this.showResult = true;
+        this.displayResult = message;
+        this.showMessage = false;
+      }
+      if (turn !== 'winner') {
+        this.showMessage = true;
+        this.displayMessage = message;
+      }
+    },
+    fight: function fight() {
+      var _this = this;
+
+      var attackArr = this.attack.buildAttack();
+      __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](attackArr, function (val, key) {
+        setTimeout(function () {
+          _this.fightTurn(val);
+        }, key * 800);
+      });
+
+      /*
       var attackArr = this.attack.buildAttack(),
           len = attackArr.length,
           self = this;
-
-      (function loop(i) {
+       const loop = (i) => {
         if (i <= len) {
-          ++i;
-          __WEBPACK_IMPORTED_MODULE_0_lodash__["delay"](function () {
-            loop(i);
-
-            var turn = attackArr[i]['turn'],
+          setTimeout(() => {
+             let turn = attackArr[i]['turn'],
                 damage = attackArr[i]['damage'],
                 message = attackArr[i]['message'];
-
-            self.showTurn = turn;
-            self.showMessage = true;
-
-            if (turn === 'player') {
-              self.playerDamage = damage;
+             this.showTurn = turn;
+             if (turn === 'player') {
+              this.playerDamage = damage;
             } else if (turn === 'target') {
-              self.targetDamage = damage;
+              this.targetDamage = damage;
             } else if (turn === 'winner') {
-              self.showResult = true;
-              self.displayResult = message;
+              this.showResult = true;
+              this.displayResult = message;
             }
-            self.displayMessage = message;
-          }, 800);
+            if (turn !== 'winner') {
+              this.showMessage = true;
+              this.displayMessage = message;
+            }
+             loop(++i)
+           }, 800);
         }
-      })(0);
+      }
+      loop(0);
+      */
     }
   },
 
@@ -1735,7 +2439,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 79 */
+
+/***/ 153:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1748,7 +2453,7 @@ class Attack {
      * Builds the attack, making it into an array.
      */
     buildAttack() {
-        let attackArr = [], player = this.player, mob = this.target, turn = 'player', playerHp = player.hp, mobHp = mob.hp;
+        let attackArr = [], player = this.player, mob = this.target, turn = 'player', playerHp = player.hp, mobHp = mob.hp, playerStartHP = player.hp, mobStartHP = mob.hp;
         do {
             if (turn === 'player') {
                 let message = `${player.name} hits for ${player.attack}`, damage = player.attack;
@@ -1759,7 +2464,8 @@ class Attack {
                     damage: damage,
                     hp: {
                         player: playerHp,
-                        target: mobHp
+                        target: mobHp,
+                        width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mobStartHP
                     },
                     type: 'hit'
                 };
@@ -1776,7 +2482,8 @@ class Attack {
                     damage: damage,
                     hp: {
                         player: playerHp,
-                        target: mobHp
+                        target: mobHp,
+                        width: 228 * ((playerHp <= 0) ? 0 : playerHp) / playerStartHP
                     },
                     type: 'hit'
                 };
@@ -1802,7 +2509,8 @@ class Attack {
 
 
 /***/ }),
-/* 80 */
+
+/***/ 154:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1816,48 +2524,132 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-wrapper"
   }, [_c('div', {
     staticClass: "modal-container"
-  }, [_c('button', {
-    staticClass: "modal-default-button",
+  }, [_c('table', {
+    staticStyle: {
+      "font-family": "Impact,sans-serif",
+      "font-weight": "normal",
+      "font-size": "18pt"
+    },
+    attrs: {
+      "border": "0",
+      "cellspacing": "0",
+      "cellpadding": "0",
+      "width": "600px;"
+    }
+  }, [_c('tr', [_c('td', {
+    attrs: {
+      "width": "250",
+      "align": "center",
+      "valign": "middle"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "attacker_name"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/characters/687030"
+    }
+  }, [_vm._v("Player Name")])])]), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "250",
+      "align": "center",
+      "valign": "middle"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "defender_name"
+    }
+  }, [_vm._v("Target Name")])])])]), _vm._v(" "), _c('table', {
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "border": "0",
+      "cellspacing": "0",
+      "cellpadding": "0",
+      "width": "580",
+      "height": "280"
+    }
+  }, [_c('tr', [_c('td', {
+    staticStyle: {
+      "background-image": "url('http://placehold.it/250x250')",
+      "background-repeat": "no-repeat",
+      "background-position": "center center"
+    },
+    attrs: {
+      "width": "270",
+      "valign": "middle",
+      "align": "center"
+    }
+  }, [_c('table', [_c('tr', [(_vm.showTurn === 'target') ? _c('td', [_c('div', {
+    staticClass: "targetHit"
+  }, [_vm._v(_vm._s(_vm.targetDamage))])]) : _vm._e()])])]), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "40"
+    }
+  }), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "background-image": "url('http://placehold.it/250x250')",
+      "background-repeat": "no-repeat",
+      "background-position": "center center"
+    },
+    attrs: {
+      "width": "270",
+      "valign": "middle",
+      "align": "center"
+    }
+  }, [_c('table', [_c('tr', [(_vm.showTurn === 'player') ? _c('td', [_c('div', {
+    staticClass: "playerHit"
+  }, [_vm._v(_vm._s(_vm.playerDamage))])]) : _vm._e()])])])])]), _vm._v(" "), _c('table', {
+    staticStyle: {
+      "margin-left": "8px",
+      "margin-top": "50px"
+    },
+    attrs: {
+      "border": "0",
+      "cellspacing": "0",
+      "cellpadding": "0",
+      "width": "550",
+      "height": "40"
+    }
+  }, [_c('tr', [_c('td', {
+    attrs: {
+      "width": "245",
+      "valign": "top",
+      "align": "right"
+    }
+  }, [_c('div', {
+    staticClass: "playerHealth",
+    style: ({
+      width: _vm.pHealth + 'px'
+    })
+  })]), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "245",
+      "valign": "top",
+      "align": "left"
+    }
+  }, [_c('div', {
+    staticClass: "targetHealth",
+    style: ({
+      width: _vm.tHealth + 'px'
+    })
+  })])])]), _vm._v(" "), (_vm.showMessage) ? _c('span', [_vm._v(_vm._s(_vm.displayMessage))]) : _vm._e(), _vm._v(" "), _c('a', {
     on: {
       "click": function($event) {
         _vm.$emit('close')
       }
     }
-  }, [_vm._v("X")]), _vm._v(" "), _c('div', {
-    attrs: {
-      "text-align": "center"
-    }
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-4"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('h1', [_vm._v("Player")])]), _vm._v(" "), _c('transition', {
-    attrs: {
-      "name": "fade"
-    }
-  }, [(_vm.showTurn === 'target') ? _c('h1', [_vm._v("- " + _vm._s(_vm.targetDamage))]) : _vm._e()])], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('h1', [_vm._v("Target")])]), _vm._v(" "), _c('transition', {
-    attrs: {
-      "name": "fade"
-    }
-  }, [(_vm.showTurn === 'player') ? _c('h1', [_vm._v("- " + _vm._s(_vm.playerDamage))]) : _vm._e()])], 1)])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-8"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('transition', {
-    attrs: {
-      "name": "fade"
-    }
-  }, [(_vm.showMessage) ? _c('div', {
-    attrs: {
-      "align": "center"
-    }
-  }, [_c('span', [_vm._v(_vm._s(_vm.displayMessage))])]) : _vm._e()])], 1)])])])])])
+  }, [_vm._v("back to world")])])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -1868,7 +2660,8 @@ if (false) {
 }
 
 /***/ }),
-/* 81 */
+
+/***/ 155:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1905,10 +2698,236 @@ if (false) {
 }
 
 /***/ }),
-/* 82 */
+
+/***/ 156:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
+/***/ }),
+
+/***/ 38:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_laravel_echo__);
+
+window._ = __webpack_require__(11);
+
+/**
+ * We'll load jQuery and the Bootstrap jQuery plugin which provides support
+ * for JavaScript based Bootstrap features such as modals and tabs. This
+ * code may be modified to fit the specific needs of your application.
+ */
+
+try {
+  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(18);
+
+  __webpack_require__(59);
+} catch (e) {}
+
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
+window.axios = __webpack_require__(27);
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/**
+ * Next we will register the CSRF Token as a common header with Axios so that
+ * all outgoing HTTP requests automatically have it attached. This is just
+ * a simple convenience so we don't have to attach every token manually.
+ */
+
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+
+
+window.Pusher = __webpack_require__(66);
+
+window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
+  broadcaster: 'pusher',
+  key: '6e9c65913659d602f052',
+  encrypted: true,
+  cluster: 'mt1'
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(18)))
+
+/***/ }),
+
+/***/ 43:
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 68:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap_js__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+
+
+
+/*axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+let token: any = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}*/
+class Mobs {
+    constructor(id) {
+        this.roomId = id;
+        this.getAllMobs(id);
+    }
+    /**
+     * Send an ajax request to get all of the mobs in the current zone.
+     * @param {Number} id - ID of the zone.
+     * @return void
+     */
+    getAllMobs(id) {
+        id = id || this.roomId;
+        __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get(`/mobs/room/${id}`).then((response) => {
+            this.allMobs = response.data;
+        });
+    }
+    /**
+     * Iterates over the array of the mobs in the current zone,
+     * and matches the players x & y coordinates finding the mobs
+     * that belong in that room.
+     * @param {Number} x
+     * @param {Number} y
+     * @return {Array}
+     */
+    inRoom(x, y) {
+        let mobArr = [];
+        __WEBPACK_IMPORTED_MODULE_1_lodash__["find"](this.allMobs, (obj) => {
+            if (obj.x === x && obj.y === y) {
+                mobArr.push(obj);
+            }
+        });
+        return mobArr;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Mobs;
+
+
+
 /***/ })
-],[38]);
+
+},[110]);

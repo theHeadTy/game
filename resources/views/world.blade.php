@@ -16,7 +16,7 @@
 
                     <div class="col-md-6">
                         <div id="stage">
-                            <canvas id="map" height="350" width="350" moz-opaque>Canvas not supported</canvas>
+                            <canvas id="map" height="350" width="350" moz-opaque></canvas>
                             <canvas id="player" width="350" height="350" moz-opaque></canvas>
                             <canvas id="path" width="20" height="20" moz-opaque></canvas>
                         </div>

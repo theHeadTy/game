@@ -1,24 +1,26 @@
-import axios from 'axios' //, {AxiosResponse} from 'axios'
+import './../../bootstrap.js'
+import axios, {AxiosResponse} from 'axios'
+
+import {
+ CanvasPool, Canvas, Render, CameraSettings, Camera, Player
+} from './index'
+
 
 export interface GameInterface {
-  map: any;
-  loadMap(url: string);
+  canvasPool: CanvasPool;
+  render: Render;
+  camera: Camera;
+  player: Player;
 }
 
 export class Game {
+  public canvasPool: CanvasPool;
+  public render: Render;
+  public camera: Camera;
+  public player: Player;
 
-  public map: any;
+  constructor(map: any) {
 
-  constructor() {
-    this.loadMap('/map/1');
   }
 
-  loadMap(url: string): void {
-    let map;
-    axios.get('/map/1').then((res: any) => {
-      map = 'fucking fuck'
-    });
-    map = (!map) ? 'fuck fuck' : map;
-    this.map = map;
-  }
 }

@@ -1,6 +1,5 @@
-let mix = require('laravel-mix');
-
-let webpack = require('webpack');
+let mix = require('laravel-mix'),
+    webpack = require('webpack');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,10 +15,12 @@ let webpack = require('webpack');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .js('resources/assets/js/map.ts', 'public/js')
    .js('resources/assets/js/world.ts', 'public/js')
-   .extract(['jquery', 'bootstrap-sass', 'vue', 'axios', 'lodash',
-     'pathfinding', 'pusher-js', 'laravel-echo', 'bluebird'])
+   .extract([
+     'jquery', 'bootstrap-sass', 'vue', 'axios', 'lodash',
+     'pathfinding', 'pusher-js', 'laravel-echo', 'bluebird',
+     'gl-matrix', 'vue-hot-reload-api', 'vue-style-loader'
+    ])
    .autoload({ jquery: ['$', 'jQuery', 'window.jQuery'] })
    .sass('resources/assets/sass/app.scss', 'public/css')
    .styles(['resources/assets/css/world.css'], 'public/css/all.css')
@@ -41,7 +42,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
      plugins: [
        new webpack.ProvidePlugin({
          Promise: "imports-loader?this=>global!exports-loader?global.Promise!bluebird",
-         fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch",
+         //fetch: "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch",
          $: "jquery",
          jQuery: "jquery"
        }),

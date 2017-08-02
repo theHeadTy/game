@@ -40,6 +40,8 @@ import { Mobs } from './world/mobs.ts'
 
 export default {
 
+  name: 'world-mobs',
+
   props: ['mob'],
 
   data() {

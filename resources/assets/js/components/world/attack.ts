@@ -14,7 +14,8 @@ interface AttackTurn {
   damage: number,
   hp: {
     player: number,
-    target: number
+    target: number,
+    width: number
   },
   type: string
 }
@@ -40,7 +41,9 @@ export class Attack {
         mob = this.target,
         turn = 'player',
         playerHp = player.hp,
-        mobHp = mob.hp;
+        mobHp = mob.hp,
+        playerStartHP = player.hp,
+        mobStartHP = mob.hp;
 
     do {
 
@@ -57,7 +60,8 @@ export class Attack {
           damage: damage,
           hp: {
             player: playerHp,
-            target: mobHp
+            target: mobHp,
+            width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mobStartHP
           },
           type: 'hit'
         }
@@ -80,7 +84,8 @@ export class Attack {
           damage: damage,
           hp: {
             player: playerHp,
-            target: mobHp
+            target: mobHp,
+            width: 228 * ((playerHp <= 0) ? 0 : playerHp) / playerStartHP
           },
           type: 'hit'
         }

@@ -74,8 +74,10 @@ export class Player implements PlayerInterface {
   update(step: number, stepX: number, stepY: number): void {
     this.x += stepX * this.speed * step;
     this.y += stepY * this.speed * step;
+
     this.x = _.clamp(this.x, this.min.x, this.max.x);
     this.y = _.clamp(this.y, this.min.y, this.max.y);
+
   }
 
   get nodeX(): number {

@@ -1,6 +1,5 @@
-import * as _ from 'lodash'
+import { clamp } from 'lodash'
 import { RectangleInterface, Rectangle } from './rectangle'
-//import { Canvas } from './canvas'
 import { Player } from './player'
 
 export interface CameraSettings {
@@ -74,6 +73,8 @@ export class Camera {
       this.y = this.follow.y - this.screen.y
     }
 
+    this.clamp();
+
     this.viewRect.set(this.x, this.y);
 
     if (!this.viewRect.within(this.mapRect)) {
@@ -92,4 +93,8 @@ export class Camera {
     }
   }
 
+  clamp(): void {
+    this.x = clamp(this.x, 0, this.width);
+    this.y = clamp(this.y, 0, this.height);
+  }
 }

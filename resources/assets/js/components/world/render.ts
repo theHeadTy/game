@@ -33,6 +33,9 @@ export class Render {
   private tiled: any;
   private clone: any;
 
+
+  public buffer: any;
+
   constructor(canvas: CanvasInterface, tiled: any) {
     this.canvas = canvas.canvas;
     this.ctx = canvas.ctx;
@@ -59,11 +62,14 @@ export class Render {
     return mapArr;
   }
 
-  map(layerId: number, image: any): void {
+  map(gid: number, layerId: any, image: any): void {
 
     //console.time('#f')
 
-    let layer = this.tiled.layers[layerId].data,
+    //console.log(layerId)
+
+    let layer = layerId,
+        //layer = this.tiled.layers[layerId].data,
         firstgid = 1,
         view = this.cullTiles(),
         width = this.tiled.width,
@@ -78,7 +84,11 @@ export class Render {
 
     _.each(_.range(view.startX, view.endX), (r: number) => {
       _.each(_.range(view.startY, view.endY), (c: number) => {
-        let tile = layer[r + width * c] - firstgid,
+
+    //_.times(20, (r: number) => {
+    //  _.times(20, (c: number) => {
+
+        let tile = layer.data[r + width * c] - gid,
             frame = this.createTile(tile, r, c);
         this.ctx.drawImage(
           image,
@@ -124,6 +134,7 @@ export class Render {
         endY = _.round(startY + (this.camera.height / this.tiled.tileheight)),
         width = this.tiled.width,
         height = this.tiled.height;
+
     endX = _.clamp(endX + 1, (width * 0.5), width);
     endY = _.clamp(endY + 1, (height * 0.5), height);
 

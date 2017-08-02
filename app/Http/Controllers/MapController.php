@@ -15,6 +15,7 @@ class MapController extends Controller
     public function index()
     {
         $world = World::find(1);
+
         return view('world.world', compact('world'));
     }
 
@@ -22,6 +23,6 @@ class MapController extends Controller
     {
         $world = World::find($id);
 
-        return $world;
+        return response()->json($world->data);
     }
 }

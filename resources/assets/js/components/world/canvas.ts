@@ -9,6 +9,17 @@ export interface CanvasInterface {
   }
 }
 
+export interface CanvasPool {
+  canvas: {
+    map: HTMLCanvasElement,
+    player: HTMLCanvasElement
+  },
+  ctx: {
+    map: CanvasRenderingContext2D,
+    player: CanvasRenderingContext2D
+  }
+}
+
 export class Canvas {
 
   public canvas: HTMLCanvasElement;

@@ -25,18 +25,22 @@ import Vue from 'vue'
 import * as _ from 'lodash'
 import axios from 'axios'
 
-import { loadMap, loadTileAtlas }  from './../util/loader'
+import { loadMap, loadMapData }  from './../util/loader'
 
 import {
   GameInterface, Game, Keyboard, Key, CanvasInterface, Canvas,
   Render, PlayerInterface, Player, CameraSettings, Camera, Mobs
 } from './world/index'
 
+import * as jTiled from './../world/maps/map2.json'
+
+let Tiled = (<any>jTiled);
+
 export default {
 
   name: 'world-map',
 
-  props: ['world'],
+  props: ['map', 'world'],
 
   data() {
     return {
@@ -47,7 +51,7 @@ export default {
       player: null,
       canvasPool: null,
       mobData: null,
-      mapData: '',
+      mapData: null,
       elapsed: 0,
       delta: 0,
 
@@ -56,20 +60,14 @@ export default {
   computed: {
     keyboard() {
       return new Keyboard();
+    },
+    mapD() {
+      return this.map;
     }
-  },
-  created() {
-    axios.get('/map/1').then((res: any) => {
-      let data = JSON.parse(res.data);
-      this.world = (_.isEqual(data, this.world)) ? this.world : data;
-      this.mapData = data;
-    });
   },
   methods: {
 
     mobs(): void {
-      let inRoom = this.mobData.inRoom(this.x, this.y);
-
       this.$emit('send', this.mobData.inRoom(this.x, this.y));
     },
 
@@ -84,12 +82,23 @@ export default {
 
       Canvas.clearWorld(this.canvasPool);
 
-      let world = this.world,
-          length = world.layers.length,
-          image = world.tilesets[0].image;
-      _.times(length, (i: number) => {
-        loadMap(image).then(img => {
-          this.render.map(i, img);
+      //let world = this.world,
+      //    length = world.layers.length,
+      //    image = world.tilesets[0].image;
+
+      let world = Tiled,
+          length = Tiled.layers.length,
+          image = Tiled.tilesets[0].image;
+
+      let gid;
+
+      loadMap(image).then(img => {
+        _.each(world.layers, (val: any, key: number) => {
+          gid = (world.tilesets.length)
+            ? world.tilesets[key].firstgid
+            : world.tilesets[0].firstgid;
+
+          this.render.map(gid, val, img);
         })
       })
       this.render.player(this.player);
@@ -118,7 +127,7 @@ export default {
     },
 
     init(): void {
-      _.delay(() => {
+      setTimeout(() => {
         this.update();
         this.draw();
         requestAnimationFrame(this.loop)
@@ -145,6 +154,7 @@ export default {
         player: playerCtx
       }
     }
+
     this.canvasPool = canvasPool;
 
 
@@ -153,13 +163,15 @@ export default {
       canvas: canvasPool.canvas.map,
       ctx: canvasPool.ctx.map,
     }
-    this.render = new Render(renderConfig, this.world);
+    this.render = new Render(renderConfig, Tiled);
 
     let cameraConfig: CameraSettings = {
       width: canvasPool.canvas.map.width,
       height: canvasPool.canvas.map.height,
-      mapWidth: this.world.width * this.world.tilewidth,
-      mapHeight: this.world.height * this.world.tileheight
+      mapWidth: Tiled.width * Tiled.tilewidth,
+      mapHeight: Tiled.height * Tiled.tileheight
+      //mapWidth: this.world.width * this.world.tilewidth,
+      //mapHeight: this.world.height * this.world.tileheight
     }
     this.camera = new Camera(cameraConfig);
     this.render.setCamera(this.camera);
@@ -167,8 +179,8 @@ export default {
     /* Create new Player instance. */
     let playerConfig: PlayerInterface = {
       map: {
-        width: this.world.tilesets[0].imagewidth,
-        height: this.world.tilesets[0].imageheight,
+        width: Tiled.width * Tiled.tilewidth,
+        height: Tiled.height * Tiled.tileheight
       },
       canvas: new Canvas(canvasPool.canvas.player, canvasPool.ctx.player)
     }
@@ -178,15 +190,8 @@ export default {
 
     this.mobData = new Mobs(1);
 
-
-    //let g = new Game();
-    //console.log(g.map)
-
-    console.log(this.mapData);
-
-
-    /* Start the game */
-    this.init()
+    /* Start */
+    this.init();
 
   },
 
