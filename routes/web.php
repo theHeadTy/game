@@ -31,3 +31,5 @@ Route::get('/map/{id}', 'MapController@show');
 
 Route::get('mobs/x/{x}/y/{y}', 'MobController@getMobs');
 Route::get('mobs/room/{id}', 'MobController@getAllMobs');
+
+Route::get('backpack/{which}', 'BackpackController@index');

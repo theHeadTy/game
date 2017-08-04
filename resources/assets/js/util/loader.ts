@@ -8,7 +8,7 @@ import axios, { AxiosResponse } from 'axios'
  *
  * @example
  *  loadMap('src_to_image_here').then(img => {
- *    canvasRender(img) 
+ *    canvasRender(img)
  *  })
  */
 export function loadMap(src: string): Promise<any> {

@@ -35,27 +35,45 @@ canvas {
  * CSS for World Attack
  */
 
-.playerHit {
+#attackResult {
+  font-size: 16px;
+  font-weight: bold;
+ 	margin: 0px auto;
+ 	padding: 5px;
+ 	width: 300px;
+ 	border: 2px solid #cccccc;
+ 	color: #cc0000;
+ 	background-color: #000;
+ 	position: relative;
+ 	margin: -400px auto 400px auto;
   text-align: center;
+}
+
+.playerHit {
+  margin: 0px auto;
   padding: 5px;
   border: 1px solid #333333;
   background-color: black;
   font-weight: bold;
   font-size: 18pt;
   color: #CC0000;
+  vertical-align: middle;
 }
 
 .targetHit {
   text-align: center;
+  margin: 0px auto;
   padding: 5px;
   border: 1px solid #333333;
   background-color: black;
   font-weight: bold;
   font-size: 18pt;
   color: #CC0000;
+  vertical-align: middle;
 }
 
 .playerHealth {
+  text-align: center;
   margin-top: 10px;
   margin-right: 9px;
   background-color: #009900;
@@ -72,3 +90,89 @@ canvas {
   height: 15px;
   margin: 0px auto;
 }
+
+
+#dropmenudiv{
+  position:absolute;
+  border:1px solid black;
+  border-bottom-width: 0;
+  font:normal 12px Verdana;
+  line-height:18px;
+  z-index:100;
+}
+
+#dropmenudiv a{
+  width: 100%;
+  display: block;
+  text-indent: 3px;
+  border-bottom: 1px solid black;
+  padding: 1px 0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#dropmenudiv a:hover{ /*hover background color*/
+  background-color: #273F2B;
+}
+
+/* For the tooltip feature (the JS tooltip). */
+#dhtmltooltip {
+	left: -1000px;
+	top: -1000px;
+	position: absolute;
+	min-width: 100px;
+	max-width: 400px;
+	padding: 8px;
+	color: white;
+	visibility: hidden;
+	z-index: 10000;
+	border: 1px solid #222222;
+	/*-moz-border-radius: 10px;*/
+	font-size: small;
+	-moz-opacity:0.95;opacity:0.95;
+	/***************************filter:alpha(opacity=85);*/
+	background: black top left repeat-x;
+
+	-moz-box-shadow: 0px 0px 10px black;
+	-webkit-box-shadow: 0px 0px 10px black;
+	box-shadow: 0px 0px 10px black;
+}
+
+
+		#dhtmlfloatie{
+			position: absolute; left: 0; left: -900px; filter:alpha(opacity=0);	-moz-opacity:0;
+			border: 2px solid black; padding: 5px; z-index: 100;
+		}
+
+		.menutitle{
+			cursor:pointer;	margin-bottom:0px; background-color:#465D4A;	color:#FFFFFF;	font-family:Verdana, sans-serif;
+			font-size:8pt;	font-weight:bold;	text-align:left; padding:5px;	border-bottom:1px solid #1B2C1E;
+		}
+		.menutitlehover{
+			cursor:pointer;	margin-bottom:0px; background-color:#5a8e7d; color:#FFFFFF;	font-family:Verdana, sans-serif;
+			font-size:8pt; font-weight:bold; text-align:left; padding:5px; border-bottom:1px solid #1B2C1E;
+		}
+
+		.submenu{
+			margin-bottom:0px; color:#000000;
+		}
+
+		.suboption{
+			padding:1px; padding-left:5px; color:#FFFFFF; background-color:#000000;	font-size:8pt;
+			text-align:left; font-weight:bold;	cursor:pointer;	letter-spacing:1px;
+		}
+
+		.suboptionhover{
+			padding:1px; padding-left:5px; color:#5a8e7d; background-color:#273F2B; font-size:8pt;
+			text-align:left; font-weight:bold; cursor:pointer; letter-spacing:1px;
+		}
+
+		a.suboption:link{
+			color:#FFFFFF; background-color:#990000; text-decoration:none;
+		}
+		a.suboption:hover{
+			color:#FFFFFF; background-color:#660000; text-decoration:none;
+		}
+		a.suboption:visited{
+			color:#FFFFFF; text-decoration:none;
+		}

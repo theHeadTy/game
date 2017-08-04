@@ -15,6 +15,8 @@
 
     @yield('styles')
 
+
+
 </head>
 <body>
     <div id="app">
@@ -32,7 +34,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Elite-RPG') }}
                     </a>
                 </div>
 
@@ -54,7 +56,12 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
+
+
                                 <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        {{--}<a id="playerBackpack">Backpack</a>--}}
+                                        <a id="playerBackpack">Backpack</a>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -77,12 +84,17 @@
         @yield('content')
     </div>
 
-    <!-- Scripts -->
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/index.js') }}"></script>
 
+    <!-- Scripts -->
     @stack('scripts')
+
+    <script src="{{ asset('js/anylink.js') }}"></script>
+
+
 
 </body>
 </html>

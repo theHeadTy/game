@@ -16,8 +16,7 @@ interface AttackTurn {
     player: number,
     target: number,
     width: number
-  },
-  type: string
+  }
 }
 
 export class Attack {
@@ -31,6 +30,10 @@ export class Attack {
     this.target = target;
   }
 
+  buildResult(): void {
+
+  }
+
   /**
    * Builds the attack, making it into an array.
    */
@@ -41,16 +44,14 @@ export class Attack {
         mob = this.target,
         turn = 'player',
         playerHp = player.hp,
-        mobHp = mob.hp,
-        playerStartHP = player.hp,
-        mobStartHP = mob.hp;
+        mobHp = mob.hp;
 
     do {
 
       if (turn === 'player') {
 
         let message = `${player.name} hits for ${player.attack}`,
-            damage = player.attack;
+            damage = this.genDamage(player.attack, player.hp, 1);
 
         mobHp -= damage;
 
@@ -61,9 +62,8 @@ export class Attack {
           hp: {
             player: playerHp,
             target: mobHp,
-            width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mobStartHP
-          },
-          type: 'hit'
+            width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mob.hp
+          }
         }
 
         attackArr.push(attackTurn);
@@ -74,7 +74,7 @@ export class Attack {
       } else if (turn === 'target') {
 
         let message = `${mob.name} hits for ${mob.attack}`,
-            damage = mob.attack;
+            damage = this.genDamage(mob.attack, mob.hp, 1);
 
         playerHp -= damage;
 
@@ -85,9 +85,8 @@ export class Attack {
           hp: {
             player: playerHp,
             target: mobHp,
-            width: 228 * ((playerHp <= 0) ? 0 : playerHp) / playerStartHP
-          },
-          type: 'hit'
+            width: 228 * ((playerHp <= 0) ? 0 : playerHp) / player.hp
+          }
         }
 
         attackArr.push(attackTurn);
@@ -96,17 +95,37 @@ export class Attack {
         continue;
 
       } else if (turn === 'winner') {
-        let winner = (playerHp <= 0) ? mob.name : player.name;
-        attackArr.push({
-          turn: turn,
-          message: `${winner} wins!`,
-          type: 'win'
-        });
+        let winner = (playerHp <= 0) ? mob.name : player.name,
+            winDisplay;
+
+        if (winner === player.name) {
+          winDisplay = `You have won!`;
+        } else {
+          winDisplay = `${mob.name} has won!`;
+        }
+
+        attackArr.push({ turn: turn, message: winDisplay, winner: winner });
         break;
       }
 
     } while (true);
     return attackArr;
+  }
+
+
+  /**
+   * Damage formula, based off the attack, hp & level of attacker.
+   * @param {Number} attack
+   * @param {Number} hp
+   * @param {Number} level
+   */
+  genDamage(attack: number, hp: number, level: number): number {
+    let damage: number = 0;
+
+    level = _.random(1, level)
+    damage = _.round((attack * attack) / (attack + hp) + level);
+
+    return damage;
   }
 
 }

@@ -1,15 +1,15 @@
 webpackJsonp([1],{
 
-/***/ 110:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(111);
-module.exports = __webpack_require__(156);
+__webpack_require__(112);
+module.exports = __webpack_require__(157);
 
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17,9 +17,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Map_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Map_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Mobs_vue__);
 
 
@@ -68,15 +68,15 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 
 /***/ }),
 
-/***/ 131:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(43)(
   /* script */
-  __webpack_require__(132),
+  __webpack_require__(133),
   /* template */
-  __webpack_require__(143),
+  __webpack_require__(144),
   /* styles */
   null,
   /* scopeId */
@@ -109,16 +109,16 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 132:
+/***/ 133:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_loader__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_index__ = __webpack_require__(134);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_loader__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_index__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__);
 
 
@@ -254,7 +254,7 @@ let Tiled = __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__;
 
 /***/ }),
 
-/***/ 133:
+/***/ 134:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -262,7 +262,7 @@ let Tiled = __WEBPACK_IMPORTED_MODULE_3__world_maps_map2_json__;
 /* unused harmony export loadMapData */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bluebird__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bluebird___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bluebird__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -340,20 +340,20 @@ function loadMapData(url) {
     return getMap();
 }
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(9)))
 
 /***/ }),
 
-/***/ 134:
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(135);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_keyboard__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__canvas__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__render__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__player__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__camera__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_keyboard__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__canvas__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__render__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__player__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__camera__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mobs__ = __webpack_require__(68);
 /* unused harmony reexport Game */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__world_keyboard__["a"]; });
@@ -374,7 +374,7 @@ function loadMapData(url) {
 
 /***/ }),
 
-/***/ 135:
+/***/ 136:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -390,11 +390,11 @@ class Game {
 
 /***/ }),
 
-/***/ 136:
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 ;
@@ -463,7 +463,7 @@ class Keyboard {
 
 /***/ }),
 
-/***/ 137:
+/***/ 138:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -500,11 +500,11 @@ class Canvas {
 
 /***/ }),
 
-/***/ 138:
+/***/ 139:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 class Render {
@@ -571,11 +571,11 @@ class Render {
 
 /***/ }),
 
-/***/ 139:
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
 
 class Player {
@@ -624,13 +624,13 @@ class Player {
 
 /***/ }),
 
-/***/ 140:
+/***/ 141:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rectangle__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rectangle__ = __webpack_require__(142);
 
 
 class Camera {
@@ -702,7 +702,7 @@ class Camera {
 
 /***/ }),
 
-/***/ 141:
+/***/ 142:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -747,7 +747,7 @@ class Rectangle {
 
 /***/ }),
 
-/***/ 142:
+/***/ 143:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -1611,7 +1611,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 143:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1657,15 +1657,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 144:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(43)(
   /* script */
-  __webpack_require__(145),
+  __webpack_require__(146),
   /* template */
-  __webpack_require__(155),
+  __webpack_require__(156),
   /* styles */
   null,
   /* scopeId */
@@ -1698,23 +1698,16 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 145:
+/***/ 146:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Attack_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Attack_vue__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Attack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Attack_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__world_mobs_ts__ = __webpack_require__(68);
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1788,19 +1781,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 146:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(147)
+  __webpack_require__(148)
 }
 var Component = __webpack_require__(43)(
   /* script */
-  __webpack_require__(152),
+  __webpack_require__(153),
   /* template */
-  __webpack_require__(154),
+  __webpack_require__(155),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -1833,17 +1826,17 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 147:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(148);
+var content = __webpack_require__(149);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(150)("20a9d086", content, false);
+var update = __webpack_require__(151)("20a9d086", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1860,22 +1853,22 @@ if(false) {
 
 /***/ }),
 
-/***/ 148:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(149)(undefined);
+exports = module.exports = __webpack_require__(150)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.modal-mask[data-v-e3156be4] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, .5);\n  display: table;\n  transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-e3156be4] {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container[data-v-e3156be4] {\n  width: 700px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n  transition: all .3s ease;\n  font-family: Verdana;\n  height: 100%;\n}\n.modal-header h3[data-v-e3156be4] {\n  margin-top: 0;\n  color: #42b983;\n}\n.modal-body[data-v-e3156be4] {\n  margin: 20px 0;\n}\n.modal-default-button[data-v-e3156be4] {\n  float: right;\n}\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n.modal-enter[data-v-e3156be4] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-e3156be4] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-e3156be4],\n.modal-leave-active .modal-container[data-v-e3156be4] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n.fade-enter-active[data-v-e3156be4], .fade-leave-active[data-v-e3156be4] {\n  transition: opacity .5s\n}\n.fade-enter[data-v-e3156be4], .fade-leave-to[data-v-e3156be4] /* .fade-leave-active in <2.1.8 */ {\n  opacity: 0\n}\n\n", ""]);
+exports.push([module.i, "\n.modal-mask[data-v-e3156be4] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, .5);\n  display: table;\n  transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-e3156be4] {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container[data-v-e3156be4] {\n  width: 700px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n  transition: all .3s ease;\n  font-family: Verdana;\n  height: 100%;\n}\n.modal-r-container[data-v-e3156be4] {\n  width: 300px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\n  transition: all .3s ease;\n  font-family: Verdana;\n  height: 100%;\n}\n.modal-header h3[data-v-e3156be4] {\n  margin-top: 0;\n  color: #42b983;\n}\n.modal-body[data-v-e3156be4] {\n  margin: 20px 0;\n}\n.modal-default-button[data-v-e3156be4] {\n  float: right;\n}\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n.modal-enter[data-v-e3156be4] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-e3156be4] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-e3156be4],\n.modal-leave-active .modal-container[data-v-e3156be4] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n.fade-enter-active[data-v-e3156be4], .fade-leave-active[data-v-e3156be4] {\n  transition: opacity .5s\n}\n.fade-enter[data-v-e3156be4], .fade-leave-to[data-v-e3156be4] /* .fade-leave-active in <2.1.8 */ {\n  opacity: 0\n}\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 149:
+/***/ 150:
 /***/ (function(module, exports) {
 
 /*
@@ -1958,7 +1951,7 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ 150:
+/***/ 151:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1977,7 +1970,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(151)
+var listToStyles = __webpack_require__(152)
 
 /*
 type StyleObject = {
@@ -2180,7 +2173,7 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
-/***/ 151:
+/***/ 152:
 /***/ (function(module, exports) {
 
 /**
@@ -2214,17 +2207,14 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ 152:
+/***/ 153:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_attack_ts__ = __webpack_require__(153);
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__world_attack_ts__ = __webpack_require__(154);
 //
 //
 //
@@ -2309,6 +2299,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+/**
+ * Elite-RPG NPC Attack System
+ * @author theheadty <theheadty@gmail.com>
+ *
+ * @shout to vue js
+ */
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -2330,7 +2327,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       /* @note - will be stored in the database */
     };var mobStats = {
       name: this.attackMob.name,
-      hp: 20,
+      hp: 30,
       attack: 10,
       critical: 0,
       block: 0
@@ -2381,9 +2378,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.pHealth = val.hp.width;
       } else if (turn === 'winner') {
+        this.showMessage = false;
         this.showResult = true;
         this.displayResult = message;
-        this.showMessage = false;
       }
       if (turn !== 'winner') {
         this.showMessage = true;
@@ -2399,36 +2396,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this.fightTurn(val);
         }, key * 800);
       });
-
-      /*
-      var attackArr = this.attack.buildAttack(),
-          len = attackArr.length,
-          self = this;
-       const loop = (i) => {
-        if (i <= len) {
-          setTimeout(() => {
-             let turn = attackArr[i]['turn'],
-                damage = attackArr[i]['damage'],
-                message = attackArr[i]['message'];
-             this.showTurn = turn;
-             if (turn === 'player') {
-              this.playerDamage = damage;
-            } else if (turn === 'target') {
-              this.targetDamage = damage;
-            } else if (turn === 'winner') {
-              this.showResult = true;
-              this.displayResult = message;
-            }
-            if (turn !== 'winner') {
-              this.showMessage = true;
-              this.displayMessage = message;
-            }
-             loop(++i)
-           }, 800);
-        }
-      }
-      loop(0);
-      */
     }
   },
 
@@ -2440,23 +2407,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 153:
+/***/ 154:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+
 class Attack {
     constructor(player, target) {
         this.player = player;
         this.target = target;
     }
+    buildResult() {
+    }
     /**
      * Builds the attack, making it into an array.
      */
     buildAttack() {
-        let attackArr = [], player = this.player, mob = this.target, turn = 'player', playerHp = player.hp, mobHp = mob.hp, playerStartHP = player.hp, mobStartHP = mob.hp;
+        let attackArr = [], player = this.player, mob = this.target, turn = 'player', playerHp = player.hp, mobHp = mob.hp;
         do {
             if (turn === 'player') {
-                let message = `${player.name} hits for ${player.attack}`, damage = player.attack;
+                let message = `${player.name} hits for ${player.attack}`, damage = this.genDamage(player.attack, player.hp, 1);
                 mobHp -= damage;
                 let attackTurn = {
                     turn: turn,
@@ -2465,16 +2437,15 @@ class Attack {
                     hp: {
                         player: playerHp,
                         target: mobHp,
-                        width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mobStartHP
-                    },
-                    type: 'hit'
+                        width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mob.hp
+                    }
                 };
                 attackArr.push(attackTurn);
                 turn = (mobHp <= 0) ? 'winner' : 'target';
                 continue;
             }
             else if (turn === 'target') {
-                let message = `${mob.name} hits for ${mob.attack}`, damage = mob.attack;
+                let message = `${mob.name} hits for ${mob.attack}`, damage = this.genDamage(mob.attack, mob.hp, 1);
                 playerHp -= damage;
                 let attackTurn = {
                     turn: turn,
@@ -2483,25 +2454,38 @@ class Attack {
                     hp: {
                         player: playerHp,
                         target: mobHp,
-                        width: 228 * ((playerHp <= 0) ? 0 : playerHp) / playerStartHP
-                    },
-                    type: 'hit'
+                        width: 228 * ((playerHp <= 0) ? 0 : playerHp) / player.hp
+                    }
                 };
                 attackArr.push(attackTurn);
                 turn = (playerHp <= 0) ? 'winner' : 'player';
                 continue;
             }
             else if (turn === 'winner') {
-                let winner = (playerHp <= 0) ? mob.name : player.name;
-                attackArr.push({
-                    turn: turn,
-                    message: `${winner} wins!`,
-                    type: 'win'
-                });
+                let winner = (playerHp <= 0) ? mob.name : player.name, winDisplay;
+                if (winner === player.name) {
+                    winDisplay = `You have won!`;
+                }
+                else {
+                    winDisplay = `${mob.name} has won!`;
+                }
+                attackArr.push({ turn: turn, message: winDisplay, winner: winner });
                 break;
             }
         } while (true);
         return attackArr;
+    }
+    /**
+     * Damage formula, based off the attack, hp & level of attacker.
+     * @param {Number} attack
+     * @param {Number} hp
+     * @param {Number} level
+     */
+    genDamage(attack, hp, level) {
+        let damage = 0;
+        level = __WEBPACK_IMPORTED_MODULE_0_lodash__["random"](1, level);
+        damage = __WEBPACK_IMPORTED_MODULE_0_lodash__["round"]((attack * attack) / (attack + hp) + level);
+        return damage;
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Attack;
@@ -2510,7 +2494,7 @@ class Attack {
 
 /***/ }),
 
-/***/ 154:
+/***/ 155:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2524,6 +2508,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-wrapper"
   }, [_c('div', {
     staticClass: "modal-container"
+  }, [_c('button', {
+    staticClass: "modal-default-button",
+    on: {
+      "click": function($event) {
+        _vm.$emit('close')
+      }
+    }
+  }, [_vm._v("X")]), _vm._v(" "), _c('div', {
+    staticClass: "modal-header"
+  }), _vm._v(" "), _c('table', {
+    staticStyle: {
+      "height": "505px"
+    },
+    attrs: {
+      "cellpadding": "0",
+      "cellspacing": "0",
+      "width": "100%"
+    }
+  }, [_c('tr', [_c('td', {
+    staticStyle: {
+      "padding-top": "10px"
+    },
+    attrs: {
+      "align": "center",
+      "valign": "top"
+    }
   }, [_c('table', {
     staticStyle: {
       "font-family": "Impact,sans-serif",
@@ -2546,11 +2556,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "attacker_name"
     }
-  }, [_c('a', {
-    attrs: {
-      "href": "/characters/687030"
-    }
-  }, [_vm._v("Player Name")])])]), _vm._v(" "), _c('td', {
+  }, [_vm._v("Player Name")])]), _vm._v(" "), _c('td', {
     attrs: {
       "width": "100"
     }
@@ -2643,13 +2649,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     style: ({
       width: _vm.tHealth + 'px'
     })
-  })])])]), _vm._v(" "), (_vm.showMessage) ? _c('span', [_vm._v(_vm._s(_vm.displayMessage))]) : _vm._e(), _vm._v(" "), _c('a', {
-    on: {
-      "click": function($event) {
-        _vm.$emit('close')
-      }
+  })])])]), _vm._v(" "), (_vm.showMessage) ? _c('span', [_vm._v(_vm._s(_vm.displayMessage))]) : _vm._e()])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showResult),
+      expression: "showResult"
+    }],
+    attrs: {
+      "id": "attackResult"
     }
-  }, [_vm._v("back to world")])])])])])
+  }, [_vm._v("\n          " + _vm._s(_vm.displayResult) + "\n        ")])])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -2661,7 +2671,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 155:
+/***/ 156:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2678,7 +2688,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.mobAttack(_vm.mob)
       }
     }
-  }, [_c('small', [_vm._v("Attack")])]), _vm._v(" "), (_vm.type === 'quest') ? _c('span', [_vm._v(" | "), _c('small', [_vm._v("Talk")])]) : _vm._e()])]), _vm._v(" "), (_vm.showAttack) ? _c('div', [_c('world-attack', {
+  }, [_c('small', [_vm._v("Attack")])]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.type === 'quest'),
+      expression: "type === 'quest'"
+    }]
+  }, [_vm._v(" | "), _c('small', [_vm._v("Talk")])])])]), _vm._v(" "), (_vm.showAttack) ? _c('div', [_c('world-attack', {
     attrs: {
       "attack-mob": _vm.attackMob
     },
@@ -2699,7 +2716,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 156:
+/***/ 157:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2713,7 +2730,7 @@ if (false) {
 /* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_laravel_echo__);
 
-window._ = __webpack_require__(11);
+window._ = __webpack_require__(5);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -2722,7 +2739,7 @@ window._ = __webpack_require__(11);
  */
 
 try {
-  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(18);
+  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(15);
 
   __webpack_require__(59);
 } catch (e) {}
@@ -2733,7 +2750,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(27);
+window.axios = __webpack_require__(18);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -2767,7 +2784,7 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   encrypted: true,
   cluster: 'mt1'
 });
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(18)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
 
 /***/ }),
 
@@ -2874,9 +2891,9 @@ module.exports = function normalizeComponent (
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap_js__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 
 
@@ -2930,4 +2947,4 @@ class Mobs {
 
 /***/ })
 
-},[110]);
+},[111]);

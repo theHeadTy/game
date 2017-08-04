@@ -8,25 +8,18 @@
 
         <a id="show-modal" @click="mobAttack(mob)"><small>Attack</small></a>
 
-        <span v-if="type === 'quest'"> | <small>Talk</small></span>
+        <span v-show="type === 'quest'"> | <small>Talk</small></span>
       </div>
 
 
     </div>
 
+    <!-- Displays the attack in a modal box -->
     <div v-if="showAttack">
-
-      <!--<world-attack
-        v-on:send="sendAttackMob"
-        :mob-attacking="mob"
-        @close="showAttack = false">
-      </world-attack>-->
-
       <world-attack
         :attack-mob="attackMob"
         @close="showAttack = false">
       </world-attack>
-
     </div>
 
 

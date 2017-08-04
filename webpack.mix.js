@@ -16,6 +16,7 @@ let mix = require('laravel-mix'),
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/world.ts', 'public/js')
+   .js('resources/assets/js/index.js', 'public/js')
    .extract([
      'jquery', 'bootstrap-sass', 'vue', 'axios', 'lodash',
      'pathfinding', 'pusher-js', 'laravel-echo', 'bluebird',
