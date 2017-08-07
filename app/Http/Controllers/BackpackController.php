@@ -32,6 +32,69 @@ class BackpackController extends Controller
         $totalItems = count($items);
         $bpSpace = (25 - $totalItems);
 
-        return view('backpack', compact('items', 'totalItems', 'bpSpace'));
+        return $items->toJson();
+
+        //return view('backpack', compact('items', 'totalItems', 'bpSpace'));
+    }
+
+
+    public function equip($id)
+    {
+        $userid = Auth::user()->id;
+
+        $item = UserItem::find($id)->item;
+
+        if ($item->user_id === $userid) {
+
+            $equips = UserItem::where('user_id', $userid)
+                ->where('equipped', 1)
+                ->where('slot', $item->item->slot)
+                ->get()->item;
+
+            foreach($equips as $equip) {
+                if ($equip->equipped === 1) {
+                    if ($equip->item->slot == $item->item->slot) {
+                        //$uitem = UserItem::where('id', $equip->id)
+                        //    ->update(['equipped' => 0]);
+                    }
+                } else {
+                    continue;
+                }
+            }
+            return ['Status' => 'ok'];
+        }
+        return ['Status' => null];
     }
 }
+/*
+$user_id = Auth::user()->id;
+$item = ItemUser::find($item_id);
+$equipped = ItemUser::where('user_id', Auth::user()->id)
+    ->where('equipped', 1)
+    ->get();
+if ($user_id !== $item->user_id) {
+    return; // not users item.
+}
+// Check the users equipped items against the new item's 'slot'
+// if theres an item equipped, unequip it to prepare the new item
+// to be equipped.
+foreach ($equipped as $equip) {
+    if ($item->item->id == $equip->item_id) {
+        if ($equip->equipped == 1) {
+            if ($equip->item->slot == $item->item->slot) {
+                $equip = ItemUser::find($equip->id);
+                // Unequip the item thats equipepd.
+                ItemUser::where('equipped', 1)
+                    ->where('id', $equip->id)
+                    ->where('user_id', $user_id)
+                    ->update(['equipped' => 0]);
+            }
+        }
+    }
+}
+// The new item is ready to  be equipped.
+$item->equipped = 1;
+$item->save();
+return redirect('equipment/backpack/'.$which);
+//return redirect('equipment/'.$which.'/equip/'.$item->id);
+*/

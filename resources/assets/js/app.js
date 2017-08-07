@@ -3,6 +3,8 @@ import Vue from 'vue';
 
 import WorldMap from './components/Map.vue'
 import WorldMobs from './components/Mobs.vue'
+import Backpack from './components/Backpack.vue'
+
 
 const app = new Vue({
 
@@ -10,13 +12,14 @@ const app = new Vue({
 
     components: {
       WorldMap,
-      WorldMobs
+      WorldMobs,
+      Backpack,
     },
 
     data: {
       mobs: null,
       attackMob: null,
-      map: null,
+      showbp: false,
     },
 
     methods: {
@@ -29,19 +32,13 @@ const app = new Vue({
         this.attackMob = mob;
       },
 
-      loadMapData() {
-        axios.get('/map/1').then(response => {
-          this.map = response.data
-        })
+      openBackpack() {
+        this.showbp = true;
+      },
+      closeBackpack() {
+        this.showbp = false;
       }
-
-
     },
 
-    created() {
-      this.loadMapData();
-      //Echo.join('mobs').listen('Mobs', (e) => {
-      //  this.mobs = e.mobs;
-      //});
-    }
+
 });

@@ -1,44 +1,175 @@
 webpackJsonp([2],{
 
-/***/ 160:
+/***/ 183:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(161);
+module.exports = __webpack_require__(184);
 
 
 /***/ }),
 
-/***/ 161:
+/***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["tBackpack"] = tBackpack;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_backpack_window_js__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__equipment_BackpackEvent__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__equipment_backpack__ = __webpack_require__(185);
 
 
 
 
 
-
-function tBackpack() {
-  console.log('backpack clicked.');
-}
-
-$(document).ready(function () {
-
-  var backpack = new __WEBPACK_IMPORTED_MODULE_3__equipment_BackpackEvent__["a" /* BackpackEvent */]();
-});
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
+var backpack = new __WEBPACK_IMPORTED_MODULE_2__equipment_backpack__["a" /* Backpack */]();
 
 /***/ }),
 
-/***/ 162:
+/***/ 185:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+
+
+const modal = __webpack_require__(186);
+class Backpack {
+    constructor() {
+        this.main = document.getElementById('playerBackpack');
+        this.all = document.getElementsByClassName('whichBackpack');
+        this.close = document.getElementById('bpWin_close');
+        this.mainBackpackClick();
+    }
+    mainBackpackClick() {
+        this.main.addEventListener('mouseup', () => {
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/backpack/regular').then((response) => {
+                let bp = modal.createModal('Backpack', 'bpWin', 316);
+                bp.innerHTML = response.data;
+                this.toggleEvents();
+                this.closeBackpack();
+            });
+        });
+        this.main.removeEventListener('mouseup', () => { });
+    }
+    toggleEvents() {
+        console.time('#f1');
+        let elems = this.all;
+        __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](elems, (val) => {
+            __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](['click', 'ontouchstart'], (e) => {
+                val.addEventListener(e, () => {
+                    this.loadPage(val.id);
+                }, false);
+            });
+        });
+        console.timeEnd('#f1');
+    }
+    loadPage(which) {
+        __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/backpack/' + which).then((response) => {
+            document.getElementById('bpWin_content').innerHTML = response.data;
+            this.toggleEvents();
+            this.closeBackpack();
+        });
+    }
+    closeBackpack() {
+        document.getElementById('bpWin_close').addEventListener('mouseup', () => {
+            modal.closeWindow('bpWin');
+        });
+        document.getElementById('bpWin_close').removeEventListener('mouseup', () => { });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Backpack;
+
+
+
+/***/ }),
+
+/***/ 186:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["createModal"] = createModal;
+/* harmony export (immutable) */ __webpack_exports__["closeWindow"] = closeWindow;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drag__ = __webpack_require__(187);
+
+//import * as $ from 'jquery';
+
+/**
+ * Creates a modal (window) page.
+ * @param  {String} label
+ * @param  {Any} name
+ * @param  {Number} width
+ * @param  {Number} height
+ * @return void|{HTMLElement}
+ */
+function createModal(label, name, width, height) {
+
+	width = width || 314;
+	height = height || 100;
+
+	if (document.getElementById(name)) {
+		closeWindow(name);
+		return false;
+	}
+
+	var modalWindow = document.createElement('div'),
+	    w = window.innerWidth / 2 - width / 2,
+	    widthCalc = width === 314 ? w + 310 : w;
+
+	$(modalWindow).css({
+		width: width + 'px',
+		height: 'auto',
+		minHeight: height + 'px',
+		position: 'absolute',
+		top: '185px',
+		left: widthCalc + 'px',
+		background: '#000',
+		border: '1px outset #333'
+	}).addClass('drag').attr('id', name);
+
+	/* @todo redo this */
+	var contents = '\n\t\t\t<table bgcolor="#333333" id="' + name + '_handle" style="padding:2px;margin:0px;width:' + width + 'px" cellspacing="0" cellpadding="0">\n\t\t\t  <tr>\n\t\t\t    <td style="text-align:left">' + label + '</td>\n\t\t\t\t\t  <td style="text-align:right">\n\t\t\t\t\t\t  <img id="' + name + '_close" src="http://outwar.com/images/x.jpg">\n\t\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t  </table>\n\t\t\t<div id="' + name + '_content"></div>';
+
+	modalWindow.innerHTML = contents;
+
+	var tbody = document.getElementsByTagName('body')[0];
+
+	tbody.appendChild(modalWindow);
+
+	var theHandle = document.getElementById(name + "_handle"),
+	    theRoot = document.getElementById(name);
+
+	__WEBPACK_IMPORTED_MODULE_0__drag__["a" /* default */].init(theHandle, theRoot);
+
+	var content = document.getElementById(name + '_content');
+
+	content.innerHTML = '<div text-align="center">...retrieving data...</div>';
+
+	return content;
+}
+
+/**
+ * Close modal window
+ * @param {Any} name
+ * @return void
+ */
+function closeWindow(name) {
+	var modal = document.getElementById(name),
+	    tbody = void 0;
+	//oldWin.style.zIndex = -1;
+	tbody = document.getElementsByTagName('body')[0];
+	tbody.removeChild(modal);
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(19)))
+
+/***/ }),
+
+/***/ 187:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -159,162 +290,6 @@ var Drag = {
 
 /* harmony default export */ __webpack_exports__["a"] = (Drag);
 
-/***/ }),
-
-/***/ 163:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-
-
-const modal = __webpack_require__(69);
-class BackpackEvent {
-    constructor() {
-        this.main = document.getElementById('playerBackpack');
-        this.all = document.getElementsByClassName('whichBackpack');
-        this.close = document.getElementById('bpWin_close');
-        this.mainBackpackClick();
-    }
-    mainBackpackClick() {
-        this.main.addEventListener('mouseup', () => {
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/backpack/regular').then((response) => {
-                let bp = modal.createModal('Backpack', 'bpWin', 316);
-                bp.innerHTML = response.data;
-                this.toggleEvents();
-                this.closeBackpack();
-            });
-        });
-        this.main.removeEventListener('mouseup', () => { });
-    }
-    toggleEvents() {
-        console.time('#f1');
-        let elems = this.all;
-        __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](elems, (val) => {
-            __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](['click', 'ontouchstart'], (e) => {
-                val.addEventListener(e, () => {
-                    this.loadPage(val.id);
-                }, false);
-            });
-        });
-        console.timeEnd('#f1');
-        /*val.addEventListener('mouseup', () => {
-          this.loadPage(val.id);
-        }, false);
-        val.removeEventListener('mouseup', () => {}, false);
-      })*/
-        /*_.each(elems, (val: Element) => {
-          val.addEventListener('mouseup', () => {
-            this.loadPage(val.id)
-          })
-        })*/
-    }
-    loadPage(which) {
-        __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/backpack/' + which).then((response) => {
-            document.getElementById('bpWin_content').innerHTML = response.data;
-            this.toggleEvents();
-            this.closeBackpack();
-        });
-    }
-    closeBackpack() {
-        document.getElementById('bpWin_close').addEventListener('mouseup', () => {
-            modal.closeWindow('bpWin');
-        });
-        document.getElementById('bpWin_close').removeEventListener('mouseup', () => { });
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = BackpackEvent;
-
-
-
-/***/ }),
-
-/***/ 69:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["createModal"] = createModal;
-/* harmony export (immutable) */ __webpack_exports__["closeWindow"] = closeWindow;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drag__ = __webpack_require__(162);
-
-//import * as $ from 'jquery';
-
-/**
- * Creates a modal (window) page.
- * @param  {String} label
- * @param  {Any} name
- * @param  {Number} width
- * @param  {Number} height
- * @return void|{HTMLElement}
- */
-function createModal(label, name, width, height) {
-
-	width = width || 314;
-	height = height || 100;
-
-	if (document.getElementById(name)) {
-		closeWindow(name);
-		return;
-	}
-	//return false;
-	//} else {
-
-	var modalWindow = document.createElement('div'),
-	    w = window.innerWidth / 2 - width / 2,
-	    widthCalc = width === 314 ? w + 310 : w;
-
-	$(modalWindow).css({
-		width: width + 'px',
-		height: 'auto',
-		minHeight: height + 'px',
-		position: 'absolute',
-		top: '185px',
-		left: widthCalc + 'px',
-		background: '#000',
-		border: '1px outset #333'
-	}).addClass('drag').attr('id', name);
-
-	/* @todo redo this */
-	var contents = '\n\t\t\t<table bgcolor="#333333" id="' + name + '_handle" style="padding:2px;margin:0px;width:' + width + 'px" cellspacing="0" cellpadding="0">\n\t\t\t  <tr>\n\t\t\t    <td style="text-align:left">' + label + '</td>\n\t\t\t\t\t  <td style="text-align:right">\n\t\t\t\t\t\t  <img id="' + name + '_close" src="http://outwar.com/images/x.jpg">\n\t\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t  </table>\n\t\t\t<div id="' + name + '_content"></div>';
-
-	modalWindow.innerHTML = contents;
-
-	var tbody = document.getElementsByTagName('body')[0];
-
-	tbody.appendChild(modalWindow);
-
-	//$(modalWindow).html(contents).appendTo('body');
-
-	var theHandle = document.getElementById(name + "_handle"),
-	    theRoot = document.getElementById(name);
-
-	__WEBPACK_IMPORTED_MODULE_0__drag__["a" /* default */].init(theHandle, theRoot);
-
-	var content = document.getElementById(name + '_content');
-
-	content.innerHTML = '<div text-align="center">...retrieving data...</div>';
-
-	return content;
-}
-
-/**
- * Close modal window
- * @param {Any} name
- * @return void
- */
-function closeWindow(name) {
-	var modal = document.getElementById(name),
-	    tbody = void 0;
-	//oldWin.style.zIndex = -1;
-	tbody = document.getElementsByTagName('body')[0];
-	tbody.removeChild(modal);
-}
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
-
 /***/ })
 
-},[160]);
+},[183]);

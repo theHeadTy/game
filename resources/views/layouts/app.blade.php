@@ -61,7 +61,10 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         {{--}<a id="playerBackpack">Backpack</a>--}}
-                                        <a id="playerBackpack">Backpack</a>
+                                        {{--}}<a id="playerBackpack">Backpack</a>--}}
+                                        <a @click="openBackpack">Backpack</a>
+
+
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -81,20 +84,24 @@
             </div>
         </nav>
 
+        <div v-show="showbp">
+            <backpack @close="closeBackpack"></backpack>
+        </div>
+
+
         @yield('content')
+
     </div>
 
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="{{ mix('js/index.js') }}"></script>
+    {{--}}<script src="{{ mix('js/index.js') }}"></script>--}}
 
     <!-- Scripts -->
     @stack('scripts')
 
-    <script src="{{ asset('js/anylink.js') }}"></script>
-
-
+    {{--<script src="{{ asset('js/anylink.js') }}"></script>--}}
 
 </body>
 </html>

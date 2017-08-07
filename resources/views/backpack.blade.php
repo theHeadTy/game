@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+
+{{--}}<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -7,10 +9,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 
 </head>
 <body>
+
+    --}}
     <table cellspacing="0" cellpadding="0" border="0" style="background-color:#000000;">
         <tr>
             <td colspan="3" align="center" style="height:21px;background-image:url('{{ asset('images/backpack/bp_top_border.gif') }}'); background-repeat:repeat-x;">
@@ -107,10 +112,11 @@
 
             </table>
 
+{{--}}
 
     <script src="{{ mix('js/index.js') }}"></script>
     <script src="{{ asset('js/anylink.js') }}"></script>
 
 
 </body>
-</html>
+</html>--}}

@@ -87,7 +87,10 @@ function makemenu(obj, e, menuwidth, allowed, whichbp, bpspot, iid, uid, slot) {
   if (allowed.indexOf("a") > -1)
     menucontents += "<a href=\"/home.php?itemaction=" + iid + "\">Activate</a>";
   if (allowed.indexOf("e") > -1)
-    menucontents += "<a href=\"#\" onclick=\"equipItem('" + iid + "','" + whichbp + "','" + uid + "');ajax_equip_side('" + iid + "', '" + slot + "');\">Equip</a>";
+
+    //menucontents += "<a href=\"#\" onclick=\"equipItem('" + iid + "','" + whichbp + "','" + uid + "');ajax_equip_side('" + iid + "', '" + slot + "');\">Equip</a>";
+    menucontents += `<a href="javascript:void();" onclick="equip(${iid}, '${whichbp}', ${uid}, '${slot}');">Equip</a>`;
+
   if (allowed.indexOf("i") > -1)
     menucontents += "<a href=\"/identifyItem.php?id=" + iid + "&owner=" + uid + "\">Identify</a>";
   if (allowed.indexOf("u") > -1)
@@ -165,3 +168,26 @@ function clearhidemenu() {
 
 if (hidemenu_onclick == "yes")
   document.onclick = hidemenu
+
+
+
+/*function equip(id, bp, user, slot) {
+  $.ajax({
+    type: 'GET',
+    url: `/backpack/equip/${id}/user/${user}`,
+    success: function(data) {
+      document.getElementById('bpWin_content').innerHTML = data;
+      //updateSlot(id, slot)
+    }
+  })
+}
+*/
+
+
+function updateSlot(id, slot) {
+  if (slot !== 'Orbs') {
+    document.getElementById(slot).innerHTML = null;
+  } else {
+    document.getElementById('Orbs').innerHTML = null;
+  }
+}
