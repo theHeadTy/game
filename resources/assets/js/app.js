@@ -5,6 +5,7 @@ import WorldMap from './components/Map.vue'
 import WorldMobs from './components/Mobs.vue'
 import Backpack from './components/Backpack.vue'
 
+//const bus = new Vue()
 
 const app = new Vue({
 
@@ -39,6 +40,5 @@ const app = new Vue({
         this.showbp = false;
       }
     },
-
 
 });

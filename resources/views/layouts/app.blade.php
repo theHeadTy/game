@@ -101,7 +101,5 @@
     <!-- Scripts -->
     @stack('scripts')
 
-    {{--<script src="{{ asset('js/anylink.js') }}"></script>--}}
-
 </body>
 </html>

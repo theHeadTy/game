@@ -16,25 +16,24 @@ class BackpackController extends Controller
         $this->middleware('auth');
     }
 
-    public function index($which)
+    public function index($type)
     {
-        $limit = ($which === 'Quest') ? 1 : 999;
+        $limit = ($type === 'Quest') ? 1 : 999;
         $userid = Auth::user()->id;
 
         $items = Item::with('stats')
             ->join('user_items', 'items.id', '=', 'user_items.item_id')
             ->select('items.*', 'user_items.id as iid', 'user_items.user_id')
-            ->where('items.type', $which)
+            ->where('items.type', $type)
             ->where('user_items.equipped', 0)
             ->limit($limit)
             ->get();
 
-        $totalItems = count($items);
-        $bpSpace = (25 - $totalItems);
+        //$totalItems = count($items);
+        //$bpSpace = (25 - $totalItems);
 
         return $items->toJson();
 
-        //return view('backpack', compact('items', 'totalItems', 'bpSpace'));
     }
 
 
@@ -42,28 +41,37 @@ class BackpackController extends Controller
     {
         $userid = Auth::user()->id;
 
-        $item = UserItem::find($id)->item;
+        $item = UserItem::with('item')->find($id);
 
         if ($item->user_id === $userid) {
-
-            $equips = UserItem::where('user_id', $userid)
+            $equipCache = [];
+            $equips = UserItem::with('item')
+                ->where('user_id', $userid)
                 ->where('equipped', 1)
-                ->where('slot', $item->item->slot)
-                ->get()->item;
+                ->get();
+            foreach ($equips as $equip) {
+                if($item->item->slot === $equip->item->slot) {
+                    $uitem = UserItem::find($equip->id);
+                    $uitem->equipped = 0;
+                    $uitem->save();
 
-            foreach($equips as $equip) {
-                if ($equip->equipped === 1) {
-                    if ($equip->item->slot == $item->item->slot) {
-                        //$uitem = UserItem::where('id', $equip->id)
-                        //    ->update(['equipped' => 0]);
-                    }
-                } else {
-                    continue;
+                    $citem = Item::with('stats')
+                        ->join('user_items', 'items.id', '=', 'user_items.item_id')
+                        ->select('items.*', 'user_items.id as iid', 'user_items.user_id')
+                        ->where('user_items.id', $equip->id)
+                        ->first();
+
+                    $equipCache[] = $citem;
                 }
             }
-            return ['Status' => 'ok'];
+            $eitem = UserItem::find($item->id);
+            $eitem->equipped = 1;
+            $eitem->save();
+            if ($eitem->equipped == 1) {
+                return $equipCache;
+            }
         }
-        return ['Status' => null];
+        return;
     }
 }
 /*

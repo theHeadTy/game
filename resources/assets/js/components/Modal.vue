@@ -1,129 +1,108 @@
 <template>
   <transition name="overlay-fade">
+    <div ref="overlay" :class="overlayClass" :data-modal="name">
 
-    <div ref="overlay" class="backpack-overlay" :data-modal="name">
-        <div ref="modal" :class="modalClass" :style="modalStyle">
-          Backpack
-          <div class="backpack-top-right" @click="$emit('close')">
-            <img src="http://outwar.com/images/x.jpg">
-          </div>
+      <div v-draggable ref="modal" :class="modalClass" :style="modalStyle">
+        Backpack
+        <div class="backpack-top-right" @click="$emit('close')">
+          <img src="http://outwar.com/images/x.jpg">
+        </div>
 
-          <backpack-which></backpack-which>
+        <backpack-which @change="changeBackpack"></backpack-which>
 
-          <div style="float:left;">
+        <div style="float:left;">
 
-          <div class="backpack-tile" v-for="(item, index) in items" :key="item.id" :item="item">
-
-            <!--<div :border-id="index" style="display:inline-block;height:100%;vertical-align:middle;">-->
-
-            <div :border-id="index" style="position: relative">
-
-              <img id="index"
-                class="backpack-item-image"
-                :src="item.image"
-                @click="makeMenu($event, item);">
-
-              <backpack-links
-                :menu="menu"
-                :item="item"
-                :showMenu="showMenu">
-              </backpack-links>
-
-              <backpack-actions
-                :item="item">
-              </backpack-actions>
-
-            </div>
-          </div>
-
-          <div v-for="n in extraSlots" class="backpack-tile"></div>
+          <backpack-items :items="items"></backpack-items>
 
         </div>
 
       </div>
+
     </div>
+
   </transition>
 </template>
 
 <script>
-
 import Vue from 'vue'
-import BackpackMenu from './../mixins/BackpackMenu.vue'
-import Links from './Backpack/Links.vue'
+import Items from './Backpack/Items.vue'
 import Which from './Backpack/Which.vue'
-import Actions from './Backpack/Actions.vue'
-
-import axios from 'axios'
-import * as _ from 'lodash'
-
+import Draggable from './../vue-directives/Draggable.js'
 
 export default {
-  mixins: [BackpackMenu],
-  name: 'bmodal',
-  props: {
-    name: {
-      type: String,
-      required: true
-    },
-    draggable: {
-      type: [String, Boolean],
-      default: false
-    },
-    classes: {
-      type: [String, Array],
-      default: 'backpack'
-    }
-
-  },
 
   components: {
     'backpack-which': Which,
-    'backpack-links': Links,
-    'backpack-actions': Actions
+    'backpack-items': Items,
   },
 
   computed: {
     modalClass() {
-      return ['backback-box', this.classes]
+      return ['backback-box', 'backpack']
+    },
+    overlayClass () {
+      return { 'backpack-overlay': true }
     },
     modalStyle() {
-      let w = (window.innerWidth / 2) - (305 / 2);
+      let w = (window.innerWidth / 2) - (305 / 2) + 550
       return {
         width: '305px',
         height: 'auto',
         position: 'fixed',
         minHeight: '100px',
-        left: w+'px',
-        top: '185px'
+        left: (window.innerWidth / 2) - (305 / 2)+'px',
+        //left: `${w}px`,
+        top: '50px'
       }
-    },
-    extraSlots() {
-      let len = this.items.length
-      return 25 - ((len === 0) ? 1 : len)
     }
   },
 
   data() {
     return {
       items: [],
-      dropItems: [],
+      shift: {
+        left: 0,
+        top: 0
+      },
+      reload: true,
     }
   },
 
-  mounted() {
-    this.loadBackpack();
+  directives: {
+    Draggable
   },
 
   methods: {
-    loadBackpack() {
-      axios.get('/backpack/regular').then(response => {
+    loadBackpack(type) {
+      type = (!type) ? 'regular' : type
+      axios.get(`/backpack/${type}`).then(response => {
         this.items = response.data;
       })
     },
-  }
+
+    changeBackpack(type) {
+      this.loadBackpack(type)
+    }
+
+  },
+
+  mounted() {
+    this.loadBackpack()
+  },
+
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    draggable: {
+      type: [Boolean, String]
+    }
+  },
+
+
 
 }
-
 
 </script>
 
@@ -156,6 +135,7 @@ export default {
 
 .backpack-top-right {
   float: right;
+  vertical-align: middle;
 }
 
 .overlay-fade-enter-active, .overlay-fade-leave-active {
@@ -171,57 +151,5 @@ export default {
    opacity: 0;
    transform: translateY(-20px);
  }
-
-
-.backpack-tile {
-  display: block;
-  margin: 0px auto;
-  height: 60px;
-  width: 60px;
-  float: left;
-  background: url('/images/backpack/bp_tile.gif');
-}
-
-.backpack-item-image {
-  /*position: absolute;
-  left: 0px;
-  top: 0px;*/
-  margin: 0px auto;
-  max-width: 55px;
-  max-height: 55px;
-  padding: 2px;
-}
-
-.backpack-check {
-  display: none;
-}
-
-
-.backpack-menu {
-  position: absolute;
-	border: 1px solid black;
-	border-bottom-width: 0;
-	font: normal 12px Verdana;
-	line-height: 18px;
-	z-index: 100;
-  width: 100px;
-  background-color: #666;
-}
-
-/* @todo - this goes in backpack menu component  as scoped */
-.backpack a {
-  width: 100%;
-	display: block;
-	text-indent: 3px;
-	border-bottom: 1px solid black;
-	padding: 1px 0;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-.backpack a:hover {
-  background-color: #273F2B;
-}
-
 
 </style>
