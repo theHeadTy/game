@@ -84,7 +84,8 @@ export default {
       let gems = (this.item.gems >= 5) ? 5 : this.item.gems,
           block = ['critical', 'block', 'rampage'].includes(key);
 
-      return ((!block && gems > 0 && gems <= 5)
+      return (
+        (!block && gems > 0 && gems <= 5)
         ? _.round(.25 + gems)
         : 1
       )
