@@ -18,12 +18,13 @@ class BackpackController extends Controller
 
     public function index($type)
     {
-        $limit = ($type === 'Quest') ? 1 : 999;
+        $limit = ($type === 'Quest') ? 1 : 9999;
         $userid = Auth::user()->id;
 
         $items = Item::with('stats')
+            ->join('item_stats', 'items.id', '=', 'item_stats.item_id')
             ->join('user_items', 'items.id', '=', 'user_items.item_id')
-            ->select('items.*', 'user_items.id as iid', 'user_items.user_id')
+            ->select('items.*', 'item_stats.*', 'user_items.gems', 'user_items.id as iid', 'user_items.user_id')
             ->where('items.type', $type)
             ->where('user_items.equipped', 0)
             ->limit($limit)
@@ -57,7 +58,7 @@ class BackpackController extends Controller
 
                     $citem = Item::with('stats')
                         ->join('user_items', 'items.id', '=', 'user_items.item_id')
-                        ->select('items.*', 'user_items.id as iid', 'user_items.user_id')
+                        ->select('items.*', 'user_items.gems', 'user_items.id as iid', 'user_items.user_id')
                         ->where('user_items.id', $equip->id)
                         ->first();
 

@@ -5,9 +5,13 @@
       <div :border-id="index" style="position: relative">
 
         <img
+          @mouseover="active = !active"
+          @mouseout="active = !active"
           class="backpack-item-image"
           :src="item.image"
           @click.prevent="showMenu = item.iid">
+
+        <item-popup class="menu-popup" v-show="active" :item="item"></item-popup>
 
         <backpack-menu
           @iequip="equipItem(...arguments)"
@@ -22,6 +26,8 @@
 
     <div @click="showMenu = false" v-for="i in extraSpace" class="backpack-tile"></div>
 
+    <!--<div v-show="active" class="menu-popup"></div>-->
+
 
   </div>
 </template>
@@ -31,11 +37,14 @@
 import Menu from './Menu.vue'
 import Actions from './Actions.vue'
 
+import Popup from './../Items/Popup.vue'
+
 export default {
 
   components: {
     'backpack-menu': Menu,
     'backpack-actions': Actions,
+    'item-popup': Popup
   },
 
   computed: {
@@ -54,7 +63,8 @@ export default {
 
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      active: false,
     }
   },
 
@@ -66,9 +76,11 @@ export default {
 
       this.items.splice(index, 1);
 
-      _.each(cache, (val) => {
-        this.items.push(Object.assign({}, val))
-      })
+      if (cache.length) {
+        _.each(cache, (val) => {
+          this.items.push(Object.assign({}, val))
+        })
+      }
 
       console.log(this.items)
 

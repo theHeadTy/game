@@ -8,7 +8,7 @@
           <img src="http://outwar.com/images/x.jpg">
         </div>
 
-        <backpack-which @change="changeBackpack"></backpack-which>
+        <backpack-which @change="loadBackpack"></backpack-which>
 
         <div style="float:left;">
 
@@ -51,20 +51,14 @@ export default {
         position: 'fixed',
         minHeight: '100px',
         left: (window.innerWidth / 2) - (305 / 2)+'px',
-        //left: `${w}px`,
-        top: '50px'
+        top: '100px'
       }
     }
   },
 
   data() {
     return {
-      items: [],
-      shift: {
-        left: 0,
-        top: 0
-      },
-      reload: true,
+      items: []
     }
   },
 
@@ -74,20 +68,17 @@ export default {
 
   methods: {
     loadBackpack(type) {
-      type = (!type) ? 'regular' : type
+      //type = (!type) ? 'regular' : type
       axios.get(`/backpack/${type}`).then(response => {
         this.items = response.data;
+        console.log(this.items);
       })
-    },
-
-    changeBackpack(type) {
-      this.loadBackpack(type)
     }
 
   },
 
   mounted() {
-    this.loadBackpack()
+    this.loadBackpack('regular')
   },
 
   props: {

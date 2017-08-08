@@ -68,7 +68,7 @@ export default {
 
       axios.get('/backpack/equip/'+item.iid).then(response => {
         let data = response.data;
-        if (data) {
+        if (data.length) {
 
           this.$emit('iequip',  item, data)
 

@@ -16,6 +16,8 @@
     @yield('styles')
 
 
+    <script src="https://use.fontawesome.com/997d2663c0.js"></script>
+
 
 </head>
 <body>
