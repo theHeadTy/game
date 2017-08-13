@@ -19,15 +19,6 @@ export default {
     'bmodal': Modal,
   },
 
-  methods: {
-
-    //closeBackpack() {
-    //  this.showBackpack = false;
-    //},
-
-  }
-
-
 }
 
 </script>

@@ -23,7 +23,6 @@
   text-align: center;
 }
 
-
 .backpack-which-top-right {
   width: 7px;
   background: url('/images/backpack/bp_left_b.gif');

@@ -1,15 +1,15 @@
 <template>
   <div>
 
-    <div class="backpack-menu" v-show="showMenu === item.iid">
+    <div class="backpack-menu" v-show="showMenu === item.id">
 
       <div v-for="link in menuLinks" :key="link.id" :link="link">
 
         <div v-if="link.name === 'e'">
-          <a @click="equip(item)">Equip</a>
+          <a @click="equip">Equip</a>
         </div>
         <div v-else-if="link.name === 'd'">
-          <a @click="drop(item.iid)">Drop</a>
+          <a @click="drop(index)">Drop</a>
         </div>
         <div v-else-if="link.name === 'z'">
           <a @click="vault(item.iid)">Vault</a>
@@ -28,6 +28,11 @@
 
 <script>
 
+/**
+ * Show Menu - Drop down menu for each item in the players backpack.
+ * Equip, Drop, Vault, View, Sell..
+ */
+
 export default {
 
   props: {
@@ -38,7 +43,12 @@ export default {
     showMenu: {
       type: [Boolean, Number],
       required: true
-    }
+    },
+    index: {
+      type: Number,
+      required: true
+    },
+
   },
 
   data() {
@@ -54,7 +64,7 @@ export default {
   methods: {
     createMenu() {
 
-      let opts = this.item.options,
+      let opts = this.item.item.options,
           menu = this.menuLinks = [];
 
       _.each(opts, (val) => {
@@ -64,25 +74,23 @@ export default {
       })
     },
 
-    equip(item) {
+    equip() {
 
-      axios.get('/backpack/equip/'+item.iid).then(response => {
+      axios.get('/backpack/equip/'+this.item.id).then(response => {
         let data = response.data;
-        if (data.length) {
+        if (data.status === 'ok') {
 
-          this.$emit('iequip',  item, data)
+          this.$emit('iequip', this.item.item.type)
 
-        } else {
-
-          console.log('not equipped');
-
+        } else if (data.status === 'fail') {
+          console.log('Error in backpack');
         }
       })
 
     },
 
-    drop(id) {
-
+    drop(index) {
+      this.$emit('idrop', index)
     },
 
     vault(id) {

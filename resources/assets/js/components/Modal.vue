@@ -1,9 +1,8 @@
 <template>
   <transition name="overlay-fade">
     <div ref="overlay" :class="overlayClass" :data-modal="name">
-
       <div v-draggable ref="modal" :class="modalClass" :style="modalStyle">
-        Backpack
+        <span class="backpack-header">Backpack</span>
         <div class="backpack-top-right" @click="$emit('close')">
           <img src="http://outwar.com/images/x.jpg">
         </div>
@@ -12,7 +11,9 @@
 
         <div style="float:left;">
 
-          <backpack-items :items="items"></backpack-items>
+          <backpack-items
+            @change="loadBackpack" :items="items">
+          </backpack-items>
 
         </div>
 
@@ -24,10 +25,10 @@
 </template>
 
 <script>
-import Vue from 'vue'
+//import Vue from 'vue'
 import Items from './Backpack/Items.vue'
 import Which from './Backpack/Which.vue'
-import Draggable from './../vue-directives/Draggable.js'
+import Draggable from './../directives/Draggable.js'
 
 export default {
 
@@ -68,12 +69,15 @@ export default {
 
   methods: {
     loadBackpack(type) {
-      //type = (!type) ? 'regular' : type
       axios.get(`/backpack/${type}`).then(response => {
+
         this.items = response.data;
-        console.log(this.items);
+
+        //console.log(this.items);
+
       })
-    }
+
+    },
 
   },
 
@@ -122,6 +126,11 @@ export default {
   text-align: left;
   padding: 0;
   border: 1px solid #333;
+}
+
+.backpack-header {
+  font-weight: bold;
+  color: #fff;
 }
 
 .backpack-top-right {

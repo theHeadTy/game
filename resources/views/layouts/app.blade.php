@@ -65,6 +65,7 @@
                                         {{--}<a id="playerBackpack">Backpack</a>--}}
                                         {{--}}<a id="playerBackpack">Backpack</a>--}}
                                         <a @click="openBackpack">Backpack</a>
+                                        <a @click="openEquipment">Equipment</a>
 
 
                                     <li>
@@ -86,8 +87,14 @@
             </div>
         </nav>
 
+        <!-- Backpack -->
         <div v-show="showbp">
             <backpack @close="closeBackpack"></backpack>
+        </div>
+
+        <!-- Equipment -->
+        <div v-show="showeq">
+            <equipment :userId="{{ Auth::user()->id }}"@close="closeEquipment"></equipment>
         </div>
 
 
@@ -95,10 +102,10 @@
 
     </div>
 
+    <!-- Webpack manifest, vendor & Vue main app file -->
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
-    {{--}}<script src="{{ mix('js/index.js') }}"></script>--}}
 
     <!-- Scripts -->
     @stack('scripts')

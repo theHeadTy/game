@@ -34,3 +34,9 @@ Route::get('mobs/room/{id}', 'MobController@getAllMobs');
 
 Route::get('backpack/{type}', 'BackpackController@index');
 Route::get('backpack/equip/{id}', 'BackpackController@equip');
+Route::post('backpack/drop', 'BackpackController@drop');
+
+Route::get('equipment', 'EquipmentController@show');
+Route::get('equipment/remove/{id}', 'EquipmentController@remove');
+
+Route::get('test', 'BackpackController@test');

@@ -2,32 +2,50 @@
   <div>
 
     <div class="backpack-tile" v-for="(item, index) in items" :key="item.id" :item="item">
-      <div :border-id="index" style="position: relative">
 
-        <img
-          @mouseover="active = !active"
-          @mouseout="active = !active"
-          class="backpack-item-image"
-          :src="item.image"
-          @click.prevent="showMenu = item.iid">
+      <div ref="itemBorder" :borderid="item.id" :class="borderClass">
 
-        <item-popup class="menu-popup" v-show="active" :item="item"></item-popup>
+        <div class="backpack-image-align">
+
+          <img
+            @mouseover="active = item.id"
+            @mouseout="active = !active"
+            class="backpack-item-image"
+            :src="item.item.image"
+            @click.prevent="showMenu = item.id">
+
+        </div>
+
+
+        <item-popup class="menu-popup" v-show="active === item.id" :item="item"></item-popup>
 
         <backpack-menu
-          @iequip="equipItem(...arguments)"
+          @iequip="equipItem"
+          @idrop="dropItem"
           :showMenu="showMenu"
-          :item="item">
+          :item="item"
+          :index="index">
         </backpack-menu>
 
-        <backpack-actions :item="item"></backpack-actions>
+        <input class="backpack-check" type="checkbox" :value="item.id" v-model="drop">
+        <input class="backpack-check" type="checkbox" :value="item.id" v-model="sell">
+        <input class="backpack-check" type="checkbox" :value="item.id" v-model="vault">
 
       </div>
+
     </div>
 
-    <div @click="showMenu = false" v-for="i in extraSpace" class="backpack-tile"></div>
+    <div
+      @click="showMenu = false"
+      v-for="i in extraSpace"
+      class="backpack-tile">
+    </div>
 
-    <!--<div v-show="active" class="menu-popup"></div>-->
-
+    <div align="center" style="inline: block" v-show="dropWarning === true">
+      <p><strong>Are you sure you would like to perform this action?</strong></p>
+      <button class="btn" @click="submitAction">Submit</button>
+      <button class="btn" @click="cancelAction">Cancel</button>
+    </div>
 
   </div>
 </template>
@@ -35,24 +53,9 @@
 <script>
 
 import Menu from './Menu.vue'
-import Actions from './Actions.vue'
-
-import Popup from './../Items/Popup.vue'
+import Popup from './../Equipment/Popup.vue'
 
 export default {
-
-  components: {
-    'backpack-menu': Menu,
-    'backpack-actions': Actions,
-    'item-popup': Popup
-  },
-
-  computed: {
-    extraSpace() {
-      let count = this.items.length
-      return 25 - ((!count) ? 0 : ((count === 0) ? 1 : count))
-    }
-  },
 
   props: {
     items: {
@@ -61,32 +64,72 @@ export default {
     }
   },
 
+  components: {
+    'backpack-menu': Menu,
+    'item-popup': Popup
+  },
+
+  computed: {
+    extraSpace() {
+      let count = this.items.length
+      return 25 - ((!count) ? 0 : ((count === 0) ? 1 : count))
+    },
+    borderClass() {
+      return 'border-off'
+    },
+  },
+
   data() {
     return {
       showMenu: false,
       active: false,
+      drop: [],
+      sell: [],
+      vault: [],
+      dropWarning: false,
     }
   },
 
   methods: {
-    equipItem(item, cache) {
+    equipItem(type) {
+      this.$emit('change', type)
+    },
 
-      let index = this.items.indexOf(item),
-          type = item.type;
+    dropItem(index) {
 
-      this.items.splice(index, 1);
+      let drop = this.drop,
+          border = this.$refs.itemBorder,
+          id = this.items[index].id;
 
-      if (cache.length) {
-        _.each(cache, (val) => {
-          this.items.push(Object.assign({}, val))
-        })
-      }
+      drop.push(id)
 
-      console.log(this.items)
+      border[index].style.border = 2 + 'px solid red'
 
+      this.dropWarning = (drop.length) ? true : false
+
+    },
+
+    submitAction() {
+
+      axios.post('/backpack/drop', this.drop).then(response => {
+        let data = response.data;
+        if (data.status === 'ok') {
+          this.$emit('change', 'regular')
+        }
+      })
+
+    },
+
+    cancelAction() {
+      let border = this.$refs.itemBorder
+      _.times(border.length, (i) => {
+        border[i].style.border = 0 + 'px'
+      })
+      this.drop.splice(0, this.drop.length)
+      this.dropWarning = false
     }
-  }
 
+  }
 
 }
 
@@ -101,13 +144,37 @@ export default {
   width: 60px;
   float: left;
   background: url('/images/backpack/bp_tile.gif');
+  vertical-align: middle;
 }
 
 .backpack-item-image {
   margin: 0px auto;
   max-width: 55px;
   max-height: 55px;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.backpack-image-align {
   padding: 2px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.backpack-check {
+  display: none;
+  width: 0px;
+  height: 0px;
+}
+
+.border-off {
+  position: relative;
+  border: 0px;
+}
+
+.border-on {
+  position: relative;
+  border: 2px solid red;
 }
 
 </style>

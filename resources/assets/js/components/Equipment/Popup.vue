@@ -1,48 +1,68 @@
 <template>
-  <div :class="popupClass" style="display: block;">
+
+  <div :class="popupClass">
 
     <!-- Left side (name, stats, augs, info & desc)-->
     <div class="item-left">
 
-      <span :class="nameClass">{{ item.name }}</span>
+      <span :class="nameClass">{{ item.item.name }}</span>
 
-      <div v-if="item.level">
-        <small>[Requires Level {{ item.level }}]</small>
+      <div v-if="item.item.level">
+        <small>[Requires Level {{ item.item.level }}]</small>
       </div>
-      <div v-if="item.bound">
+      <div v-if="item.item.bound">
         <small>[Playerbound]</small>
       </div>
-      <div v-if="item.inventory">
+      <div v-if="item.item.inventory">
         <small>[Inventory]</small>
       </div>
 
       <div>
-        <small>[Slot - {{ item.slot }}]</small>
+        <small>[Slot - {{ item.item.slot }}]</small>
       </div>
 
       <div style="padding: 5px;"></div>
 
       <div v-for="(stat, key) in item.stats" :key="key" :stat="stat">
         <span v-if="stat > 0 && key != 'item_id'">
-          {{ key | startCase(key) }} {{ stat * gemInc(key) | addCommas(stat) }}
+          {{ key | startCase(key) }}: {{ stat * gemInc(key) | addCommas(stat) }}
         </span>
       </div>
+
 
     </div>
 
     <!-- Right side (image, gems, augs) -->
     <div class="item-right">
 
-      <div align="center">
-        <img :src="item.image" style="display:block;margin-bottom:1px;">
+      <div align="center" style="display: inline:block;padding-right:3px;">
+
+        <img :src="item.item.image" style="padding-right: 3px;">
+
       </div>
 
-      <div align="center" style="display: flex;">
-        <i v-for="n in item.gems" class="fa fa-star" aria-hidden="true"></i>
-        <i v-for="n in gems" class="fa fa-star-o" aria-hidden="true"></i>
-      </div>
+        <div align="center" style="display: inline:block;padding-right:3px;">
+          <i v-for="n in item.gems" class="fa fa-star" aria-hidden="true"></i>
+          <i v-for="n in gems" class="fa fa-star-o" aria-hidden="true"></i>
+        </div>
 
     </div>
+
+    <div style="clear: both; position: relative; margin-bottom-1px;">
+
+    <div style="padding: 10px;"></div>
+
+    <div style="display: block; font-weight: bold;">
+      <small><em>{{ item.item.description }}</em></small>
+    </div>
+
+    <div style="padding: 5px;"></div>
+
+    <div style="display: block; color: yellow">
+      <small><em>{{ item.item.info }}</em></small>
+    </div>
+
+  </div>
 
   </div>
 </template>
@@ -63,7 +83,8 @@ export default {
       return 'item-popup'
     },
     nameClass() {
-      return ['item-name', `${_.toLower(this.item.rarity)}`]
+      let rarity = this.item.item.rarity;
+      return ['item-name', `${_.toLower(rarity)}`]
     },
     gems() {
       return _.range(this.item.gems, 5)
@@ -104,18 +125,20 @@ export default {
 	border: 1px solid #333;
 	background-color: #000;
   color: #fff;
-	z-index: 200;
-	/*font-family: Verdana;
-	font-size: 8pt;*/
-  width: 300px;
+  z-index: 1000;
+	font-family: Verdana;
+	font-size: 9pt;
+  width: 275px;
 }
 
 .item-left {
   float: left;
+  position: relative;
 }
 
 .item-right {
   float: right;
+  position: relative;
 }
 
 .item-name {
@@ -124,7 +147,6 @@ export default {
 }
 
 .common {
-  /*color: #6495ED;*/
   color: #DCDCDC;
 }
 

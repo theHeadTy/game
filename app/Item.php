@@ -10,4 +10,5 @@ class Item extends Model
     {
         return $this->hasOne('App\ItemStat');
     }
+
 }
