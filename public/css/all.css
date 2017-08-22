@@ -19,11 +19,19 @@ canvas {
 /* World Canvas */
 #newMap {
   z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: auto;
 }
 
 /* Player Canvas */
 #player {
   z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: auto;
 }
 
 /* Pathfinding Canvas */
@@ -92,7 +100,7 @@ canvas {
 }
 
 
-#dropmenudiv{
+#dropmenudiv {
   position:absolute;
   border:1px solid black;
   border-bottom-width: 0;
@@ -111,68 +119,89 @@ canvas {
   font-weight: bold;
 }
 
-#dropmenudiv a:hover{ /*hover background color*/
+#dropmenudiv a :hover{
   background-color: #273F2B;
 }
 
-/* For the tooltip feature (the JS tooltip). */
-#dhtmltooltip {
-	left: -1000px;
-	top: -1000px;
-	position: absolute;
-	min-width: 100px;
-	max-width: 400px;
-	padding: 8px;
-	color: white;
-	visibility: hidden;
-	z-index: 10000;
-	border: 1px solid #222222;
-	/*-moz-border-radius: 10px;*/
-	font-size: small;
-	-moz-opacity:0.95;opacity:0.95;
-	/***************************filter:alpha(opacity=85);*/
-	background: black top left repeat-x;
-
-	-moz-box-shadow: 0px 0px 10px black;
-	-webkit-box-shadow: 0px 0px 10px black;
-	box-shadow: 0px 0px 10px black;
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
 }
 
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
 
-		#dhtmlfloatie{
-			position: absolute; left: 0; left: -900px; filter:alpha(opacity=0);	-moz-opacity:0;
-			border: 2px solid black; padding: 5px; z-index: 100;
-		}
+.modal-container {
+  width: 700px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Verdana;
+  height: 100%;
+}
+.modal-r-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Verdana;
+  height: 100%;
+}
 
-		.menutitle{
-			cursor:pointer;	margin-bottom:0px; background-color:#465D4A;	color:#FFFFFF;	font-family:Verdana, sans-serif;
-			font-size:8pt;	font-weight:bold;	text-align:left; padding:5px;	border-bottom:1px solid #1B2C1E;
-		}
-		.menutitlehover{
-			cursor:pointer;	margin-bottom:0px; background-color:#5a8e7d; color:#FFFFFF;	font-family:Verdana, sans-serif;
-			font-size:8pt; font-weight:bold; text-align:left; padding:5px; border-bottom:1px solid #1B2C1E;
-		}
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
 
-		.submenu{
-			margin-bottom:0px; color:#000000;
-		}
+.modal-body {
+  margin: 20px 0;
+}
 
-		.suboption{
-			padding:1px; padding-left:5px; color:#FFFFFF; background-color:#000000;	font-size:8pt;
-			text-align:left; font-weight:bold;	cursor:pointer;	letter-spacing:1px;
-		}
+.modal-default-button {
+  float: right;
+}
 
-		.suboptionhover{
-			padding:1px; padding-left:5px; color:#5a8e7d; background-color:#273F2B; font-size:8pt;
-			text-align:left; font-weight:bold; cursor:pointer; letter-spacing:1px;
-		}
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
 
-		a.suboption:link{
-			color:#FFFFFF; background-color:#990000; text-decoration:none;
-		}
-		a.suboption:hover{
-			color:#FFFFFF; background-color:#660000; text-decoration:none;
-		}
-		a.suboption:visited{
-			color:#FFFFFF; text-decoration:none;
-		}
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}

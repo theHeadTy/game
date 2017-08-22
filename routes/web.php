@@ -26,11 +26,19 @@ Route::get('world', function() {
     return view('world');
 });
 
+
+Route::resource('profile', 'ProfileController');
+
+
 Route::get('/map', 'MapController@index');
 Route::get('/map/{id}', 'MapController@show');
 
-Route::get('mobs/x/{x}/y/{y}', 'MobController@getMobs');
-Route::get('mobs/room/{id}', 'MobController@getAllMobs');
+Route::get('mob/{id}', 'MobController@show');
+
+Route::get('mobs/x/{x}/y/{y}', 'MobController@mobs');
+Route::get('mobs/room/{id}', 'MobController@all');
+
+Route::get('quest/{id}', 'QuestController@show');
 
 Route::get('backpack/{type}', 'BackpackController@index');
 Route::get('backpack/equip/{id}', 'BackpackController@equip');

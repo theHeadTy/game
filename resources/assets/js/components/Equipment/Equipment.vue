@@ -1,74 +1,16 @@
 <template>
   <div class="equipment-items">
 
-    <item-slot name="head" :item="whereSlot('Head')"></item-slot>
+    <div v-for="(slot, index) in slots" :key="index" :slot="slot">
 
-    <item-slot name="neck" :item="whereSlot('Neck')"></item-slot>
-
-    <item-slot name="weapon" :item="whereSlot('Weapon')"></item-slot>
-
-    <item-slot name="body" :item="whereSlot('Body')"></item-slot>
-
-    <item-slot name="shield" :item="whereSlot('Shield')"></item-slot>
-
-    <item-slot name="pants" :item="whereSlot('Pants')"></item-slot>
-
-    <item-slot name="belt" :item="whereSlot('Belt')"></item-slot>
-
-    <item-slot name="ring" :item="whereSlot('Ring')"></item-slot>
-
-    <item-slot name="foot" :item="whereSlot('Foot')"></item-slot>
-
-    <item-slot name="orbs" :item="whereSlot('Orbs')"></item-slot>
-<!--
-    <div class="head">
-
-      <div align="center" v-if="whereSlot('Head')">
-        <img
-          @mouseover="show = whereSlot('Head').id"
-          @mouseout="show = !show"
-          :src="getImage('Head')">
-
-        <div v-if="show === head.id">
-          <popup :item="head"></popup>
-        </div>
-
-      </div>
+      <item-slot :name="slot.toLowerCase()" :item="whereSlot(slot)"></item-slot>
 
     </div>
-
-    <div class="neck"></div>
-    <div class="weapon"></div>
-
-    <div class="body">
-
-      <div align="center" v-if="whereSlot('Body')">
-        <img
-          @mouseover="show = whereSlot('Body').id"
-          @mouseout="show = !show"
-          :src="getImage('Body')">
-
-        <div v-if="show === whereSlot('Body').id">
-          <popup :item="whereSlot('Body')"></popup>
-        </div>
-
-      </div>
-
-    </div>
-    <div class="shield"></div>
-    <div class="pants"></div>
-    <div class="belt"></div>
-    <div class="ring"></div>
-    <div class="foot"></div>
-    <div class="orbs"></div>
-
-  -->
 
   </div>
 </template>
 
 <script>
-
 import Popup from './Popup.vue'
 import Slot from './Slot.vue'
 
@@ -79,6 +21,12 @@ export default {
   components: {
     Popup,
     'item-slot': Slot
+  },
+
+  computed: {
+    slots() {
+      return getSlots()
+    }
   },
 
   methods: {
@@ -98,6 +46,12 @@ export default {
 
 }
 
+const getSlots = () => {
+  return [
+    'Head', 'Neck', 'Weapon', 'Body', 'Shield',
+    'Belt', 'Pants', 'Ring', 'Foot', 'Orbs'
+  ]
+}
 
 </script>
 
@@ -109,6 +63,7 @@ export default {
   height: 385px;
   padding-top: 10px;
   margin: 0 auto;
+  background-color: #000000;
 }
 
 </style>

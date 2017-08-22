@@ -6,6 +6,7 @@ interface AttackStats {
   attack: number;
   critical: number;
   block: number;
+  level: number;
 }
 
 interface AttackTurn {
@@ -30,10 +31,6 @@ export class Attack {
     this.target = target;
   }
 
-  buildResult(): void {
-
-  }
-
   /**
    * Builds the attack, making it into an array.
    */
@@ -51,7 +48,7 @@ export class Attack {
       if (turn === 'player') {
 
         let message = `${player.name} hits for ${player.attack}`,
-            damage = this.genDamage(player.attack, player.hp, 1);
+            damage = this.genDamage(player.attack, player.hp, player.level);
 
         mobHp -= damage;
 
@@ -74,7 +71,7 @@ export class Attack {
       } else if (turn === 'target') {
 
         let message = `${mob.name} hits for ${mob.attack}`,
-            damage = this.genDamage(mob.attack, mob.hp, 1);
+            damage = this.genDamage(mob.attack, mob.hp, mob.level);
 
         playerHp -= damage;
 
@@ -96,13 +93,13 @@ export class Attack {
 
       } else if (turn === 'winner') {
         let winner = (playerHp <= 0) ? mob.name : player.name,
-            winDisplay;
+            winDisplay = this.winner(winner);
 
-        if (winner === player.name) {
+        /*if (winner === player.name) {
           winDisplay = `You have won!`;
         } else {
           winDisplay = `${mob.name} has won!`;
-        }
+        }*/
 
         attackArr.push({ turn: turn, message: winDisplay, winner: winner });
         break;
@@ -110,6 +107,16 @@ export class Attack {
 
     } while (true);
     return attackArr;
+  }
+
+  winner(name: string): string {
+    let message;
+    if (name === this.player.name) {
+      message = 'You have won!'
+    } else {
+      message = `${this.target.name} has won!`
+    }
+    return message
   }
 
 

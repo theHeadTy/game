@@ -12,10 +12,10 @@
           <a @click="drop(index)">Drop</a>
         </div>
         <div v-else-if="link.name === 'z'">
-          <a @click="vault(item.iid)">Vault</a>
+          <a @click="vault(item.id)">Vault</a>
         </div>
         <div v-else-if="link.name === 'v'">
-          <a @click="view(item.iid)">View</a>
+          <a @click="view(item.id)">View</a>
         </div>
 
       </div>

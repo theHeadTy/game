@@ -24,8 +24,10 @@ mix.js('resources/assets/js/app.js', 'public/js')
     ])
    .autoload({ jquery: ['$', 'jQuery', 'window.jQuery'] })
    .sass('resources/assets/sass/app.scss', 'public/css')
-   .styles(['resources/assets/css/world.css'], 'public/css/all.css')
-   //.sourceMaps()
+   .styles([
+       'resources/assets/css/world.css',
+       'resources/assets/css/modal.css'
+     ], 'public/css/all.css')
    .webpackConfig({
      module: {
        rules: [

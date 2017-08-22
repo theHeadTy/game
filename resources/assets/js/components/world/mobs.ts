@@ -2,23 +2,13 @@ import './../../bootstrap.js'
 import * as _ from 'lodash'
 import axios from 'axios'
 
-/*axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-let token: any = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-  axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}*/
-
 export class Mobs {
   public allMobs: any[];
   public roomMobs: any[];
   private roomId: number;
   constructor(id: number) {
     this.roomId = id;
-    this.getAllMobs(id);
+    this.all(id);
   }
 
   /**
@@ -26,7 +16,7 @@ export class Mobs {
    * @param {Number} id - ID of the zone.
    * @return void
    */
-  getAllMobs(id?: number): void {
+  all(id?: number): void {
     id = id || this.roomId;
     axios.get(`/mobs/room/${id}`).then((response: any) => {
       this.allMobs = response.data;

@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+
     @yield('styles')
 
 
@@ -62,12 +64,8 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        {{--}<a id="playerBackpack">Backpack</a>--}}
-                                        {{--}}<a id="playerBackpack">Backpack</a>--}}
                                         <a @click="openBackpack">Backpack</a>
                                         <a @click="openEquipment">Equipment</a>
-
-
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -94,7 +92,7 @@
 
         <!-- Equipment -->
         <div v-show="showeq">
-            <equipment :userId="{{ Auth::user()->id }}"@close="closeEquipment"></equipment>
+            <equipment @close="closeEquipment"></equipment>
         </div>
 
 

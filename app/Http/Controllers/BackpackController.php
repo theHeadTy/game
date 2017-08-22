@@ -41,7 +41,8 @@ class BackpackController extends Controller
     {
         $userid = Auth::user()->id;
 
-        $item = UserItem::with('item')->with('stats')->find($id);
+        //$item = UserItem::with('item')->with('stats')->find($id);
+        $item = UserItem::full()->find($id);
 
         if ($item && $item->item->equipped == 0 && $userid == $item->user_id) {
             $slot = $item->item->slot;

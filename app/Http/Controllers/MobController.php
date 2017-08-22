@@ -15,25 +15,27 @@ class MobController extends Controller
         $this->middleware('auth');
     }
 
-    public function getMobs($x, $y) {
+    public function show($id)
+    {
+        //return Mob::with('stats')->find($id);
+        //return Mob::find($id)->stats;
+    }
 
-        $user = User::find(Auth::user()->id);
-
+    public function mobs($x, $y)
+    {
         $mobs = Mob::where('x', $x)->where('y', $y)->get();
 
+        // Websocket
         //event(new Mobs($mobs, $user));
         //broadcast(new Mobs($mobs, $user));
 
         return $mobs;
-
-        //return view('world.mobs', compact('mobs'));
-
     }
 
-    public function getAllMobs($id) {
-        $mobs = Mob::where('world_id', $id)->get();
+    public function all($id)
+    {
+        $mobs = Mob::with('stats')->where('world_id', $id)->get();
         return $mobs;
     }
-
 
 }

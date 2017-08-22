@@ -38,8 +38,4 @@
 </div>
 
 
-{{--}}@push('scripts')
-    <script src="{{ mix('js/world.js') }}"></script>
-@endpush--}}
-
 @endsection

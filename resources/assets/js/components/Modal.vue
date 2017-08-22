@@ -25,7 +25,6 @@
 </template>
 
 <script>
-//import Vue from 'vue'
 import Items from './Backpack/Items.vue'
 import Which from './Backpack/Which.vue'
 import Draggable from './../directives/Draggable.js'
@@ -69,16 +68,10 @@ export default {
 
   methods: {
     loadBackpack(type) {
-      axios.get(`/backpack/${type}`).then(response => {
-
+      axios.get('/backpack/'+type).then(response => {
         this.items = response.data;
-
-        //console.log(this.items);
-
       })
-
     },
-
   },
 
   mounted() {
@@ -94,8 +87,6 @@ export default {
       type: [Boolean, String]
     }
   },
-
-
 
 }
 

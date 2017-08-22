@@ -3,7 +3,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <button class="modal-default-button" @click="$emit('close')">X</button>
+          <button class="modal-default-button" @click="reset(); $emit('close')">X</button>
 
           <div class="modal-header"></div>
 
@@ -30,7 +30,7 @@
                     <td width="270" valign="middle" align="center" style="background-image:url('http://placehold.it/250x250');background-repeat:no-repeat;background-position:center center;">
                       <table>
                         <tr>
-                          <td v-if="showTurn === 'target'">
+                          <td v-show="showTurn === 'target'">
                             <div class="targetHit">{{ targetDamage }}</div>
                           </td>
                         </tr>
@@ -40,7 +40,7 @@
                 		<td width="270" valign="middle" align="center" style="background-image:url('http://placehold.it/250x250');background-repeat:no-repeat;background-position:center center;">
                   		<table>
                         <tr>
-                          <td v-if="showTurn === 'player'">
+                          <td v-show="showTurn === 'player'">
                             <div class="playerHit">{{ playerDamage }}</div>
                           </td>
                         </tr>
@@ -53,16 +53,16 @@
                 <table border="0" cellspacing="0" cellpadding="0" width="550" height="40" style="margin-left:8px;margin-top:50px;">
       			      <tr>
                     <td width="245" valign="top" align="right">
-                      <div class="playerHealth" v-bind:style="{ width: pHealth + 'px' }"></div>
+                      <div class="playerHealth" :style="{ width: health.player + 'px' }"></div>
                     </td>
                     <td width="60"></td>
                     <td width="245" valign="top" align="left">
-                      <div class="targetHealth" v-bind:style="{ width: tHealth + 'px' }"></div>
+                      <div class="targetHealth" :style="{ width: health.target + 'px' }"></div>
                     </td>
                   </tr>
                 </table>
 
-                <span v-if="showMessage">{{ displayMessage }}</span>
+                <span v-show="showMessage">{{ displayMessage }}</span>
 
               </td>
             </tr>
@@ -81,53 +81,48 @@
 
 <script>
 import * as _ from 'lodash'
-import { Attack } from './world/attack.ts'
-
-/**
- * Elite-RPG NPC Attack System
- * @author theheadty <theheadty@gmail.com>
- *
- * @shout to vue js
- */
+import { Attack } from './../world/attack.ts'
 
 export default {
 
-  computed: {
-    attack() {
-      return new Attack(this.player, this.target);
-    }
-  },
-
   created() {
+
     /* @note - will be stored in the database */
     let playerStats = {
       name: 'Player',
       hp: 30,
       attack: 10,
       critical: 0,
-      block: 0
+      block: 0,
+      level: 1
     }
 
-    /* @note - will be stored in the database */
     let mobStats = {
-      name: this.attackMob.name,
-      hp: 30,
-      attack: 10,
-      critical: 0,
-      block: 0
+      name: this.mob.name,
+      hp: this.mob.stats.hp,
+      attack: this.mob.stats.attack,
+      critical: this.mob.stats.critical,
+      block: this.mob.stats.block,
+      level: this.mob.stats.level
     }
+
 
     this.player = playerStats;
-    this.target = mobStats;
 
-    this.fight();
+    this.target =  mobStats;
 
+    this.attack = new Attack(this.player, this.target)
+
+
+    this.fight()
   },
 
   data() {
     return {
+      attack: null,
       player: null,
       target: null,
+
       showTurn: false,
       playerDamage: '',
       targetDamage: '',
@@ -138,14 +133,19 @@ export default {
       showResult: false,
       displayResult: '',
 
-      tHealth: 228,
-      pHealth: 228
+      health: {
+        player: 228,
+        target: 228
+      }
 
     }
   },
 
   methods: {
-
+    reset() {
+      console.log('closing atk');
+      Object.assign(this.$data, this.$options.data())
+    },
     fightTurn(val) {
       let turn = val.turn,
           damage = val.damage,
@@ -155,15 +155,12 @@ export default {
       if (turn === 'player') {
         this.playerDamage = damage;
 
-        this.tHealth = val.hp.width;
-        console.log('player - ' + val.hp.width);
+        this.health.target = val.hp.width;
 
       } else if (turn === 'target') {
         this.targetDamage = damage;
 
-        console.log('target - ' + val.hp.width)
-
-        this.pHealth = val.hp.width;
+        this.health.player = val.hp.width;
 
       } else if (turn === 'winner') {
         this.showMessage = false;
@@ -173,7 +170,9 @@ export default {
       if (turn !== 'winner') {
         this.showMessage = true;
         this.displayMessage = message;
+
       }
+
     },
 
     fight() {
@@ -186,9 +185,12 @@ export default {
     }
   },
 
-  name: 'world-attack',
-
-  props: ['attack-mob'],
+  props: {
+    mob: {
+      type: Object,
+      required: true
+    }
+  }
 
 }
 

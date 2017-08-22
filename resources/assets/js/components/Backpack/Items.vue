@@ -11,7 +11,7 @@
             @mouseover="active = item.id"
             @mouseout="active = !active"
             class="backpack-item-image"
-            :src="item.item.image"
+            :src="getImage(item)"
             @click.prevent="showMenu = item.id">
 
         </div>
@@ -76,7 +76,7 @@ export default {
     },
     borderClass() {
       return 'border-off'
-    },
+    }
   },
 
   data() {
@@ -91,6 +91,10 @@ export default {
   },
 
   methods: {
+    getImage(item) {
+      return '/images/'+item.item.image
+    },
+
     equipItem(type) {
       this.$emit('change', type)
     },

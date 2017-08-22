@@ -33,8 +33,5 @@
    </div>
 </div>
 </div>
-@push('scripts')
-    <script src="{{ asset('js/world.js') }}"></script>
-@endpush
 
 @endsection

@@ -3,7 +3,7 @@ import Vue from 'vue';
 
 /* Components */
 import WorldMap from './components/Map.vue'
-import WorldMobs from './components/Mobs.vue'
+import WorldMobs from './components/Mobs/Mobs.vue'
 import Backpack from './components/Backpack.vue'
 import Equipment from './components/Equipment.vue'
 
@@ -18,6 +18,7 @@ const app = new Vue({
       WorldMobs,
       Backpack,
       Equipment,
+      ProfileEquipment: require('./components/Equipment/Equipment.vue')
     },
 
     data: {
@@ -32,7 +33,6 @@ const app = new Vue({
       sendMobs(mobs) {
         this.mobs = mobs;
       },
-
       sendAttackMob(mob) {
         this.attackMob = mob;
       },
@@ -54,6 +54,7 @@ const app = new Vue({
       closeEquipment() {
         this.showeq = false
       }
+
     },
 
 });

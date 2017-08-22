@@ -25,4 +25,9 @@ class UserItem extends Model
     {
         return $this->belongsTo('App\ItemStat', 'item_id', 'item_id');
     }
+
+    public function scopeFull($query)
+    {
+        return $query->with('item')->with('stats');
+    }
 }

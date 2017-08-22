@@ -6,7 +6,7 @@
         @mouseover="show = item.id"
         @mouseout="show = !show"
         @click="remove"
-        :src="item.item.image">
+        :src="image">
       <popup v-if="show === item.id" :item="item"></popup>
     </div>
 
@@ -35,6 +35,9 @@ export default {
   computed: {
     slotClass() {
        return this.name
+    },
+    image() {
+      return '/images/'+this.item.item.image
     }
   },
 

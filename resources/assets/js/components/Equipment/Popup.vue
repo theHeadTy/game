@@ -25,7 +25,8 @@
 
       <div v-for="(stat, key) in item.stats" :key="key" :stat="stat">
         <span v-if="stat > 0 && key != 'item_id'">
-          {{ key | startCase(key) }}: {{ stat * gemInc(key) | addCommas(stat) }}
+          <!-- {{ key | startCase(key) }}: -->
+          +{{ stat * gemInc(key) | addCommas(stat) }} {{ key | startCase(key) }}
         </span>
       </div>
 
@@ -37,7 +38,9 @@
 
       <div align="center" style="display: inline:block;padding-right:3px;">
 
-        <img :src="item.item.image" style="padding-right: 3px;">
+        <img
+          :src="image"
+          style="padding-right: 3px;">
 
       </div>
 
@@ -88,6 +91,9 @@ export default {
     },
     gems() {
       return _.range(this.item.gems, 5)
+    },
+    image() {
+      return '/images/'+this.item.item.image
     }
   },
 
