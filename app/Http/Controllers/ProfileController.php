@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+
     public $user;
 
     public function __construct(User $user)
@@ -48,4 +49,12 @@ class ProfileController extends Controller
 
         return back();
     }
+
+    public function find(Request $request)
+    {
+        $user = $this->user->with('stats')->find(Auth::user()->id);
+
+        return response()->json($user);
+    }
+
 }

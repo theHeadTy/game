@@ -1,63 +1,61 @@
 <template>
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
+  <div>
 
-          <button class="modal-default-button" @click="$emit('close')">X</button>
+    <!-- left side -->
+    <div class="col-md-6 col-md-offset2">
 
-          <div class="modal-header"></div>
+      <strong>Talk {{ mob.name }}</strong>
 
-          <div style="padding: 5px;">
+      <div v-for="(quest, index) in quests" :key="index" :quest="quest">
 
-            <div class="col-md-6 col-md-offset2">
+        <a @click="showQuestModal = quest.id">{{ quest.name }}</a>
 
-              <strong>Talk {{  }}</strong>
+          <quest-modal
+            v-if="showQuestModal === quest.id"
+            @close="showQuestModal = !showQuestModal">
 
+            <quest-view :quest="quest"></quest-view>
 
-
-              <div>
-                <a @click="$emit('close')">Back to world</a>
-              </div>
+          </quest-modal>
 
 
-
-            </div>
-
-            <div class="col-md-6 col-md-offset2">
-
-              <img src="http://placehold.it/250x250">
-
-            </div>
-
-          </div>
-
-        </div>
       </div>
+
     </div>
-  </transition>
+
+    <!-- right side -->
+    <div class="col-md-6 col-md-offset2">
+
+      <img :src="image">
+
+    </div>
+
+
+  </div>
 </template>
 
 <script>
 
+import Modal from './../Modal.vue'
+import View from './Quest/View.vue'
+
 export default {
 
-  created() {
-    this.loadQuest()
+  computed: {
+    image() {
+      return (this.mob.image)
+        ? this.mob.image : 'http://placehold.it/250x250'
+    },
+  },
+
+  components: {
+    'quest-modal': Modal,
+    'quest-view': View
   },
 
   data() {
     return {
-      quest: null
-    }
-  },
-
-  methods: {
-    loadQuest() {
-      axios.get('/quest/'+this.mob.id).then(response => {
-        this.quest = response.data
-        console.log(this.quest);
-      })
+      showQuestModal: null
     }
   },
 
@@ -65,7 +63,12 @@ export default {
     mob: {
       type: Object,
       required: true
+    },
+    quests: {
+      type: Array,
+      required: true
     }
+
   }
 
 

@@ -3,44 +3,18 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Mob;
 use App\Quest;
 use App\UserQuest;
-use App\QuestStep;
 use Illuminate\Http\Request;
 
-class QuestController extends Controller
+class UserQuestController extends Controller
 {
-
-    public function show($id)
+    public function __construct()
     {
-
-        $quest = Quest::find($id);
-
-        $users = UserQuest::where('quest_id', $id)
-            ->where('user_id', Auth::user()->id)
-            ->first();
-
-        if ($users) {
-
-            return ['inQuest' => true];
-
-        } elseif (!$users) {
-
-            return ['inQuest' => false];
-
-        }
-
+        $this->middleware('auth');
     }
 
-
-    public function mob($id)
-    {
-        return Mob::find($id);
-    }
-
-/*
-    protected function store($id)
+    public function store($id)
     {
         $inQuest = UserQuest::where('quest_id', $id)
             ->where('user_id', Auth::user()->id)
@@ -59,10 +33,19 @@ class QuestController extends Controller
             $userQuest->user_id = Auth::user()->id;
             $userQuest->step_id = 1;
             $userQuest->completed = 0;
-            $userQuest->completed_at = NULL;
+            //$userQuest->completed_at = NULL;
             $userQuest->save();
 
         }
     }
-    */
+
+    public function kills($questId, $mobId)
+    {
+        $count = QuestKills::where('user_id', Auth::user()->id)
+            ->where('quest_id', $questId)
+            ->where('mob_id', $mobId)
+            ->count();
+
+        return ['kills' => $count];
+    }
 }

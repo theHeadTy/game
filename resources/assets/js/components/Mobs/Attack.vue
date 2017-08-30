@@ -3,7 +3,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <button class="modal-default-button" @click="reset(); $emit('close')">X</button>
+          <button class="modal-default-button" @click="$emit('close')">X</button>
 
           <div class="modal-header"></div>
 
@@ -15,11 +15,11 @@
                 <table border="0" cellspacing="0" cellpadding="0" width="600px;" style="font-family:Impact,sans-serif;font-weight:normal;font-size:18pt;">
                   <tr>
                     <td width="250" align="center" valign="middle">
-                		  <div id="attacker_name">Player Name</div>
+                		  <div id="attacker_name">{{ player.name }}</div>
                 		</td>
                 		<td width="100"></td>
                 		<td width="250" align="center" valign="middle">
-                		  <div id="defender_name">Target Name</div>
+                		  <div id="defender_name">{{ mob.name }}</div>
                 		</td>
                 	</tr>
                 </table>
@@ -31,7 +31,9 @@
                       <table>
                         <tr>
                           <td v-show="showTurn === 'target'">
-                            <div class="targetHit">{{ targetDamage }}</div>
+                            <transition name="fade">
+                              <div class="targetHit">{{ targetDamage }}</div>
+                            </transition>
                           </td>
                         </tr>
                       </table>
@@ -68,10 +70,11 @@
             </tr>
           </table>
 
-
+          <transition name="bounce">
           <div id="attackResult" v-show="showResult">
             {{ displayResult }}
           </div>
+        </transition>
 
         </div>
       </div>
@@ -85,42 +88,30 @@ import { Attack } from './../world/attack.ts'
 
 export default {
 
-  created() {
+  mounted() {
 
-    /* @note - will be stored in the database */
-    let playerStats = {
-      name: 'Player',
-      hp: 30,
-      attack: 10,
-      critical: 0,
-      block: 0,
-      level: 1
-    }
+    /*axios.get('/find-player').then(res => {
 
-    let mobStats = {
-      name: this.mob.name,
-      hp: this.mob.stats.hp,
-      attack: this.mob.stats.attack,
-      critical: this.mob.stats.critical,
-      block: this.mob.stats.block,
-      level: this.mob.stats.level
-    }
+      this.player = res.data;
 
+      console.log(this.player);
 
-    this.player = playerStats;
+      this.target =  mobStats;
 
-    this.target =  mobStats;
+      this.attack = new Attack(this.player, this.mob)
 
-    this.attack = new Attack(this.player, this.target)
+      this.fight()
 
+    })*/
 
-    this.fight()
+      this.fight()
+
   },
 
   data() {
     return {
       attack: null,
-      player: null,
+    //  player: null,
       target: null,
 
       showTurn: false,
@@ -142,11 +133,8 @@ export default {
   },
 
   methods: {
-    reset() {
-      console.log('closing atk');
-      Object.assign(this.$data, this.$options.data())
-    },
     fightTurn(val) {
+
       let turn = val.turn,
           damage = val.damage,
           message = val.message;
@@ -155,17 +143,18 @@ export default {
       if (turn === 'player') {
         this.playerDamage = damage;
 
-        this.health.target = val.hp.width;
+        this.health.target = val.hp;
 
       } else if (turn === 'target') {
         this.targetDamage = damage;
 
-        this.health.player = val.hp.width;
+        this.health.player = val.hp;
 
       } else if (turn === 'winner') {
         this.showMessage = false;
         this.showResult = true;
         this.displayResult = message;
+
       }
       if (turn !== 'winner') {
         this.showMessage = true;
@@ -176,17 +165,37 @@ export default {
     },
 
     fight() {
-      let attackArr = this.attack.buildAttack();
-      _.each(attackArr, (val, key) => {
-        setTimeout(() => {
-          this.fightTurn(val)
-        }, (key * 800))
+      //let attackArr = this.attack.buildAttack()
+      axios.get(`/mob/${this.mob.id}/attack`).then(res => {
+        _.each(res.data, (val, key) => {
+          setTimeout(() => {
+            this.fightTurn(val)
+          }, (key * 800))
+        })
+      })
+    },
+
+    updateStats(gold, exp, win) {
+      axios.post(`/mob/${this.mob.id}/attack`, {
+        win: win,
+        gold: gold,
+        exp: exp,
+        cost: this.mob.stats.cost
+      }).then(res => {
+        console.log(res)
+      }).catch((error) => {
+        console.log(error)
       })
     }
+
   },
 
   props: {
     mob: {
+      type: Object,
+      required: true
+    },
+    player: {
       type: Object,
       required: true
     }
@@ -196,89 +205,8 @@ export default {
 
 </script>
 
+<style>
 
-<style scoped>
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
-}
-
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 700px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Verdana;
-  height: 100%;
-}
-.modal-r-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Verdana;
-  height: 100%;
-}
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-
-.modal-body {
-  margin: 20px 0;
-}
-
-.modal-default-button {
-  float: right;
-}
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0
-}
+@import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
 
 </style>

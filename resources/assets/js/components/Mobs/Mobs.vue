@@ -9,7 +9,7 @@
 
         <a @click="showMob = !showMob"><small>View</small></a> |
 
-        <a @click="showAttack = true">
+        <a @click="loadAttack">
           <small>Attack</small>
         </a>
 
@@ -24,21 +24,30 @@
 
     </div>
 
+    <!-- Mob view -->
     <mob-view
-      v-show="showMob"
+      v-if="showMob"
       @close="showMob = !showMob"
       :mob="mob">
     </mob-view>
 
-    <mob-talk
-      v-show="showQuest && mob.type === 'quest'"
-      @close="showQuest = !showQuest"
-      :mob="mob">
-    </mob-talk>
+    <!-- Mob talk -->
+    <talk-modal v-if="showQuest && mob.type === 'quest'">
 
+      <mob-talk
+        @close="showQuest = false"
+        :mob="mob"
+        :quests="quests">
+      </mob-talk>
+
+    </talk-modal>
+
+
+    <!-- Mob Attack -->
     <mob-attack
-      v-show="showAttack"
+      v-if="showAttack"
       :mob="mob"
+      :player="player"
       @close="showAttack = false">
     </mob-attack>
 
@@ -50,33 +59,52 @@ import View from './View.vue'
 import Attack from './Attack.vue'
 import Talk from './Talk.vue'
 import { Mobs } from './../world/mobs.ts'
+import Modal from './../Modal.vue'
 
 export default {
-
-  props: {
-    mob: {
-      type: Object,
-      required: false
-    }
-  },
 
   data() {
     return {
       showAttack: false,
       showMob: false,
-      showQuest: false
+      showQuest: false,
+      quests: [],
+      player: null
     }
+  },
+
+  created() {
+    this.loadQuests()
   },
 
   components: {
     'mob-attack': Attack,
     'mob-view': View,
     'mob-talk': Talk,
+    'talk-modal': Modal,
   },
 
-  computed: {
-    type() {
-      return this.mob.type;
+  methods: {
+    loadQuests() {
+      if (this.mob.type === 'quest') {
+        axios.get('/mob/talk/'+this.mob.id).then(response => {
+          this.quests = response.data;
+        })
+      }
+    },
+
+    loadAttack() {
+      axios.get('/find-player').then(res => {
+        this.showAttack = true
+        this.player = res.data
+      })
+    }
+  },
+
+  props: {
+    mob: {
+      type: Object,
+      required: false
     }
   },
 

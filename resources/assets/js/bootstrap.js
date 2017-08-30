@@ -53,3 +53,14 @@ window.Echo = new Echo({
      encrypted: true,
      cluster: 'mt1'
 });
+
+
+/*var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : '127.0.0.1',
+  user     : 'homestead',
+  password : 'secret',
+  database : 'game'
+});
+
+connection.connect();*/

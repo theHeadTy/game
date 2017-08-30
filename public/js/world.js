@@ -1,14 +1,14 @@
 webpackJsonp([2],{
 
-/***/ 210:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(211);
+module.exports = __webpack_require__(230);
 
 
 /***/ }),
 
-/***/ 211:
+/***/ 230:
 /***/ (function(module, exports) {
 
 //import * as Tiled from './world/maps/map2.json'
@@ -17,4 +17,4 @@ module.exports = __webpack_require__(211);
 
 /***/ })
 
-},[210]);
+},[229]);

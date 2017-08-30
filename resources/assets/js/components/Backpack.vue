@@ -2,7 +2,10 @@
 
   <div>
 
-      <bmodal @close="$emit('close')" name="bpWin" draggable=".backpack"></bmodal>
+      <backpack-modal
+        @close="$emit('close')"
+        name="bpWin">
+      </backpack-modal>
 
   </div>
 
@@ -11,12 +14,12 @@
 
 <script>
 
-import Modal from './Modal.vue'
+import Modal from './Backpack/Modal.vue'
 
 export default {
 
   components: {
-    'bmodal': Modal,
+    'backpack-modal': Modal,
   },
 
 }

@@ -190,7 +190,7 @@ export default {
 
     this.mobData = new Mobs(1);
 
-    console.log(this.mobData);
+    //console.log(this.mobData);
 
     /* Start */
     this.init();

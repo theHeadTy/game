@@ -1,108 +1,107 @@
 import * as _ from 'lodash'
 
-interface AttackStats {
-  name: string;
-  hp: number;
-  attack: number;
-  critical: number;
-  block: number;
-  level: number;
-}
+/**
+ * Skills that come to mind..
+ *
+ *
+ * rand(1, level + (boost here)) + (boost from genDamage function)
+ */
+
 
 interface AttackTurn {
-  turn: string,
-  message: string,
-  damage: number,
-  hp: {
-    player: number,
-    target: number,
-    width: number
-  }
+  turn: string;
+  message: string;
+  damage: number;
+  hp: number;
 }
 
 export class Attack {
-  public player: AttackStats;
-  public target: AttackStats;
+  public player: any;
+  public target: any;
 
-  public attackAr: any;
+  public attackArr: any = [];
 
-  constructor(player: AttackStats, target: AttackStats) {
+  constructor(player: any, target: any) {
     this.player = player;
     this.target = target;
+
   }
 
-  /**
-   * Builds the attack, making it into an array.
-   */
+
+  private message(name: string, damage: number): string {
+    return `${name} hits for ${damage}`
+  }
+
+  private turn(turn: string, message: string, damage: number, hp: number): AttackTurn {
+    return {
+      turn: turn,
+      message: message,
+      damage: damage,
+      hp: hp
+    }
+  }
+
   buildAttack(): any[] {
 
-    let attackArr: any = [],
+    let attackArr: any[] = [],
         player = this.player,
-        mob = this.target,
+        target = this.target,
         turn = 'player',
-        playerHp = player.hp,
-        mobHp = mob.hp;
+        playerHp = player.stats.hp,
+        targetHp = target.stats.hp;
 
     do {
 
       if (turn === 'player') {
 
-        let message = `${player.name} hits for ${player.attack}`,
-            damage = this.genDamage(player.attack, player.hp, player.level);
+        let damage = this.genDamage(player.stats.attack, player.stats.hp, player.stats.level),
+            message = this.message(player.name, damage);
 
-        mobHp -= damage;
+        targetHp -= damage;
 
-        let attackTurn: AttackTurn = {
-          turn: turn,
-          message: message,
-          damage: damage,
-          hp: {
-            player: playerHp,
-            target: mobHp,
-            width: 228 * ((mobHp <= 0) ? 0 : mobHp) / mob.hp
-          }
-        }
+        let width = 228 * ((targetHp <= 0) ? 0 : targetHp) / target.stats.hp
 
-        attackArr.push(attackTurn);
+        attackArr.push(
+          this.turn(turn, message, damage, width)
+        )
 
-        turn = (mobHp <= 0) ? 'winner' : 'target';
+        turn = (targetHp <= 0) ? 'winner' : 'target';
+
         continue;
 
       } else if (turn === 'target') {
 
-        let message = `${mob.name} hits for ${mob.attack}`,
-            damage = this.genDamage(mob.attack, mob.hp, mob.level);
+        let damage = this.genDamage(
+              target.stats.attack, target.stats.hp, target.stats.level
+            ),
+            message = this.message(target.name, damage);
 
         playerHp -= damage;
 
-        let attackTurn: AttackTurn = {
-          turn: turn,
-          message: message,
-          damage: damage,
-          hp: {
-            player: playerHp,
-            target: mobHp,
-            width: 228 * ((playerHp <= 0) ? 0 : playerHp) / player.hp
-          }
-        }
+        let width = 228 * ((playerHp <= 0) ? 0 : playerHp) / player.stats.hp
 
-        attackArr.push(attackTurn);
+        attackArr.push(
+          this.turn(turn, message, damage, width)
+        )
 
         turn = (playerHp <= 0) ? 'winner' : 'player'
+
         continue;
 
       } else if (turn === 'winner') {
-        let winner = (playerHp <= 0) ? mob.name : player.name,
-            winDisplay = this.winner(winner);
 
-        /*if (winner === player.name) {
-          winDisplay = `You have won!`;
-        } else {
-          winDisplay = `${mob.name} has won!`;
-        }*/
+        let winner = (playerHp <= 0) ? target.name : player.name;
 
-        attackArr.push({ turn: turn, message: winDisplay, winner: winner });
+        attackArr.push({
+          turn: turn,
+          message: this.winner(winner),
+          winner: winner,
+          gold: this.goldGain(),
+          exp: this.expGain()
+        });
+
         break;
+
       }
 
     } while (true);
@@ -112,27 +111,37 @@ export class Attack {
   winner(name: string): string {
     let message;
     if (name === this.player.name) {
-      message = 'You have won!'
+      message = `You have won!`
     } else {
       message = `${this.target.name} has won!`
     }
     return message
   }
 
-
-  /**
-   * Damage formula, based off the attack, hp & level of attacker.
-   * @param {Number} attack
-   * @param {Number} hp
-   * @param {Number} level
-   */
   genDamage(attack: number, hp: number, level: number): number {
-    let damage: number = 0;
+    let damage: number;
 
     level = _.random(1, level)
-    damage = _.round((attack * attack) / (attack + hp) + level);
+    damage = _.round((attack * attack) / (attack + hp) * level);
 
-    return damage;
+    return damage + 1;
+
+  }
+
+  goldGain(): number {
+    let level = this.target.stats.level,
+        lean = _.random(0, 2),
+        gold = _.round(lean * (Math.pow(1.055, level)) + 8
+          + Math.pow(1.055, (Math.pow(level, 1.085))));
+
+    return gold;
+  }
+
+  expGain(): number {
+    let level = this.target.stats.level
+
+    return _.round(2 * 3 * (Math.pow(1.055, level)) + 8
+      + Math.pow(1.055, (Math.pow(level, 1.085)) - 3 * this.goldGain()))
   }
 
 }

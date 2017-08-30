@@ -76,22 +76,7 @@ class BackpackController extends Controller
 
     }
 
-    public function test()
-    {
-        /*$items = UserItem::where('equipped', 0)
-            ->where('deleted_at', NULL)
-            ->where('user_id', Auth::user()->id)
-            ->whereHas('item', function($query) {
-                $query->where('type', 'regular');
-            })
-            ->with('item')
-            ->with('stats')
-            ->get();*/
 
-        $items = UserItem::find(1)->with('item')->with('stats')->first();
-
-        return $items;
-    }
 
 
 
