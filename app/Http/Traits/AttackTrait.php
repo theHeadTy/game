@@ -24,59 +24,16 @@ trait AttackTrait
 
             if ($turn === 'player') {
 
-                /*
-                $damage = $this->generateDamage(
-                    $user->stats->attack,
-                    $user->stats->hp,
-                    $user->stats->level
-                );
-
-                $mobHp -= $damage;
-
-                $userBar = 228 * (($mobHp <= 0) ? 0 : $mobHp / $mob->stats->hp);
-
-                $attackArr[] = $this->turn(
-                    $turn,
-                    $this->message($user->name, $damage),
-                    $damage,
-                    $userBar
-                );
-                */
-
                 $attackArr[] = $this->turn($turn, $user, $mobHp);
-
                 $last = end($attackArr);
-
                 $mobHp = $last['newHp'];
-
                 $turn = ($mobHp <= 0) ? 'winner' : 'mob';
 
             } elseif ($turn === 'mob') {
 
-                /*
-                $damage = $this->generateDamage(
-                    $mob->stats->attack,
-                    $mob->stats->hp,
-                    $mob->stats->level
-                );
-
-                $userHp -= $damage;
-
-                $mobBar = 228 * (($userHp <= 0) ? 0 : $userHp / $user->stats->hp);
-
-                $attackArr[] = $this->turn(
-                    $turn,
-                    $this->message($mob->name, $damage),
-                    $damage,
-                    $mobBar
-                );
-                */
-
                 $attackArr[] = $this->turn($turn, $mob, $userHp);
-
                 $last = end($attackArr);
                 $userHp = $last['newHp'];
-
                 $turn = ($userHp <= 0) ? 'winner' : 'player';
 
 
@@ -84,13 +41,15 @@ trait AttackTrait
 
                 $winner = ($userHp <= 0) ? $mob->name : $user->name;
 
-                $attackArr[] = [
+                $attackArr[] = $this->winner($winner, $mob->stats->level);
+
+                /*$attackArr[] = [
                     'turn' => $turn,
                     'message' => $this->winner($winner),
                     'winner' => $winner,
                     'gold' => $this->goldGain($mob->stats->level),
                     'exp' => $this->expGain($mob->stats->level)
-                ];
+                ];*/
 
                 break;
             }
@@ -126,14 +85,22 @@ trait AttackTrait
         return $name . ' hits for ' . $damage;
     }
 
-    public function winner(string $winner, $message = null): string
+
+    public function winner($winner, $level, $message = null): array
     {
         if ($winner === Auth::user()->name) {
             $message = 'You have won!';
         } else {
             $message = $winner . ' has won!';
         }
-        return $message;
+
+        return [
+            'turn' => (string) 'winner',
+            'message' => (string) $message,
+            'winner' => (string) $winner,
+            'gold' => (int) $this->goldGain($level),
+            'exp' => (int) $this->expGain($level)
+        ];
     }
 
     public function generateDamage($attack, $hp, $level): int
