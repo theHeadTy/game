@@ -140,15 +140,21 @@ export default {
           message = val.message;
       this.showTurn = turn;
 
+      console.log(turn);
+
       if (turn === 'player') {
         this.playerDamage = damage;
 
         this.health.target = val.hp;
 
+      //  console.log(val.hp + ' php');
+
       } else if (turn === 'target') {
         this.targetDamage = damage;
 
         this.health.player = val.hp;
+
+      //  console.log(val.hp + ' thp');
 
       } else if (turn === 'winner') {
         this.showMessage = false;
@@ -168,6 +174,7 @@ export default {
       //let attackArr = this.attack.buildAttack()
       axios.get(`/mob/${this.mob.id}/attack`).then(res => {
         _.each(res.data, (val, key) => {
+          console.log(res.data);
           setTimeout(() => {
             this.fightTurn(val)
           }, (key * 800))

@@ -36,9 +36,8 @@ Route::get('/map/{id}', 'MapController@show');
 Route::get('mob/talk/{id}', 'MobController@show');
 
 Route::get('mob/{id}/attack', 'MobController@attack');
-Route::post('mob/{id}/attack', 'MobController@update');
 
-Route::get('mobs/x/{x}/y/{y}', 'MobController@mobs');
+//Route::get('mobs/x/{x}/y/{y}', 'MobController@mobs');
 Route::get('mobs/room/{id}', 'MobController@all');
 
 # Quest

@@ -11,10 +11,16 @@ class Mob extends Model
         return $this->hasOne('App\MobStat');
     }
 
+    public function kills()
+    {
+        return $this->hasMany('App\MobKill');
+    }
+
     public function world()
     {
         return $this->belongsTo('App\World');
     }
+
 
     //public function quest()
     //{

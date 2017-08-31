@@ -6,14 +6,19 @@ use Auth;
 use App\Mob;
 use App\User;
 use App\Quest;
+use App\MobKill;
 use App\Events\Mobs;
 use App\UserStat;
-use App\Http\Traits\AttackTrait;
+//use App\Http\Traits\AttackTrait;
 use Illuminate\Http\Request;
+
+use App\Classes\MobAttack;
 
 class MobController extends Controller
 {
-    use AttackTrait;
+    //use AttackTrait;
+
+    public $mobAttack;
 
     public function __construct()
     {
@@ -53,13 +58,20 @@ class MobController extends Controller
 
     public function all($id)
     {
-        $mobs = Mob::with('stats')->where('world_id', $id)->get();
+        $mobs = Mob::with('stats')
+            ->where('world_id', $id)
+            ->whereDoesntHave('kills', function ($query) {
+                $query->where('user_id', Auth::id());
+                $query->where('spawn_at', '<=', \Carbon\Carbon::now());
+            })
+            ->get();
+
         return $mobs;
     }
 
-    public function attack($id): array
+    public function attack($id, MobAttack $attack): array
     {
-        return $this->mobAttack($id);
+        return $attack->mobAttack($id);
     }
 
 }

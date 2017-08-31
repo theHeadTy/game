@@ -2222,14 +2222,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           message = val.message;
       this.showTurn = turn;
 
+      console.log(turn);
+
       if (turn === 'player') {
         this.playerDamage = damage;
 
         this.health.target = val.hp;
+
+        //  console.log(val.hp + ' php');
       } else if (turn === 'target') {
         this.targetDamage = damage;
 
         this.health.player = val.hp;
+
+        //  console.log(val.hp + ' thp');
       } else if (turn === 'winner') {
         this.showMessage = false;
         this.showResult = true;
@@ -2246,6 +2252,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       //let attackArr = this.attack.buildAttack()
       axios.get('/mob/' + this.mob.id + '/attack').then(function (res) {
         __WEBPACK_IMPORTED_MODULE_0_lodash__["each"](res.data, function (val, key) {
+          console.log(res.data);
           setTimeout(function () {
             _this.fightTurn(val);
           }, key * 800);
