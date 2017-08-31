@@ -53,9 +53,6 @@ class MobAttack
                 $attackArr[] = $this->winner($winner, $mob->stats->level, $gold, $exp);
 
                 if ($winner === $user->name) {
-                    //$this->updateStats($exp, $gold, $mob->stats->cost);
-                    //$this->updateMob($mob->id, $user->id);
-
                      dispatch(new MobAttackWin(
                         $mob, $user, $gold, $exp, $cost)
                      );
@@ -68,24 +65,6 @@ class MobAttack
 
         return $attackArr;
     }
-
-    public function updateMob($mobid, $userid)
-    {
-        $mob = new MobKill;
-        $mob->mob_id = $mobid;
-        $mob->user_id = $userid;
-        $mob->save();
-    }
-
-    public function updateStats($exp, $gold, $cost)
-    {
-        $user = UserStat::where('user_id', Auth::user()->id);
-
-        $user->increment('exp', $exp);
-        $user->increment('gold', $gold);
-        $user->decrement('rage', $cost);
-    }
-
 
     public function turn($turn, $data, $hp): array
     {
