@@ -5784,21 +5784,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       if (turn.turn === 'player') {
 
-        this.user.damage = turn.damage;
-        this.user.health = turn.hp;
+        this.user = {
+          damage: turn.damage,
+          health: turn.health
+
+          /*
+          this.user.damage = turn.damage
+          this.user.health = turn.hp
+          */
+
+        };
       } else if (turn.turn === 'target') {
 
-        this.target.damage = turn.damage;
-        this.target.health = turn.hp;
+        this.target = {
+          damage: turn.damage,
+          health: turn.health
+
+          /*
+          this.target.damage = turn.damage
+          this.target.health = turn.hp
+          */
+
+        };
       } else if (turn.turn === 'winner') {
 
-        this.show.message = false;
-        this.show.result = true;
-        this.display.result = turn.message;
+        this.show = {
+          message: false,
+          result: false
+        };
 
-        this.display.gold = turn.gold;
-        this.display.exp = turn.exp;
-        this.display.strip = turn.strip;
+        this.display = {
+          result: turn.message,
+          gold: turn.gold,
+          exp: turn.exp,
+          strip: turn.strip
+        };
       }
 
       if (turn.turn !== 'winner') {
