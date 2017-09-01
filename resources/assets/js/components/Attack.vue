@@ -41,7 +41,7 @@
             		</td>
             	</tr>
             </table>
-
+            
             <!-- Character Health Bars -->
             <table border="0" cellspacing="0" cellpadding="0" width="550" height="40" style="margin-left:8px;margin-top:50px;">
     		      <tr>

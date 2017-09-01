@@ -9,16 +9,6 @@
 
                 <div class="panel-body">
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                     <attack
                         :username="{{ json_encode($username) }}"
                         :targetname="{{ json_encode($targetname) }}"
