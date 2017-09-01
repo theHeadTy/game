@@ -6,6 +6,7 @@ use Auth;
 use App\User;
 use App\Models\UserAttack;
 use Illuminate\Http\Request;
+use App\Jobs\CreateUserAttack;
 use App\Classes\UserAttackClass;
 use App\Http\Requests\AttackFormRequest;
 
@@ -52,28 +53,42 @@ class UserAttackController extends Controller
     {
         $user = $this->user->where('name', $request->name)->first();
 
+        /*
         $attack = new UserAttack;
         $attack->user_id = Auth::id();
         $attack->target_id = $user->id;
         $attack->slug = str_random(18);
         $attack->attacks = $request->attacks;
         $attack->save();
+        */
 
-        return redirect("attack/{$attack->target_id}/{$attack->slug}");
+        $slug = str_random(18);
+
+        dispatch(new CreateUserAttack(Auth::id(), $user->id, $slug, $request->attacks));
+
+        return redirect("attack/{$user->id}/{$slug}");
+
+        //return redirect("attack/{$attack->target_id}/{$attack->slug}");
     }
 
     public function attack($id)
     {
-        $user = $this->user->find($id);
 
-        $attack = new UserAttack;
+        //$user = $this->user->find($id);
+
+        /*$attack = new UserAttack;
         $attack->user_id = Auth::id();
         $attack->target_id = $user->id;
         $attack->slug = str_random(18);
         $attack->attacks = 10;
         $attack->save();
+        */
 
-        return redirect("attack/{$attack->target_id}/{$attack->slug}");
+        $slug = str_random(18);
+
+        dispatch(new CreateUserAttack(Auth::id(), $id, $slug, 10));
+
+        return redirect("attack/{$id}/{$slug}");
 
     }
 
