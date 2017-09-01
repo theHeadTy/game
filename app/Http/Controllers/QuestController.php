@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Mob;
-use App\Quest;
-use App\UserQuest;
-use App\QuestStep;
+use App\Models\Mob;
+use App\Models\Quest;
+use App\Models\UserQuest;
+use App\Models\QuestStep;
 use Illuminate\Http\Request;
 
 class QuestController extends Controller

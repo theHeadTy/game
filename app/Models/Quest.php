@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,12 +8,12 @@ class Quest extends Model
 {
     public function step()
     {
-        return $this->hasMany('App\QuestStep');
+        return $this->hasMany('App\Models\QuestStep');
     }
 
     public function mob()
     {
-        return $this->belongsTo('App\Mob');
+        return $this->belongsTo('App\Models\Mob');
     }
 
 }

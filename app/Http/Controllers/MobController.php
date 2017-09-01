@@ -3,39 +3,44 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Mob;
 use App\User;
-use App\Quest;
-use App\MobKill;
-use App\Events\Mobs;
-use App\UserStat;
-//use App\Http\Traits\AttackTrait;
+use Carbon\Carbon;
+use App\Models\Mob;
+use App\Models\Quest;
+use App\Models\MobKill;
+use App\Models\UserStat;
+use App\Classes\MobAttackClass;
 use Illuminate\Http\Request;
-
-use App\Classes\MobAttack;
 
 class MobController extends Controller
 {
-    //use AttackTrait;
-
-    public $mobAttack;
 
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function update(Request $request)
+    public function test()
     {
-        $exp = $request->input('exp');
-        $gold = $request->input('gold');
-        $cost = $request->input('cost');
 
-        $user = UserStat::where('user_id', Auth::user()->id);
+        $mobs = Mob::where('world_id', 1)->with('stats')->get();
 
-        $user->increment('exp', $exp);
-        $user->increment('gold', $gold);
-        $user->decrement('rage', $cost);
+        $spawn = [];
+
+        foreach ($mobs as $mob) {
+            $kill = MobKill::where('user_id', Auth::id())
+                ->where('spawn_at', '>', Carbon::now())
+                ->where('mob_id', $mob->id)
+                ->count();
+            if (!$kill) {
+                $spawn[] = $mob;
+            }
+        }
+
+        echo Carbon::now();
+
+        return $spawn;
+
 
     }
 
@@ -44,34 +49,27 @@ class MobController extends Controller
         return $quest->where('mob_id', $id)->with('mob')->get();
     }
 
-
-    public function mobs($x, $y): Mob
+    public function all($id, array $spawn = []): array
     {
-        $mobs = Mob::where('x', $x)->where('y', $y)->get();
+        $mobs = Mob::where('world_id', 1)->with('stats')->get();
 
-        // Websocket
-        //event(new Mobs($mobs, $user));
-        //broadcast(new Mobs($mobs, $user));
+        foreach ($mobs as $mob) {
+            if (!MobKill::isDead(Auth::id(), $mob->id)->count()) {
+                $spawn[] = $mob;
+            }
+        }
 
-        return $mobs;
+        return $spawn;
     }
 
-    public function all($id)
+    public function attack($id, Mob $mob, User $user): array
     {
-        $mobs = Mob::with('stats')
-            ->where('world_id', $id)
-            ->whereDoesntHave('kills', function ($query) {
-                $query->where('user_id', Auth::id());
-                $query->where('spawn_at', '<=', \Carbon\Carbon::now());
-            })
-            ->get();
+        $mob = $mob->with('stats')->find($id);
+        $user = $user->with('stats')->find(Auth::id());
 
-        return $mobs;
-    }
+        $attack = new MobAttackClass($mob, $user);
 
-    public function attack($id, MobAttack $attack): array
-    {
-        return $attack->mobAttack($id);
+        return $attack->mobAttack();
     }
 
 }

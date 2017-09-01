@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\UserQuest;
-use App\QuestStep;
+use App\Models\UserQuest;
+use App\Models\QuestStep;
 use Illuminate\Http\Request;
 
 class QuestStepController extends Controller

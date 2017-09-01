@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,6 +8,6 @@ class ItemStat extends Model
 {
     public function item()
     {
-        return $this->belongsTo('App\Item');
+        return $this->belongsTo('App\Models\Item');
     }
 }

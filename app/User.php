@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     public function stats() {
-        return $this->hasOne('App\UserStat');
+        return $this->hasOne('App\Models\UserStat');
     }
 
     public function isOnline()

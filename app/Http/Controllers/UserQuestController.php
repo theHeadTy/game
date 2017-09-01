@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Quest;
-use App\UserQuest;
+use App\Models\Quest;
+use App\Models\UserQuest;
 use Illuminate\Http\Request;
 
 class UserQuestController extends Controller

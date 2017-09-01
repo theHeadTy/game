@@ -820,7 +820,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(117);
-module.exports = __webpack_require__(228);
+module.exports = __webpack_require__(231);
 
 
 /***/ }),
@@ -840,10 +840,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Backpack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_Backpack_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue__ = __webpack_require__(211);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_Attack_vue__);
 
 
 
 /* Components */
+
 
 
 
@@ -860,7 +863,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     WorldMobs: __WEBPACK_IMPORTED_MODULE_3__components_Mobs_Mobs_vue___default.a,
     Backpack: __WEBPACK_IMPORTED_MODULE_4__components_Backpack_vue___default.a,
     Equipment: __WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue___default.a,
-    ProfileEquipment: __webpack_require__(74)
+    ProfileEquipment: __webpack_require__(74),
+    Attack: __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue___default.a
   },
 
   data: {
@@ -5618,6 +5622,419 @@ if (false) {
 
 /***/ }),
 /* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(229),
+  /* template */
+  __webpack_require__(230),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/vagrant/Code/game/resources/assets/js/components/Attack.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Attack.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e3156be4", Component.options)
+  } else {
+    hotAPI.reload("data-v-e3156be4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 229 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.createLoop();
+  },
+  data: function data() {
+    return {
+      show: {
+        turn: false,
+        message: false,
+        result: false
+      },
+
+      display: {
+        message: null,
+        result: null,
+        gold: 0,
+        exp: 0,
+        strip: 0
+      },
+
+      user: {
+        health: 228,
+        damage: null
+      },
+
+      target: {
+        health: 228,
+        damage: null
+      }
+    };
+  },
+
+
+  methods: {
+    createTurn: function createTurn(turn) {
+
+      this.show.turn = turn.turn;
+
+      if (turn.turn === 'player') {
+
+        this.user.damage = turn.damage;
+        this.user.health = turn.hp;
+      } else if (turn.turn === 'target') {
+
+        this.target.damage = turn.damage;
+        this.target.health = turn.hp;
+      } else if (turn.turn === 'winner') {
+
+        this.show.message = false;
+        this.show.result = true;
+        this.display.result = turn.message;
+
+        this.display.gold = turn.gold;
+        this.display.exp = turn.exp;
+        this.display.strip = turn.strip;
+      }
+
+      if (turn.turn !== 'winner') {
+        this.show.message = true;
+        this.display.message = turn.message;
+      }
+    },
+    createLoop: function createLoop() {
+      var _this = this;
+
+      _.each(this.attack, function (turn, key) {
+        setTimeout(function () {
+          _this.createTurn(turn);
+        }, key * 800);
+      });
+    }
+  },
+
+  props: {
+    username: {
+      type: String,
+      required: true
+    },
+    targetname: {
+      type: String,
+      required: true
+    },
+    attack: {
+      type: Array,
+      required: true
+    }
+  }
+
+});
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('table', {
+    staticStyle: {
+      "height": "505px"
+    },
+    attrs: {
+      "cellpadding": "0",
+      "cellspacing": "0",
+      "width": "100%"
+    }
+  }, [_c('tr', [_c('td', {
+    staticStyle: {
+      "padding-top": "10px"
+    },
+    attrs: {
+      "align": "center",
+      "valign": "top"
+    }
+  }, [_c('table', {
+    staticStyle: {
+      "font-family": "Impact,sans-serif",
+      "font-weight": "normal",
+      "font-size": "18pt"
+    },
+    attrs: {
+      "border": "0",
+      "cellspacing": "0",
+      "cellpadding": "0",
+      "width": "600px;"
+    }
+  }, [_c('tr', [_c('td', {
+    attrs: {
+      "width": "250",
+      "align": "center",
+      "valign": "middle"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "attacker_name"
+    }
+  }, [_vm._v(_vm._s(_vm.username))])]), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "250",
+      "align": "center",
+      "valign": "middle"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "defender_name"
+    }
+  }, [_vm._v(_vm._s(_vm.targetname))])])])]), _vm._v(" "), _c('table', {
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "border": "0",
+      "cellspacing": "0",
+      "cellpadding": "0",
+      "width": "580",
+      "height": "280"
+    }
+  }, [_c('tr', [_c('td', {
+    staticStyle: {
+      "background-image": "url('http://placehold.it/250x250')",
+      "background-repeat": "no-repeat",
+      "background-position": "center center"
+    },
+    attrs: {
+      "width": "270",
+      "valign": "middle",
+      "align": "center"
+    }
+  }, [_c('table', [_c('tr', [_c('td', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.turn === 'target'),
+      expression: "show.turn === 'target'"
+    }]
+  }, [_c('div', {
+    staticClass: "targetHit"
+  }, [_vm._v(_vm._s(_vm.target.damage))])])])])]), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "40"
+    }
+  }), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "background-image": "url('http://placehold.it/250x250')",
+      "background-repeat": "no-repeat",
+      "background-position": "center center"
+    },
+    attrs: {
+      "width": "270",
+      "valign": "middle",
+      "align": "center"
+    }
+  }, [_c('table', [_c('tr', [_c('td', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.turn === 'player'),
+      expression: "show.turn === 'player'"
+    }]
+  }, [_c('div', {
+    staticClass: "playerHit"
+  }, [_vm._v(_vm._s(_vm.user.damage))])])])])])])]), _vm._v(" "), _c('table', {
+    staticStyle: {
+      "margin-left": "8px",
+      "margin-top": "50px"
+    },
+    attrs: {
+      "border": "0",
+      "cellspacing": "0",
+      "cellpadding": "0",
+      "width": "550",
+      "height": "40"
+    }
+  }, [_c('tr', [_c('td', {
+    attrs: {
+      "width": "245",
+      "valign": "top",
+      "align": "right"
+    }
+  }, [_c('div', {
+    staticClass: "playerHealth",
+    style: ({
+      width: _vm.user.health + 'px'
+    })
+  })]), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('td', {
+    attrs: {
+      "width": "245",
+      "valign": "top",
+      "align": "left"
+    }
+  }, [_c('div', {
+    staticClass: "targetHealth",
+    style: ({
+      width: _vm.target.health + 'px'
+    })
+  })])])]), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.message),
+      expression: "show.message"
+    }]
+  }, [_vm._v(_vm._s(_vm.display.message))])])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.result),
+      expression: "show.result"
+    }],
+    attrs: {
+      "id": "attackResult"
+    }
+  }, [_vm._v("\n\n      " + _vm._s(_vm.display.result) + "\n\n      "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.display.gold > 0),
+      expression: "display.gold > 0"
+    }]
+  }, [_vm._v("Gold Gained: " + _vm._s(_vm.display.gold))]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.display.exp > 0),
+      expression: "display.exp > 0"
+    }]
+  }, [_vm._v("Exp Gained: " + _vm._s(_vm.display.exp))]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.display.strip > 0),
+      expression: "display.strip > 0"
+    }]
+  }, [_vm._v("Exp Stripped: " + _vm._s(_vm.display.strip))])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e3156be4", module.exports)
+  }
+}
+
+/***/ }),
+/* 231 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

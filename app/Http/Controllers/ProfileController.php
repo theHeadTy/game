@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\User;
 use Storage;
-use App\UserStat;
-use App\UserItem;
+use App\User;
+use App\Models\UserStat;
+use App\Models\UserItem;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller

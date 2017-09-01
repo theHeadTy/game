@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,6 +8,6 @@ class MobStat extends Model
 {
     public function mob()
     {
-        return $this->belongsTo('App\Mob');
+        return $this->belongsTo('App\Models\Mob');
     }
 }

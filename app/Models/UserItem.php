@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,12 +18,12 @@ class UserItem extends Model
 
     public function item()
     {
-        return $this->belongsTo('App\Item');
+        return $this->belongsTo('App\Models\Item');
     }
 
     public function stats()
     {
-        return $this->belongsTo('App\ItemStat', 'item_id', 'item_id');
+        return $this->belongsTo('App\Models\ItemStat', 'item_id', 'item_id');
     }
 
     public function scopeFull($query)

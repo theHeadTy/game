@@ -2,16 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Mob;
 use App\User;
-use App\MobKill;
-use App\UserStat;
+use Carbon\Carbon;
+use App\Models\Mob;
+use App\Models\MobKill;
+use App\Models\UserStat;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-
 
 class MobAttackWin implements ShouldQueue
 {
@@ -66,6 +67,7 @@ class MobAttackWin implements ShouldQueue
         $mob = new MobKill;
         $mob->mob_id = $this->mob->id;
         $mob->user_id = $this->user->id;
+        $mob->spawn_at = \Carbon\Carbon::now()->addMinutes(3);
         $mob->save();
     }
 
@@ -79,5 +81,7 @@ class MobAttackWin implements ShouldQueue
         $this->updateMob();
 
         $this->updateUser($stat);
+
+        Log::info("{$this->user->name} attacked. " . Carbon::now());
     }
 }

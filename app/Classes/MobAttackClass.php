@@ -3,24 +3,51 @@
 namespace App\Classes;
 
 use Auth;
-use App\Mob;
 use App\User;
-use App\MobKill;
-use App\UserStat;
+use App\Models\Mob;
+use App\Models\MobKill;
+use App\Models\UserStat;
+use App\Traits\Attack;
 use App\Jobs\MobAttackWin;
-use App\Http\Traits\Attack;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MobAttack
+class MobAttackClass
 {
     use Attack;
 
-    public function mobAttack(int $id, array $attackArr = []): array
-    {
-        $mob = Mob::with('stats')->find($id);
+    /**
+     * @var $mob
+     */
+    protected $mob;
+    /**
+     * @var $user
+     */
+    protected $user;
 
-        $user = User::with('stats')->find(Auth::id());
+    /**
+     * Create a new mob attack instance
+     *
+     * @return void
+     */
+    public function __construct(Mob $mob, User $user)
+    {
+        $this->mob = $mob;
+        $this->user = $user;
+    }
+
+    public function canAttack()
+    {
+        return MobKill::where('mob_id', $this->mob->id)
+            ->where('user_id', $this->user->id)
+            ->where('spawn_at', '>=', $this->mob->spawn_at)
+            ->count();
+    }
+
+    public function mobAttack(array $attackArr = [])
+    {
+        $mob = $this->mob;
+        $user = $this->user;
 
         $mobHp = $mob->stats->hp;
         $userHp = $user->stats->hp;
@@ -49,8 +76,11 @@ class MobAttack
                 $gold = $this->goldGain($mob->stats->level);
                 $exp = $this->expGain($mob->stats->level);
                 $cost = $mob->stats->cost;
+                $strip = 0;
 
-                $attackArr[] = $this->winner($winner, $mob->stats->level, $gold, $exp);
+                $attackArr[] = $this->winner(
+                    $winner, $mob->stats->level, $gold, $exp, $strip
+                );
 
                 if ($winner === $user->name) {
                      dispatch(new MobAttackWin(

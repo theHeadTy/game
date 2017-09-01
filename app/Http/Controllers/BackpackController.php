@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
-use App\Item;
-use App\ItemStat;
-use App\UserItem;
+use App\Models\Item;
+use App\Models\ItemStat;
+use App\Models\UserItem;
 use Illuminate\Http\Request;
 
 class BackpackController extends Controller
