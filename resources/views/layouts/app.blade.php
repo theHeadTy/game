@@ -43,6 +43,7 @@
                         <li><a href="/map">World</a></li>
                         <li><a href="/profile/{{ Auth::id() }}">Profile</a></li>
                         <li><a href="/attack">Attack</a></li>
+                            <li><a href="/attack/log/out">Attack Log</a></li>
                         <li><a href="#">Create Crew</a></li>
                     </ul>
 

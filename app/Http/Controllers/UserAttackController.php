@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
+use App\Models\AttackLog;
 use App\Models\UserAttack;
 use Illuminate\Http\Request;
 use App\Jobs\CreateUserAttack;
@@ -30,11 +31,11 @@ class UserAttackController extends Controller
 
         $attack = UserAttack::createAttack($slug, Auth::id(), $id)->first();
 
-        if (!$attack || $attack->completed) {
-            abort(500, 'Error: This attack is already completed!');
-        }
-
         $user = $this->user->with('stats')->find($attack->user_id);
+
+        if (!$attack || $attack->completed) {
+            abort(403, 'Error: This attack is already completed!');
+        }
 
         $target = $this->user->with('stats')->find($attack->target_id);
 
@@ -53,38 +54,29 @@ class UserAttackController extends Controller
     {
         $user = $this->user->where('name', $request->name)->first();
 
-        /*
-        $attack = new UserAttack;
-        $attack->user_id = Auth::id();
-        $attack->target_id = $user->id;
-        $attack->slug = str_random(18);
-        $attack->attacks = $request->attacks;
-        $attack->save();
-        */
-
         $slug = str_random(18);
+
+        $attackCap = UserAttack::isCapped(Auth::id(), $user->id)->count();
+
+        if ($attackCap >= Auth::user()->stats->rage_cap) {
+            abort(403, 'Error: You have already attacked this player max amount of times today. Try tomorrow!');
+        }
 
         dispatch(new CreateUserAttack(Auth::id(), $user->id, $slug, $request->attacks));
 
         return redirect("attack/{$user->id}/{$slug}");
 
-        //return redirect("attack/{$attack->target_id}/{$attack->slug}");
     }
 
     public function attack($id)
     {
-
-        //$user = $this->user->find($id);
-
-        /*$attack = new UserAttack;
-        $attack->user_id = Auth::id();
-        $attack->target_id = $user->id;
-        $attack->slug = str_random(18);
-        $attack->attacks = 10;
-        $attack->save();
-        */
-
         $slug = str_random(18);
+
+        $attackCap = UserAttack::isCapped(Auth::id(), $id)->count();
+
+        if ($attackCap >= Auth::user()->stats->rage_cap) {
+            abort(403, 'Error: You have already attacked this player max amount of times today. Try tomorrow!');
+        }
 
         dispatch(new CreateUserAttack(Auth::id(), $id, $slug, 10));
 
@@ -104,5 +96,22 @@ class UserAttackController extends Controller
 
         return view('attack.search', compact('users'));
 
+    }
+
+    public function log($type)
+    {
+        if ($type == 'out') {
+            $logs = AttackLog::with('user')
+                ->where('user_id', Auth::id())
+                ->where('type', 'out')
+                ->paginate(10);
+        } elseif ($type == 'in') {
+            $logs = AttackLog::with('target')
+                ->where('target_id', Auth::id())
+                ->where('type', 'in')
+                ->paginate(10);
+        }
+
+        return view('attack.log', compact('logs'));
     }
 }

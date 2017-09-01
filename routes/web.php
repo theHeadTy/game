@@ -55,9 +55,8 @@ Route::get('equipment/remove/{id}', 'EquipmentController@remove');
 Route::get('attack', 'UserAttackController@index')->name('attack');
 Route::post('attack', 'UserAttackController@store')->name('attack.store');
 Route::post('attack/search', 'UserAttackController@search')->name('attack.search');
+Route::get('attack/log/{type}', 'UserAttackController@log');
 Route::get('attack/{id}', 'UserAttackController@attack')->name('attack.quick');
 Route::get('attack/{id}/{slug}', 'UserAttackController@create')->name('attack.create');
-
-
 # Test route
 Route::get('test', 'MobController@test');

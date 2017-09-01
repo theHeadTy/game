@@ -5,6 +5,7 @@ namespace App\Classes;
 use App\User;
 use App\Traits\Attack;
 use App\Jobs\UserAttackWin;
+use App\Jobs\CreateAttackLog;
 
 class UserAttackClass
 {
@@ -18,6 +19,7 @@ class UserAttackClass
      * @var $target
      */
     protected $target;
+
 
     public function __construct(User $user, User $target)
     {
@@ -66,6 +68,19 @@ class UserAttackClass
                 if ($winner === $user->name) {
                     dispatch(new UserAttackWin(
                         $user, $target, $gold, $exp, $strip, $attacksUsed)
+                    );
+                    dispatch(new CreateAttackLog(
+                        $user->id, $target->id, 'out', 'win', $exp, $gold, null)
+                    );
+                    dispatch(new CreateAttackLog(
+                        $user->id, $target->id, 'in', 'loss', 0, 0, null)
+                    );
+                } else {
+                    dispatch(new CreateAttackLog(
+                        $user->id, $target->id, 'out', 'loss', 0, 0, null)
+                    );
+                    dispatch(new CreateAttackLog(
+                        $user->id, $target->id, 'in', 'win', 0, 0, null)
                     );
                 }
 

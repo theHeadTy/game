@@ -13,4 +13,9 @@ class UserAttack extends Model
             ->where('target_id', $targetid)
             ->where('completed', 0);
     }
+
+    public function scopeIsCapped($query, $userid, $targetid)
+    {
+        return $query->where('user_id', $userid)->where('target_id', $targetid)->where('completed', 1);
+    }
 }
