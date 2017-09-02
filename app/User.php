@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\UserStat');
     }
 
+    public function crew()
+    {
+        return $this->hasOne('App\Models\UserCrew');
+    }
+
     public function isOnline()
     {
         return Cache::has('user-is-online-' . $this->id);

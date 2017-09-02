@@ -19,6 +19,18 @@ Route::get('/', function () {
 # Login / Register & Forgot Password
 Auth::routes();
 
+# Crew
+Route::get('crews/create', 'CrewController@create')->name('crews.create');
+Route::post('crews', 'CrewController@store')->name('crews.store');
+Route::get('crews/profile/{id}', 'CrewController@show')->name('crews.show');
+Route::get('crews/manage', 'CrewController@index')->name('crews.index');
+
+    # Crew Invite
+    Route::get('crews/invites', 'CrewInviteController@index')->name('crews.invite.index');
+    Route::post('crews/invite', 'CrewInviteController@store')->name('crews.invite.store');
+    Route::get('crews/invites/accept/{id}', 'CrewInviteController@accept')->name('crews.invite.accept');
+    Route::get('crews/invites/deny/{id}', 'CrewController@deny')->name('crews.invite.deny');
+
 # Home
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -58,5 +70,6 @@ Route::post('attack/search', 'UserAttackController@search')->name('attack.search
 Route::get('attack/log/{type}', 'UserAttackController@log');
 Route::get('attack/{id}', 'UserAttackController@attack')->name('attack.quick');
 Route::get('attack/{id}/{slug}', 'UserAttackController@create')->name('attack.create');
+
 # Test route
 Route::get('test', 'MobController@test');

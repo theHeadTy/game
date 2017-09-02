@@ -40,11 +40,42 @@
 
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="/map">World</a></li>
+                        <li><a href="/map">Explore</a></li>
                         <li><a href="/profile/{{ Auth::id() }}">Profile</a></li>
-                        <li><a href="/attack">Attack</a></li>
-                            <li><a href="/attack/log/out">Attack Log</a></li>
-                        <li><a href="#">Create Crew</a></li>
+
+                        <!-- Actions -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+                                    Actions<span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/attack">Attack</a></li>
+                                    <li><a href="/attack/log/out">Attack Log</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <!-- Crews -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+                                    Crew<span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                @if (!$userInCrew)
+                                    <li><a href="/crews/create">Create</a></li>
+                                    <li><a href="/crews/invites">Invites</a></li>
+                                @else
+                                    <li><a href="/crews/profile/{{ $crewId }}">Profile</a></li>
+                                    <li><a href="/crews/manage">Manage</a></li>
+                                @endif
+                                </ul>
+                            </li>
+                        </ul>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->

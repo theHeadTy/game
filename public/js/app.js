@@ -5743,7 +5743,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
+/**
+ * PVP Attack
+ */
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.createLoop();
@@ -5752,8 +5754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       show: {
         turn: false,
-        message: false,
-        result: false
+        message: false
       },
 
       display: {
@@ -5778,60 +5779,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    createTurn: function createTurn(turn) {
+    createTurn: function createTurn(hit) {
 
-      this.show.turn = turn.turn;
+      var turn = hit.turn;
 
-      if (turn.turn === 'player') {
+      this.show.turn = hit.turn;
 
-        this.user = {
-          damage: turn.damage,
-          health: turn.health
+      if (turn === 'player') {
 
-          /*
-          this.user.damage = turn.damage
-          this.user.health = turn.hp
-          */
+        this.user.damage = hit.damage;
+        this.target.health = hit.hp;
+      } else if (turn === 'target') {
 
-        };
-      } else if (turn.turn === 'target') {
+        this.target.damage = hit.damage;
+        this.user.health = hit.hp;
+      } else if (turn === 'winner') {
 
-        this.target = {
-          damage: turn.damage,
-          health: turn.health
-
-          /*
-          this.target.damage = turn.damage
-          this.target.health = turn.hp
-          */
-
-        };
-      } else if (turn.turn === 'winner') {
-
-        this.show = {
-          message: false,
-          result: false
-        };
+        this.show.message = false;
 
         this.display = {
-          result: turn.message,
-          gold: turn.gold,
-          exp: turn.exp,
-          strip: turn.strip
+          result: hit.message,
+          gold: hit.gold,
+          exp: hit.exp,
+          strip: hit.strip
         };
       }
 
-      if (turn.turn !== 'winner') {
+      if (turn !== 'winner') {
         this.show.message = true;
-        this.display.message = turn.message;
+        this.display.message = hit.message;
       }
     },
     createLoop: function createLoop() {
       var _this = this;
 
-      _.each(this.attack, function (turn, key) {
+      _.each(this.attack, function (hit, key) {
         setTimeout(function () {
-          _this.createTurn(turn);
+          _this.createTurn(hit);
         }, key * 800);
       });
     }
@@ -6016,8 +6000,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.show.result),
-      expression: "show.result"
+      value: (_vm.show.turn === 'winner'),
+      expression: "show.turn === 'winner'"
     }],
     attrs: {
       "id": "attackResult"

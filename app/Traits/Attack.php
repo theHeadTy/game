@@ -30,8 +30,10 @@ trait Attack
         return "{$name} hits for {$damage}";
     }
 
-    public function winner($username, $winner, $level, $gold, $exp, $strip, $message = null): array
+    public function winner($username, $winner, $level, $gold, $exp, $strip): array
     {
+        $message = null;
+        
         if ($winner === $username) {
             $message = 'You have won!';
         } else {

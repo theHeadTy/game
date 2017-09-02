@@ -41,7 +41,7 @@
             		</td>
             	</tr>
             </table>
-            
+
             <!-- Character Health Bars -->
             <table border="0" cellspacing="0" cellpadding="0" width="550" height="40" style="margin-left:8px;margin-top:50px;">
     		      <tr>
@@ -61,7 +61,7 @@
         </tr>
       </table>
 
-      <div id="attackResult" v-show="show.result">
+      <div id="attackResult" v-show="show.turn === 'winner'">
 
         {{ display.result }}
 
@@ -75,7 +75,9 @@
 </template>
 
 <script>
-
+/**
+ * PVP Attack
+ */
 export default {
 
   created() {
@@ -86,8 +88,7 @@ export default {
     return {
       show: {
         turn: false,
-        message: false,
-        result: false
+        message: false
       },
 
       display: {
@@ -111,50 +112,45 @@ export default {
   },
 
   methods: {
-    createTurn(turn) {
+    createTurn(hit) {
 
-      this.show.turn = turn.turn;
+      let turn = hit.turn;
 
-      if (turn.turn === 'player') {
+      this.show.turn = hit.turn;
 
-        this.user = {
-          damage: turn.damage,
-          health: turn.health
-        }
+      if (turn === 'player') {
 
-      } else if (turn.turn === 'target') {
+        this.user.damage = hit.damage
+        this.target.health = hit.hp
 
-        this.target = {
-          damage: turn.damage,
-          health: turn.health
-        }
+      } else if (turn === 'target') {
 
-      } else if (turn.turn === 'winner') {
+        this.target.damage = hit.damage
+        this.user.health = hit.hp
 
-        this.show = {
-          message: false,
-          result: false
-        }
+      } else if (turn === 'winner') {
+
+        this.show.message = false
 
         this.display = {
-          result: turn.message,
-          gold: turn.gold,
-          exp: turn.exp,
-          strip: turn.strip
+          result: hit.message,
+          gold: hit.gold,
+          exp: hit.exp,
+          strip: hit.strip
         }
 
       }
 
-      if (turn.turn !== 'winner') {
+      if (turn !== 'winner') {
         this.show.message = true
-        this.display.message = turn.message
+        this.display.message = hit.message
       }
 
     },
     createLoop() {
-      _.each(this.attack, (turn, key) => {
+      _.each(this.attack, (hit, key) => {
         setTimeout(() => {
-          this.createTurn(turn)
+          this.createTurn(hit)
         }, (key * 800))
       })
     }

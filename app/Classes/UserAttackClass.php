@@ -20,14 +20,27 @@ class UserAttackClass
      */
     protected $target;
 
-
+    /**
+     * Creates an instance of UserAttackClass
+     *
+     * @param App\User $user
+     * @param App\User $target
+     * @return void
+     */
     public function __construct(User $user, User $target)
     {
         $this->user = $user;
         $this->target = $target;
     }
 
-    public function userAttack($attacksUsed, array $attackArr = [])
+    /**
+     * Loops & builds the attack into an array.
+     *
+     * @param int $attacksUsed
+     * @param array $attackArr[]
+     * @return array
+     */
+    public function userAttack($attacksUsed, array $attackArr = []): array
     {
         $target = $this->target;
         $user = $this->user;
@@ -61,27 +74,20 @@ class UserAttackClass
 
                 $strip = round(($attacksUsed / 100) * $exp);
 
-                $attackArr[] = $this->winner(
-                    $user->name, $winner, $target->stats->level, $gold, $exp, $strip
-                );
-
                 if ($winner === $user->name) {
-                    dispatch(new UserAttackWin(
-                        $user, $target, $gold, $exp, $strip, $attacksUsed)
+
+                    $attackArr[] = $this->winner(
+                        $user->name, $winner, $target->stats->level, $gold, $exp, $strip
                     );
-                    dispatch(new CreateAttackLog(
-                        $user->id, $target->id, 'out', 'win', $exp, $gold, null)
-                    );
-                    dispatch(new CreateAttackLog(
-                        $user->id, $target->id, 'in', 'loss', 0, 0, null)
-                    );
+
+                    $this->updateWinner($user, $target, 'win', $gold, $exp, $strip, $attacksUsed);
+
                 } else {
-                    dispatch(new CreateAttackLog(
-                        $user->id, $target->id, 'out', 'loss', 0, 0, null)
-                    );
-                    dispatch(new CreateAttackLog(
-                        $user->id, $target->id, 'in', 'win', 0, 0, null)
-                    );
+
+                    $attackArr[] = $this->winner($target->name, $winner, 1, 0, 0, 0);
+
+                    $this->updateWinner($user, $target, 'loss', 0, 0, 0, $attacksUsed);
+
                 }
 
                 break;
@@ -90,5 +96,40 @@ class UserAttackClass
         }  while (true);
 
         return $attackArr;
+    }
+
+
+    /**
+     * Complete the attack -
+     * Updates user, & create attack logs. This will be added to the job queue.
+     *
+     * @param App\User $user
+     * @param App\User $target
+     * @param string $outcome
+     * @param int $gold
+     * @param int $exp
+     * @param int $strip
+     * @param int $attacks
+     */
+    private function updateWinner(User $user, User $target, $outcome, $gold, $exp, $strip, $attacks)
+    {
+        if ($outcome === 'win') {
+            dispatch(new UserAttackWin(
+                $user, $target, $gold, $exp, $strip, $attacks)
+            );
+            dispatch(new CreateAttackLog(
+                $user->id, $target->id, 'out', 'win', $exp, $gold, null)
+            );
+            dispatch(new CreateAttackLog(
+                $user->id, $target->id, 'in', 'loss', 0, 0, null)
+            );
+        } else {
+            dispatch(new CreateAttackLog(
+                $user->id, $target->id, 'out', 'loss', 0, 0, null)
+            );
+            dispatch(new CreateAttackLog(
+                $user->id, $target->id, 'in', 'win', 0, 0, null)
+            );
+        }
     }
 }

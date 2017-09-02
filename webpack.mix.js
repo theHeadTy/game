@@ -26,7 +26,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .styles([
        'resources/assets/css/world.css',
-       'resources/assets/css/modal.css'
+       'resources/assets/css/modal.css',
      ], 'public/css/all.css')
    .webpackConfig({
      module: {

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Exceptions\CustomException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -44,8 +45,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // Custom Exceptions (for displaying errors easily.)
+        if ($exception instanceof CustomException) {
+            return response()->view('errors.custom', compact('exception'), 500);
+        }
+
         return parent::render($request, $exception);
     }
+
 
     /**
      * Convert an authentication exception into an unauthenticated response.

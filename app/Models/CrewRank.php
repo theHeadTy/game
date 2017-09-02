@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserAttack extends Model
+class CrewRank extends Model
 {
-
+    //
 }
