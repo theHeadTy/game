@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(ItemTableSeeder::class);
 
         // $this->call(MobStatsTableSeeder::class);
+
+        $this->call(CrewPermissionSeeder::class);
     }
 }

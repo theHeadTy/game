@@ -25,6 +25,11 @@ class Crew extends Model
         return $this->hasMany('App\Models\CrewRank');
     }
 
+    public function permissions()
+    {
+        return $this->hasMany('App\Models\CrewRankPermission');
+    }
+
     public function leader()
     {
         return $this->hasOne('App\User', 'id', 'user_id');

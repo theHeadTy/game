@@ -2,8 +2,12 @@
 
 namespace App\Repositories\Contracts;
 
+use App\User;
+
 interface UserInterface
 {
+    public function isOnline($id);
+
     public function inCrew(): bool;
 
     public function userCrew();

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\LayoutComposer;
+use App\Http\ViewComposers\GlobalComposer;
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,9 @@ class ComposerServiceProvider extends ServiceProvider
     {
         View::composer(
             'layouts.app', LayoutComposer::class
+        );
+        View::composer(
+            '*', GlobalComposer::class
         );
     }
 

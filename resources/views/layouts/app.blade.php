@@ -71,6 +71,7 @@
                                 @else
                                     <li><a href="/crews/profile/{{ $crewId }}">Profile</a></li>
                                     <li><a href="/crews/manage">Manage</a></li>
+                                    <li><a href="/crews/permissions">Permissions</a></li>
                                 @endif
                                 </ul>
                             </li>

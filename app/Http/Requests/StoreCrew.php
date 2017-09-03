@@ -15,7 +15,7 @@ class StoreCrew extends FormRequest
      */
     public function authorize(UserRepository $user)
     {
-        return $user->hasCrew() ? false : true;
+        return $user->inCrew() ? false : true;
     }
 
     /**

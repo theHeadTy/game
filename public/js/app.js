@@ -820,7 +820,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(117);
-module.exports = __webpack_require__(231);
+module.exports = __webpack_require__(234);
 
 
 /***/ }),
@@ -842,10 +842,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_Attack_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Crews_Permissions_vue__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Crews_Permissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_Crews_Permissions_vue__);
 
 
 
 /* Components */
+
 
 
 
@@ -864,7 +867,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     Backpack: __WEBPACK_IMPORTED_MODULE_4__components_Backpack_vue___default.a,
     Equipment: __WEBPACK_IMPORTED_MODULE_5__components_Equipment_vue___default.a,
     ProfileEquipment: __webpack_require__(74),
-    Attack: __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue___default.a
+    Attack: __WEBPACK_IMPORTED_MODULE_6__components_Attack_vue___default.a,
+    Permissions: __WEBPACK_IMPORTED_MODULE_7__components_Crews_Permissions_vue___default.a
   },
 
   data: {
@@ -6039,6 +6043,207 @@ if (false) {
 
 /***/ }),
 /* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(232),
+  /* template */
+  __webpack_require__(233),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/vagrant/Code/game/resources/assets/js/components/Crews/Permissions.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Permissions.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-721f9231", Component.options)
+  } else {
+    hotAPI.reload("data-v-721f9231", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 232 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+  /*computed: {
+    checkedRanks() {
+      return _.find(this.roles, (item) => {
+        return item.auth === 1;
+      })
+    }
+  },*/
+
+  data: function data() {
+    return {
+      checkedRanks: []
+    };
+  },
+
+
+  methods: {
+    createChecked: function createChecked() {
+      var _this = this;
+
+      _.each(this.roles, function (item) {
+        if (item.auth === 1) {
+          _this.checkedRanks.push(item.rank_id);
+        }
+      });
+    },
+    updatePerms: function updatePerms() {
+      console.log(this.checkedRanks);
+    }
+  },
+
+  props: {
+    permissions: {
+      type: Array,
+      required: true
+    },
+    ranks: {
+      type: Array,
+      required: true
+    },
+    roles: {
+      type: Array,
+      required: true
+    }
+  }
+
+});
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('table', {
+    staticClass: "table table-bordered"
+  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Rank")]), _vm._v(" "), _vm._l((_vm.permissions), function(perm, index) {
+    return _c('th', {
+      key: index,
+      attrs: {
+        "perm": perm
+      }
+    }, [_vm._v(_vm._s(perm))])
+  })], 2)]), _vm._v(" "), _c('tbody', _vm._l((_vm.ranks), function(rank, index) {
+    return _c('tr', {
+      key: index,
+      attrs: {
+        "rank": rank
+      }
+    }, [_c('td', [_vm._v(_vm._s(rank.name))]), _vm._v(" "), _vm._l((_vm.permissions), function(perm, index) {
+      return _c('td', {
+        key: index,
+        attrs: {
+          "perm": perm
+        }
+      }, [_c('div', {
+        staticClass: "btn-group btn-toggle"
+      }, [_c('input', {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: (_vm.checkedRanks),
+          expression: "checkedRanks"
+        }],
+        attrs: {
+          "type": "checkbox",
+          "value": "rank"
+        },
+        domProps: {
+          "checked": Array.isArray(_vm.checkedRanks) ? _vm._i(_vm.checkedRanks, "rank") > -1 : (_vm.checkedRanks)
+        },
+        on: {
+          "__c": function($event) {
+            var $$a = _vm.checkedRanks,
+              $$el = $event.target,
+              $$c = $$el.checked ? (true) : (false);
+            if (Array.isArray($$a)) {
+              var $$v = "rank",
+                $$i = _vm._i($$a, $$v);
+              if ($$el.checked) {
+                $$i < 0 && (_vm.checkedRanks = $$a.concat($$v))
+              } else {
+                $$i > -1 && (_vm.checkedRanks = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              }
+            } else {
+              _vm.checkedRanks = $$c
+            }
+          }
+        }
+      })])])
+    })], 2)
+  }))]), _vm._v(" "), _c('button', {
+    on: {
+      "click": _vm.updatePerms
+    }
+  }, [_vm._v("Update Permissions")])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-721f9231", module.exports)
+  }
+}
+
+/***/ }),
+/* 234 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

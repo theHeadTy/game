@@ -19,6 +19,13 @@ class UserRepository implements UserInterface
         $this->crew = $crew;
     }
 
+    public function isOnline($id)
+    {
+        if (Auth::check()) {
+            return (int) $id === (int) Auth::id();
+        }
+    }
+
     /**
      * Creates a check to see if the authenticated user is in a crew.
      *

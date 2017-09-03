@@ -23,13 +23,16 @@ Auth::routes();
 Route::get('crews/create', 'CrewController@create')->name('crews.create');
 Route::post('crews', 'CrewController@store')->name('crews.store');
 Route::get('crews/profile/{id}', 'CrewController@show')->name('crews.show');
-Route::get('crews/manage', 'CrewController@index')->name('crews.index');
+Route::get('crews/manage', 'CrewController@index')->name('crews.index')->middleware('auth.crew');
 
     # Crew Invite
     Route::get('crews/invites', 'CrewInviteController@index')->name('crews.invite.index');
     Route::post('crews/invite', 'CrewInviteController@store')->name('crews.invite.store');
     Route::get('crews/invites/accept/{id}', 'CrewInviteController@accept')->name('crews.invite.accept');
     Route::get('crews/invites/deny/{id}', 'CrewController@deny')->name('crews.invite.deny');
+
+    # Crew Permissions
+    Route::get('crews/permissions', 'CrewPermissionController@index')->name('crews.permissions.index');
 
 # Home
 Route::get('/home', 'HomeController@index')->name('home');
