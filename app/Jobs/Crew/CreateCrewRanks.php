@@ -3,8 +3,6 @@
 namespace App\Jobs\Crew;
 
 use App\Models\CrewRank;
-use App\Models\CrewPermission;
-use App\Traits\CrewTrait;
 use Illuminate\Bus\Queueable;
 use App\Classes\CrewRankClass;
 use Illuminate\Queue\SerializesModels;
@@ -12,11 +10,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-use App\Jobs\Crew\CreateCrewPermissions;
-
 class CreateCrewRanks implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CrewTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $crewid;
     private $ranks;
@@ -32,17 +28,6 @@ class CreateCrewRanks implements ShouldQueue
         $this->ranks = $ranks;
     }
 
-    public function buildRoles()
-    {
-        $perms = CrewPermission::all();
-        $ranks = CrewRank::where('crew_id', $this->crewid)->get();
-        foreach ($perms as $perm) {
-            foreach ($ranks as $rank) {
-                dispatch(new CreateCrewPermissions($perm->id, $rank->rank, $this->crewid));
-            }
-        }
-    }
-
     /**
      * Execute the job.
      *
@@ -55,6 +40,5 @@ class CreateCrewRanks implements ShouldQueue
 
         CrewRank::insert($ranks);
 
-        $this->buildRoles();
     }
 }

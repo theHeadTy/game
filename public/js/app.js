@@ -6115,50 +6115,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-
+/**
+ * Crew Permissions
+ */
 /* harmony default export */ __webpack_exports__["default"] = ({
-
-  /*computed: {
-    checkedRanks() {
-      return _.find(this.roles, (item) => {
-        return item.auth === 1;
-      })
-    }
-  },*/
-
+  created: function created() {
+    this.createRanks();
+  },
   data: function data() {
     return {
-      checkedRanks: []
+      ranks: [],
+      updatedText: ''
     };
   },
 
 
   methods: {
-    createChecked: function createChecked() {
+    createRanks: function createRanks(i) {
       var _this = this;
 
-      _.each(this.roles, function (item) {
-        if (item.auth === 1) {
-          _this.checkedRanks.push(item.rank_id);
-        }
+      _.each(this.perms, function (perm, key) {
+
+        _this.ranks.push({
+          id: perm.id,
+          rid: perm.rank_id,
+          name: perm.rank_name,
+          edit: {
+            id: perm.rank_id,
+            checked: perm.edit
+          },
+          boot: {
+            id: perm.rank_id,
+            checked: perm.boot
+          },
+          invites: {
+            id: perm.rank_id,
+            checked: perm.invites
+          },
+          hitlist: {
+            id: perm.rank_id,
+            checked: perm.hitlist
+          },
+          ranks: {
+            id: perm.rank_id,
+            checked: perm.ranks
+          },
+          bank: {
+            id: perm.rank_id,
+            checked: perm.bank
+          },
+          raids: {
+            id: perm.rank_id,
+            checked: perm.raids
+          },
+          vault: {
+            id: perm.rank_id,
+            checked: perm.vault
+          },
+          shop: {
+            id: perm.rank_id,
+            checked: perm.shop
+          },
+          message: {
+            id: perm.rank_id,
+            checked: perm.message
+          },
+          permissions: {
+            id: perm.rank_id,
+            checked: perm.permissions
+          }
+        });
       });
     },
     updatePerms: function updatePerms() {
-      console.log(this.checkedRanks);
+      var _this2 = this;
+
+      axios.post('/crews/permissions', { ranks: this.ranks }).then(function (res) {
+        _this2.updatedText = res.data.status;
+      }).catch(function (error) {
+        _this2.updatedText = 'There seemed to be an error..';
+        console.log(error);
+      });
     }
   },
 
   props: {
-    permissions: {
+    names: {
       type: Array,
       required: true
     },
-    ranks: {
-      type: Array,
-      required: true
-    },
-    roles: {
+    perms: {
       type: Array,
       required: true
     }
@@ -6171,68 +6227,386 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('table', {
-    staticClass: "table table-bordered"
-  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Rank")]), _vm._v(" "), _vm._l((_vm.permissions), function(perm, index) {
+  return _c('div', [_c('strong', [_vm._v(" " + _vm._s(_vm.updatedText) + " ")]), _vm._v(" "), _c('table', {
+    staticClass: "table table-bordered table-striped table-sm"
+  }, [_c('thead', {
+    staticClass: "thead-default"
+  }, [_c('tr', [_c('th', [_vm._v("Rank")]), _vm._v(" "), _vm._l((_vm.names), function(name, index) {
     return _c('th', {
       key: index,
       attrs: {
-        "perm": perm
+        "name": name
       }
-    }, [_vm._v(_vm._s(perm))])
+    }, [_vm._v(_vm._s(name))])
   })], 2)]), _vm._v(" "), _c('tbody', _vm._l((_vm.ranks), function(rank, index) {
     return _c('tr', {
       key: index,
       attrs: {
         "rank": rank
       }
-    }, [_c('td', [_vm._v(_vm._s(rank.name))]), _vm._v(" "), _vm._l((_vm.permissions), function(perm, index) {
-      return _c('td', {
-        key: index,
-        attrs: {
-          "perm": perm
-        }
-      }, [_c('div', {
-        staticClass: "btn-group btn-toggle"
-      }, [_c('input', {
-        directives: [{
-          name: "model",
-          rawName: "v-model",
-          value: (_vm.checkedRanks),
-          expression: "checkedRanks"
-        }],
-        attrs: {
-          "type": "checkbox",
-          "value": "rank"
-        },
-        domProps: {
-          "checked": Array.isArray(_vm.checkedRanks) ? _vm._i(_vm.checkedRanks, "rank") > -1 : (_vm.checkedRanks)
-        },
-        on: {
-          "__c": function($event) {
-            var $$a = _vm.checkedRanks,
-              $$el = $event.target,
-              $$c = $$el.checked ? (true) : (false);
-            if (Array.isArray($$a)) {
-              var $$v = "rank",
-                $$i = _vm._i($$a, $$v);
-              if ($$el.checked) {
-                $$i < 0 && (_vm.checkedRanks = $$a.concat($$v))
-              } else {
-                $$i > -1 && (_vm.checkedRanks = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-              }
+    }, [_c('td', [_vm._v(_vm._s(rank.name))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.edit.checked),
+        expression: "rank.edit.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.edit.rid,
+        "checked": Array.isArray(rank.edit.checked) ? _vm._i(rank.edit.checked, rank.edit.rid) > -1 : (rank.edit.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.edit.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.edit.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.edit.checked = $$a.concat($$v))
             } else {
-              _vm.checkedRanks = $$c
+              $$i > -1 && (rank.edit.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
+          } else {
+            rank.edit.checked = $$c
           }
         }
-      })])])
-    })], 2)
-  }))]), _vm._v(" "), _c('button', {
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.boot.checked),
+        expression: "rank.boot.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.boot.rid,
+        "checked": Array.isArray(rank.boot.checked) ? _vm._i(rank.boot.checked, rank.boot.rid) > -1 : (rank.boot.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.boot.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.boot.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.boot.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.boot.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.boot.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.invites.checked),
+        expression: "rank.invites.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.invites.rid,
+        "checked": Array.isArray(rank.invites.checked) ? _vm._i(rank.invites.checked, rank.invites.rid) > -1 : (rank.invites.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.invites.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.invites.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.invites.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.invites.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.invites.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.hitlist.checked),
+        expression: "rank.hitlist.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.hitlist.rid,
+        "checked": Array.isArray(rank.hitlist.checked) ? _vm._i(rank.hitlist.checked, rank.hitlist.rid) > -1 : (rank.hitlist.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.hitlist.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.hitlist.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.hitlist.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.hitlist.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.hitlist.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.ranks.checked),
+        expression: "rank.ranks.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.ranks.rid,
+        "checked": Array.isArray(rank.ranks.checked) ? _vm._i(rank.ranks.checked, rank.ranks.rid) > -1 : (rank.ranks.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.ranks.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.ranks.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.ranks.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.ranks.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.ranks.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.bank.checked),
+        expression: "rank.bank.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.bank.rid,
+        "checked": Array.isArray(rank.bank.checked) ? _vm._i(rank.bank.checked, rank.bank.rid) > -1 : (rank.bank.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.bank.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.bank.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.bank.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.bank.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.bank.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.raids.checked),
+        expression: "rank.raids.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.raids.rid,
+        "checked": Array.isArray(rank.raids.checked) ? _vm._i(rank.raids.checked, rank.raids.rid) > -1 : (rank.raids.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.raids.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.raids.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.raids.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.raids.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.raids.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.vault.checked),
+        expression: "rank.vault.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.vault.rid,
+        "checked": Array.isArray(rank.vault.checked) ? _vm._i(rank.vault.checked, rank.vault.rid) > -1 : (rank.vault.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.vault.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.vault.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.vault.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.vault.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.vault.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.shop.checked),
+        expression: "rank.shop.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.shop.rid,
+        "checked": Array.isArray(rank.shop.checked) ? _vm._i(rank.shop.checked, rank.shop.rid) > -1 : (rank.shop.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.shop.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.shop.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.shop.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.shop.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.shop.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.message.checked),
+        expression: "rank.message.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.message.rid,
+        "checked": Array.isArray(rank.message.checked) ? _vm._i(rank.message.checked, rank.message.rid) > -1 : (rank.message.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.message.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.message.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.message.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.message.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.message.checked = $$c
+          }
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (rank.permissions.checked),
+        expression: "rank.permissions.checked"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": rank.permissions.rid,
+        "checked": Array.isArray(rank.permissions.checked) ? _vm._i(rank.permissions.checked, rank.permissions.rid) > -1 : (rank.permissions.checked)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = rank.permissions.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = rank.permissions.rid,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (rank.permissions.checked = $$a.concat($$v))
+            } else {
+              $$i > -1 && (rank.permissions.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            rank.permissions.checked = $$c
+          }
+        }
+      }
+    })])])
+  })), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "colspan": "12"
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-primary",
     on: {
       "click": _vm.updatePerms
     }
-  }, [_vm._v("Update Permissions")])])
+  }, [_vm._v("Update")])])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

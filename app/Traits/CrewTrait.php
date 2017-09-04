@@ -7,7 +7,8 @@ trait CrewTrait
 
     public function permissionsArray($array = []): array {
         return [
-            'edit', 'boot', 'invites', 'hitlist', 'ranks', 'bank', 'raids', 'shop', 'permissions'
+            'Edit', 'Boot', 'Invites', 'Hitlist', 'Ranks', 'Bank',
+            'Raids', 'Vault', 'Shop', 'Message', 'Permissions'
         ];
     }
 

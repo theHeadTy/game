@@ -33,6 +33,7 @@ Route::get('crews/manage', 'CrewController@index')->name('crews.index')->middlew
 
     # Crew Permissions
     Route::get('crews/permissions', 'CrewPermissionController@index')->name('crews.permissions.index');
+    Route::post('crews/permissions', 'CrewPermissionController@update')->name('crews.permissions.update');
 
 # Home
 Route::get('/home', 'HomeController@index')->name('home');

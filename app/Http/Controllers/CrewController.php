@@ -10,16 +10,13 @@ use Illuminate\Http\Request;
 use App\Jobs\Crew\CreateCrew;
 use App\Jobs\Crew\CreateUserCrew;
 use App\Jobs\Crew\CreateCrewRanks;
+use App\Jobs\Crew\CreateCrewPermission;
 use App\Classes\CrewRankClass;
 use App\Http\Requests\StoreCrew;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomException;
 use App\Repositories\Contracts\UserInterface;
 use App\Repositories\Contracts\CrewInterface;
-
-
-
-
 
 
 class CrewController extends Controller
@@ -100,39 +97,21 @@ class CrewController extends Controller
     {
         $userid = Auth::id();
 
-        //DB::transaction(function () use ($userid, $request) {
+        dispatch(new CreateCrew($userid, $request->name, $request->description));
 
-            dispatch(new CreateCrew($userid, $request->name, $request->description));
+        $crewid = $this->crew->idByLeader($userid);
 
-            $crewid = $this->crew->idByLeader($userid);
+        dispatch(new CreateUserCrew($userid, $crewid, 0));
 
-            dispatch(new CreateUserCrew($userid, $crewid, 0));
+        dispatch(new CreateCrewRanks($crewid, $request->rank));
 
-            dispatch(new CreateCrewRanks($crewid, $request->rank));
+        foreach ($request->rank as $rid => $name) {
+            dispatch(new CreateCrewPermission($crewid, $rid, $name));
+        }
 
-            /*
-            $crew = new Crew;
-            $crew->user_id = $userid;
-            $crew->name = $request->name;
-            $crew->description = $request->description;
-            $crew->save();
-            */
+        return redirect("crews/profile/{$crewid}");
 
-            /*$user = new UserCrew;
-            $user->user_id = $userid;
-            $user->crew_id = $crew->id;
-            $user->rank_id = 0;
-            $user->save();*/
 
-            /*$crewRanks = new CrewRankClass();
-            $ranks = $crewRanks->buildRanks($crew->id, $request->rank);
-
-            CrewRank::insert($ranks);*/
-
-        //});
-
-        $crewId = $this->user->crewId();
-
-        return redirect("crews/profile/{$crewId}");
     }
+
 }

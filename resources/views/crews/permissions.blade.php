@@ -9,11 +9,10 @@
 
                 <div class="panel-body">
 
-
                     <permissions
-                        :ranks="{{ json_encode($ranks) }}"
-                        :roles="{{ json_encode($roles) }}"
-                        :permissions="{{ json_encode($permissions) }}"></permissions>
+                        :names="{{ json_encode($names) }}"
+                        :perms="{{ json_encode($perms) }}">
+                    </permissions>
 
                 </div>
             </div>
