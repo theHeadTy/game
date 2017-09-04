@@ -6141,7 +6141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   methods: {
-    createRanks: function createRanks(i) {
+    createRanks: function createRanks() {
       var _this = this;
 
       _.each(this.perms, function (perm, key) {

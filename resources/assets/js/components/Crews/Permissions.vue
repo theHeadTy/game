@@ -53,7 +53,7 @@ export default {
   },
 
   methods: {
-    createRanks(i) {
+    createRanks() {
 
       _.each(this.perms, (perm, key) => {
 
