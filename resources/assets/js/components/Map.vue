@@ -29,7 +29,7 @@ import { loadMap, loadMapData }  from './../util/loader'
 
 import {
   GameInterface, Game, Keyboard, Key, CanvasInterface, Canvas,
-  Render, PlayerInterface, Player, CameraSettings, Camera, Mobs
+  Render, PlayerInterface, Player, CameraSettings, Camera, Mobs, Raids
 } from './world/index'
 
 import * as jTiled from './../world/maps/map2.json'
@@ -52,23 +52,23 @@ export default {
       canvasPool: null,
       mobData: null,
       mapData: null,
+      raidData: null,
       elapsed: 0,
       delta: 0,
-
     }
   },
   computed: {
     keyboard() {
       return new Keyboard();
     },
-    mapD() {
-      return this.map;
-    }
   },
   methods: {
+    raids(): void {
+      this.$emit('sendraids', this.raidData.room(this.x, this.y));
+    },
 
     mobs(): void {
-      this.$emit('send', this.mobData.inRoom(this.x, this.y));
+      this.$emit('sendmobs', this.mobData.inRoom(this.x, this.y));
     },
 
     update(): void {
@@ -76,6 +76,7 @@ export default {
       this.x = this.player.nodeX;
       this.y = this.player.nodeY;
       this.mobs();
+      this.raids();
     },
 
     draw(): void {
@@ -190,7 +191,10 @@ export default {
 
     this.mobData = new Mobs(1);
 
-    //console.log(this.mobData);
+    this.raidData = new Raids(1);
+    this.raidData.getAll();
+
+    console.log(this.raidData.raids)
 
     /* Start */
     this.init();

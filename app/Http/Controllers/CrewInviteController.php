@@ -7,16 +7,30 @@ use App\User;
 use App\Models\UserCrew;
 use App\Models\CrewInvite;
 use Illuminate\Http\Request;
+use App\Jobs\Crew\CreateUserCrew;
+use App\Jobs\Crew\CreateCrewInvite;
 use App\Exceptions\CustomException;
 use App\Repositories\Contracts\UserInterface;
 use App\Repositories\Contracts\CrewInterface;
 
 class CrewInviteController extends Controller
 {
-    public $user;
+    /**
+     * @var $user
+     */
+    private $user;
+    /**
+     * @var $crew
+     */
+    private $crew;
 
-    public $crew;
-
+    /**
+     * Crew invite controller instance
+     *
+     * @param UserInterface $user - User Repository
+     * @param CrewInterface $crew - Crew Repository
+     * @return void
+     */
     public function __construct(UserInterface $user, CrewInterface $crew)
     {
         $this->middleware('auth');
@@ -24,6 +38,11 @@ class CrewInviteController extends Controller
         $this->crew = $crew;
     }
 
+    /**
+     * View crew invites
+     *
+     * @throws \App\Exceptions\CustomException
+     */
     public function index()
     {
         if ($this->user->inCrew())
@@ -31,57 +50,63 @@ class CrewInviteController extends Controller
             throw new CustomException('You are already in a crew.');
         }
 
-        $invites = CrewInvite::where('user_id', Auth::id())->paginate(10);
+        $invites = $this->crew->invitesWhereUserId(Auth::id())->paginate(10);
 
         return view('crews.invites', compact('invites'));
     }
 
+    /**
+     * Accept crew invite
+     *
+     * @param int $id
+     * @throws \App\Exceptions\CustomException
+     */
     public function accept($id)
     {
         if ($this->user->inCrew()) {
             throw new CustomException('You are already in a crew.');
         }
 
-        $invite = CrewInvite::findOrFail($id);
-
+        $invite = $this->crew->findOrFailInvite($id);
         $crew = $this->crew->find($invite->crew_id);
 
-        $user = new UserCrew;
-        $user->user_id = Auth::id();
-        $user->crew_id = $crew->id;
-        $user->rank_id = 5;
-        $user->save();
+        dispatch(new CreateUserCrew(Auth::id(), $crew->id, 5));
 
         $invite->delete();
 
-        return redirect("crews/profile/{$user->crew_id}");
+        return redirect("crews/profile/{$crew->id}");
 
     }
 
+    /**
+     * Deny crew invite
+     *
+     * @param int $id - Id of the invite
+     */
     public function deny($id)
     {
-        $invite = CrewInvite::findOrFail($id);
+        $invite = $this->crew->findOrFailInvite($id);
         $invite->delete();
-
         return redirect('crews/invites');
     }
 
+    /**
+     * Store crew invite
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $sent
+     */
     public function store(Request $request, $sent = 0)
     {
-        $crew = $this->user->userCrew();
-
+        $crewid = $this->user->crewId();
         $names = explode(',', $request->names);
         $users = $this->user->whereInName($names);
         foreach ($users as $user) {
             if (!$user->crew) {
-                $invite = new CrewInvite;
-                $invite->user_id = $user->id;
-                $invite->crew_id = $crew->crew->id;
-                $invite->save();
+                dispatch(new CreateCrewInvite($user->id, $crewid));
                 ++$sent;
             }
         }
-        dd($users);
         $request->session()->flash('message', "{$sent} invites have been sent!");
         return redirect('crews/manage');
 

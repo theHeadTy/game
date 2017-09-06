@@ -60,6 +60,8 @@ class ItemTableSeeder extends Seeder
 
         */
 
+        /*
+
         DB::table('items')->insert([
             'id' => 2,
             'name' => 'Body Rags',
@@ -73,7 +75,7 @@ class ItemTableSeeder extends Seeder
             'duration' => 0,
             'set_id' => 0,
             'augs' => 4,
-            'image' => 'http://torax.outwar.com/images/items/dcset1_body.jpg',
+            'image' => 'http//torax.outwar.com/images/items/dcset1_body.jpg',
             'description' => 'The body rags sparkle green!',
             'info' => 'You want body rags that are green glowing?'
         ]);
@@ -92,8 +94,10 @@ class ItemTableSeeder extends Seeder
             'gold_hour' => 10
         ]);
 
+        */
+
         DB::table('user_items')->insert([
-            'id' => 4,
+            'id' => 5,
             'user_id' => 1,
             'item_id' => 2,
             'equipped' => 0,

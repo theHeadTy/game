@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
 
         // $this->call(MobStatsTableSeeder::class);
 
-        $this->call(CrewPermissionSeeder::class);
+        // $this->call(CrewPermissionSeeder::class);
+
+        $this->call(RaidTableSeeder::class);
     }
 }

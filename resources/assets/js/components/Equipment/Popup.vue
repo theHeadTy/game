@@ -127,6 +127,7 @@ export default {
 <style>
 
 .item-popup {
+  padding: 0;
   position: absolute;
 	border: 1px solid #333;
 	background-color: #000;

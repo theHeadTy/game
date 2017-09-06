@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\World;
+use App\Models\Raid;
 use Illuminate\Http\Request;
 
 class MapController extends Controller

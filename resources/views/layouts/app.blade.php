@@ -76,6 +76,7 @@
                                 </ul>
                             </li>
                         </ul>
+                        <li><a href="/blacksmith">Blacksmith</a></li>
 
                     </ul>
 

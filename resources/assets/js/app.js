@@ -8,6 +8,9 @@ import Backpack from './components/Backpack.vue'
 import Equipment from './components/Equipment.vue'
 import Attack from './components/Attack.vue'
 import Permissions from './components/Crews/Permissions.vue'
+import Blacksmith from './components/Blacksmith.vue'
+
+import WorldRaids from './components/Raids/Raids.vue'
 
 //const bus = new Vue()
 
@@ -23,10 +26,13 @@ const app = new Vue({
       ProfileEquipment: require('./components/Equipment/Equipment.vue'),
       Attack,
       Permissions,
+      Blacksmith,
+      WorldRaids,
     },
 
     data: {
       mobs: null,
+      raids: null,
       attackMob: null,
       showbp: false,
       showeq: false,
@@ -34,11 +40,15 @@ const app = new Vue({
 
     methods: {
 
-      sendMobs(mobs) {
+      getMobs(mobs) {
         this.mobs = mobs;
       },
       sendAttackMob(mob) {
         this.attackMob = mob;
+      },
+
+      getRaids(raids) {
+        this.raids = raids;
       },
 
       /* Open Backpack Modal */

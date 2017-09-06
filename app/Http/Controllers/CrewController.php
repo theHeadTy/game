@@ -18,7 +18,6 @@ use App\Exceptions\CustomException;
 use App\Repositories\Contracts\UserInterface;
 use App\Repositories\Contracts\CrewInterface;
 
-
 class CrewController extends Controller
 {
     /**
@@ -48,7 +47,7 @@ class CrewController extends Controller
     /**
      * Crew Manage
      *
-     * @return redirect
+     * @return view
      */
     public function index()
     {
@@ -66,6 +65,7 @@ class CrewController extends Controller
     /**
      * Crew Profile
      *
+     * @throws CustomException
      * @param int $id
      * @return redirect
      */
@@ -73,22 +73,38 @@ class CrewController extends Controller
     {
         $crew = $this->crew->find($id);
 
+        if (!$crew) {
+            throw new CustomException('The crew you are looking for does not exist.');
+        }
+
         $users = $this->crew->users($crew->id);
 
         return view('crews.profile', compact('crew', 'users'));
     }
 
+    /**
+     * Create Crew
+     *
+     * @throws CustomException
+     */
     public function create()
     {
         if ($this->user->inCrew()) {
             throw new CustomException('You are already in a crew!');
         }
-
         return view('crews.create');
     }
 
     /**
-     * Store new Crew
+     * Store Crew
+     *
+     * @todo - Create a Transaction/queue check for these crew jobs.
+     * As it stands if any fail, it will become a huge mess.
+     *
+     * @example -
+     * DB::transaction(function() {
+     *     // queries go here..
+     * })
      *
      * @param App\Http\Requests\StoreCrew $request
      * @return redirect
@@ -110,7 +126,6 @@ class CrewController extends Controller
         }
 
         return redirect("crews/profile/{$crewid}");
-
 
     }
 

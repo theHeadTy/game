@@ -8,6 +8,12 @@ use App\Repositories\Contracts\UserInterface;
 use App\Repositories\CrewRepository;
 use App\Repositories\Contracts\CrewInterface;
 
+use App\Repositories\ItemRepository;
+use App\Repositories\Contracts\ItemInterface;
+
+use App\Repositories\RaidRepository;
+use App\Repositories\Contracts\RaidInterface;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CrewInterface::class, CrewRepository::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
+        $this->app->bind(ItemInterface::class, ItemRepository::class);
+        $this->app->bind(RaidInterface::class, RaidRepository::class);
+
     }
 
     /**

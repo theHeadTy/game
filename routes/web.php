@@ -19,6 +19,13 @@ Route::get('/', function () {
 # Login / Register & Forgot Password
 Auth::routes();
 
+# Raids
+Route::get('raids/{id}', 'RaidController@show')->name('raids.show');
+Route::get('raids/room/{id}', 'RaidController@index')->name('raids.index');
+Route::get('raids/create/{id}', 'RaidController@create')->name('raids.create')->middleware('auth.crew');
+Route::post('raids/create', 'RaidController@store')->name('raids.store')->middleware('auth.crew');
+
+
 # Crew
 Route::get('crews/create', 'CrewController@create')->name('crews.create');
 Route::post('crews', 'CrewController@store')->name('crews.store');
@@ -27,13 +34,17 @@ Route::get('crews/manage', 'CrewController@index')->name('crews.index')->middlew
 
     # Crew Invite
     Route::get('crews/invites', 'CrewInviteController@index')->name('crews.invite.index');
-    Route::post('crews/invite', 'CrewInviteController@store')->name('crews.invite.store');
+    Route::post('crews/invite', 'CrewInviteController@store')->name('crews.invite.store')->middleware('auth.crew');
     Route::get('crews/invites/accept/{id}', 'CrewInviteController@accept')->name('crews.invite.accept');
-    Route::get('crews/invites/deny/{id}', 'CrewController@deny')->name('crews.invite.deny');
+    Route::get('crews/invites/deny/{id}', 'CrewInviteController@deny')->name('crews.invite.deny');
 
     # Crew Permissions
-    Route::get('crews/permissions', 'CrewPermissionController@index')->name('crews.permissions.index');
-    Route::post('crews/permissions', 'CrewPermissionController@update')->name('crews.permissions.update');
+    Route::get('crews/permissions', 'CrewPermissionController@index')
+        ->name('crews.permissions.index')
+        ->middleware('auth.crew');
+    Route::post('crews/permissions', 'CrewPermissionController@update')
+        ->name('crews.permissions.update')
+        ->middleware('auth.crew');
 
 # Home
 Route::get('/home', 'HomeController@index')->name('home');
@@ -75,5 +86,9 @@ Route::get('attack/log/{type}', 'UserAttackController@log');
 Route::get('attack/{id}', 'UserAttackController@attack')->name('attack.quick');
 Route::get('attack/{id}/{slug}', 'UserAttackController@create')->name('attack.create');
 
+# Blacksmith
+Route::get('blacksmith', 'BlacksmithController@index')->name('blacksmith.index');
+Route::post('blacksmith', 'BlacksmithController@gem')->name('blacksmith.gem');
+
 # Test route
-Route::get('test', 'MobController@test');
+Route::get('test', 'TestController@index');

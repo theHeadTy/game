@@ -15,27 +15,39 @@
 
                 <div class="panel-body">
 
+                    <!-- World map -->
                     <world-map
                         :world="{{ $world->data }}"
-                        v-on:send="sendMobs">
+                        v-on:sendmobs="getMobs"
+                        v-on:sendraids="getRaids">
                     </world-map>
 
-                    <div class="col-md-6">
-                          <span>Mobs in room:</span>
+                    <!-- Mobs -->
+                    <div class="col-md-4">
+                        <strong>Mobs in room:</strong>
 
-                      <world-mobs
-                        v-for="mob in mobs"
-                        :key="mob.id"
-                        :mob="mob">
-                      </world-mobs>
+                        <world-mobs
+                            v-for="mob in mobs"
+                            :key="mob.id"
+                            :mob="mob">
+                        </world-mobs>
+
+                    </div>
+
+                    <!-- Raids -->
+                    <div class="col-md-4">
+                      <strong>Raids in room:</strong>
+
+                      <world-raids :raids="raids"></world-raids>
 
                   </div>
 
-               </div>
-          </div>
-      </div>
+
+
+                </div>
+            </div>
+        </div>
    </div>
 </div>
-
 
 @endsection
