@@ -30,7 +30,7 @@ trait ItemTrait
             case 'Uncommon':
                 if ($gems === 0): $cost = 10;
                 elseif ($gems === 1): $cost = 12;
-                elseif (gems === 2): $cost = 14;
+                elseif ($gems === 2): $cost = 14;
                 elseif ($gems === 3): $cost = 16;
                 elseif ($gems === 4): $cost = 18;
                 endif;
