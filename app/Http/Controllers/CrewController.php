@@ -6,6 +6,7 @@ use Auth;
 use App\Models\Crew;
 use App\Models\UserCrew;
 use App\Models\CrewRank;
+use App\Models\RaidCrew;
 use Illuminate\Http\Request;
 use App\Jobs\Crew\CreateCrew;
 use App\Jobs\Crew\CreateUserCrew;
@@ -127,6 +128,15 @@ class CrewController extends Controller
 
         return redirect("crews/profile/{$crewid}");
 
+    }
+
+    public function raids(RaidCrew $raid)
+    {
+        $raids = $raid->where('crew_id', $this->user->crewId())
+            ->where('launch_at', '>', \Carbon\Carbon::now())
+            ->paginate(10);
+
+        return view('crews.raids', compact('raids'));
     }
 
 }

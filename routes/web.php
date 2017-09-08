@@ -20,17 +20,22 @@ Route::get('/', function () {
 Auth::routes();
 
 # Raids
-Route::get('raids/{id}', 'RaidController@show')->name('raids.show');
+Route::get('raids/crew/{id}', 'RaidController@show')->name('raids.crew.show');
 Route::get('raids/room/{id}', 'RaidController@index')->name('raids.index');
 Route::get('raids/create/{id}', 'RaidController@create')->name('raids.create')->middleware('auth.crew');
 Route::post('raids/create', 'RaidController@store')->name('raids.store')->middleware('auth.crew');
+Route::get('raids/join/{id}', 'RaidController@join')->name('raids.join')->middleware('auth.crew');
+Route::get('raids/launch/{id}', 'RaidController@launch')->name('raids.launch')->middleware('auth.crew');
 
+    # Raid Log
+    Route::post('raids/log/create', 'RaidLogController@create')->name('raids.log.create')->middleware('auth.crew');
 
 # Crew
 Route::get('crews/create', 'CrewController@create')->name('crews.create');
 Route::post('crews', 'CrewController@store')->name('crews.store');
 Route::get('crews/profile/{id}', 'CrewController@show')->name('crews.show');
 Route::get('crews/manage', 'CrewController@index')->name('crews.index')->middleware('auth.crew');
+Route::get('crews/raids', 'CrewController@raids')->name('crews.raids')->middleware('auth.crew');
 
     # Crew Invite
     Route::get('crews/invites', 'CrewInviteController@index')->name('crews.invite.index');

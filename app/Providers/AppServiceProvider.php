@@ -14,6 +14,11 @@ use App\Repositories\Contracts\ItemInterface;
 use App\Repositories\RaidRepository;
 use App\Repositories\Contracts\RaidInterface;
 
+use App\Repositories\RaidLogRepository;
+use App\Repositories\Contracts\RaidLogInterface;
+
+use App\Classes\RaidAttackClass;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(ItemInterface::class, ItemRepository::class);
         $this->app->bind(RaidInterface::class, RaidRepository::class);
+        $this->app->bind(RaidLogInterface::class, RaidLogRepository::class);
+
+        $this->app->bind(RaidAttackClass::class, RaidInterface::class);
 
     }
 
@@ -39,5 +47,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // @example singleton
         //$this->app->singleton(CrewInterface::class, CrewRepository::class);
+
+
     }
 }

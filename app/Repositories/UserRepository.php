@@ -41,7 +41,7 @@ class UserRepository implements UserInterface
         return $this->user->with('crew')->find(Auth::id());
     }
 
-    public function crewId(): int
+    public function crewId()
     {
         return $this->crew->where('user_id', Auth::id())->value('crew_id');
     }

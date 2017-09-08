@@ -12,7 +12,7 @@ interface UserInterface
 
     public function userCrew();
 
-    public function crewId(): int;
+    public function crewId();
 
     public function crewUsers();
 

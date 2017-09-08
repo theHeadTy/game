@@ -11,6 +11,7 @@ import Permissions from './components/Crews/Permissions.vue'
 import Blacksmith from './components/Blacksmith.vue'
 
 import WorldRaids from './components/Raids/Raids.vue'
+import RaidAttack from './components/Raids/Attack.vue'
 
 //const bus = new Vue()
 
@@ -28,6 +29,7 @@ const app = new Vue({
       Permissions,
       Blacksmith,
       WorldRaids,
+      RaidAttack
     },
 
     data: {

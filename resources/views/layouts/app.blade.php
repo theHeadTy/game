@@ -38,6 +38,8 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
 
+                    @if (!Auth::guest())
+
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="/map">Explore</a></li>
@@ -61,7 +63,11 @@
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
-                                    Crew<span class="caret"></span>
+                                    Crew
+                                        @if ($crewRaid)
+                                            <small>*Raid*</small>
+                                        @endif
+                                    <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -72,6 +78,7 @@
                                     <li><a href="/crews/profile/{{ $crewId }}">Profile</a></li>
                                     <li><a href="/crews/manage">Manage</a></li>
                                     <li><a href="/crews/permissions">Permissions</a></li>
+                                    <li><a href="/crews/raids">Raids</a></li>
                                 @endif
                                 </ul>
                             </li>
@@ -79,6 +86,8 @@
                         <li><a href="/blacksmith">Blacksmith</a></li>
 
                     </ul>
+
+                @endif
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">

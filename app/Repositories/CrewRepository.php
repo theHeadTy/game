@@ -40,11 +40,6 @@ class CrewRepository implements CrewInterface
 
     public function users($id)
     {
-        /*return UserCrew::with('user')
-            ->with('user.stats')
-            ->where('crew_id', $id)
-            ->get();
-        */
         return $this->users->with('user')->with('user.stats')->where('crew_id', $id)->get();
     }
 
@@ -56,7 +51,6 @@ class CrewRepository implements CrewInterface
     public function permissions($id)
     {
         return $this->find($id)->permissions;
-        //return $this->crew->find($id)->permissions;
     }
 
     public function idByLeader($id)
