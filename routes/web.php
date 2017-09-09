@@ -28,6 +28,7 @@ Route::get('raids/join/{id}', 'RaidController@join')->name('raids.join')->middle
 Route::get('raids/launch/{id}', 'RaidController@launch')->name('raids.launch')->middleware('auth.crew');
 
     # Raid Log
+    Route::get('raids/log/{id}', 'RaidLogController@show')->name('raids.log.show')->middleware('auth.crew');
     Route::post('raids/log/create', 'RaidLogController@create')->name('raids.log.create')->middleware('auth.crew');
 
 # Crew

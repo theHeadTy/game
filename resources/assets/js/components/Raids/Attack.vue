@@ -1,12 +1,21 @@
 <template>
   <div>
 
-    <div class="col-md-4 col-md-offset-1">
-      <img src="http://via.placeholder.com/250x250">
-    </div>
-    <div class="col-md-4 col-md-offset-1">
-      <img src="http://via.placeholder.com/250x250">
-    </div>
+    <!-- Crew & boss name/image -->
+    <!--<div class="col-md-8 col-md-offset-2" style="text-align: center">
+      <div class="col-md-4">
+        <div style="text-align: center">
+            <strong>{{ crew }}</strong>
+        </div>
+        <img src="http://via.placeholder.com/250x250">
+      </div>
+      <div class="col-md-4 col-md-offset-2" style="text-align: center">
+        <div style="text-align: center">
+          <strong>{{ boss }}</strong>
+        </div>
+        <img src="http://via.placeholder.com/250x250">
+      </div>
+    </div>-->
 
     <!-- Raid loop -->
     <div class="col-md-8 col-md-offset-2" style="font-weight: bold; color: #FFF;">
@@ -16,11 +25,11 @@
         <div v-if="round.turn === 'crew'">
           <div class="crew-hit" @mouseover="showElem.user = round" @mouseout="showElem.user = false">
             {{ round.message }}
-            <span class="critical-hit" v-show="round.critical">CRITICAL</span>
-            <span class="miss-hit" v-show="round.miss">MISSED</span>
+            <span class="critical-hit" v-if="round.critical">CRITICAL</span>
+            <span class="miss-hit" v-if="round.miss">MISSED</span>
 
             <!-- user elementals -->
-            <div v-show="showElem.user === round && !round.crew">
+            <div v-show="!round.miss && showElem.user === round && !round.crew">
               <elementals :elementals="showElem.user.elem"></elementals>
             </div>
 
@@ -124,6 +133,14 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    crew: {
+      type: String,
+      required: true
+    },
+    boss: {
+      type: String,
+      required: true
     }
   }
 
@@ -132,6 +149,25 @@ export default {
 </script>
 
 <style scoped>
+
+.crew-name {
+  float: left;
+  margin-left: 175px;
+}
+
+.boss-name {
+  float: right;
+  margin-right: 175px;
+}
+
+
+.health-box {
+  width: 25px;
+  height: 25px;
+  float: left;
+  border: 1px dotted black;
+  background-color: #8E8D8A;
+}
 
 .crew-hit {
   width: 250px;

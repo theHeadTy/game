@@ -2,6 +2,14 @@
   <div>
 
     <div class="raid-result">
+
+      <div v-if="round.win">
+        <span class="winner">Winner!</span>
+      </div>
+      <div v-else>
+        <span class="looser">Loss!</span>
+      </div>
+
       {{ round.message }}
       <div v-if="round.points > 0">
         {{ round.points }} Points
@@ -32,13 +40,23 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .raid-result {
   margin: 10px;
   text-align: center;
   border: 1px dotted black;
   background-color: #8E8D8A;
+}
+
+.winner {
+  color: green;
+  font-size: 14px;
+}
+
+.looser {
+  color: red;
+  font-size: 14px;
 }
 
 </style>

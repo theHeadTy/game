@@ -7251,7 +7251,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "\n.crew-hit[data-v-069f1958] {\n  width: 250px;\n  float: left;\n  margin: 10px;\n  border: 1px dotted black;\n  background-color: #8E8D8A;\n}\n.boss-hit[data-v-069f1958] {\n  width: 250px;\n  float: right;\n  border: 1px dotted black;\n  text-align: center;\n  background-color: #8E8D8A;\n}\n.critical-hit[data-v-069f1958] {\n  color: red;\n  margin: 5px;\n  font-weight: bold;\n}\n.miss-hit[data-v-069f1958] {\n  color: orange;\n  margin: 5px;\n  font-weight: bold;\n}\n\n", ""]);
+exports.push([module.i, "\n.crew-name[data-v-069f1958] {\n  float: left;\n  margin-left: 175px;\n}\n.boss-name[data-v-069f1958] {\n  float: right;\n  margin-right: 175px;\n}\n.health-box[data-v-069f1958] {\n  width: 25px;\n  height: 25px;\n  float: left;\n  border: 1px dotted black;\n  background-color: #8E8D8A;\n}\n.crew-hit[data-v-069f1958] {\n  width: 250px;\n  float: left;\n  margin: 10px;\n  border: 1px dotted black;\n  background-color: #8E8D8A;\n}\n.boss-hit[data-v-069f1958] {\n  width: 250px;\n  float: right;\n  border: 1px dotted black;\n  text-align: center;\n  background-color: #8E8D8A;\n}\n.critical-hit[data-v-069f1958] {\n  color: red;\n  margin: 5px;\n  font-weight: bold;\n}\n.miss-hit[data-v-069f1958] {\n  color: orange;\n  margin: 5px;\n  font-weight: bold;\n}\n\n", ""]);
 
 // exports
 
@@ -7266,6 +7266,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__WinResult_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__WinResult_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Elementals_vue__ = __webpack_require__(252);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Elementals_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Elementals_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7396,6 +7405,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: {
       type: Array,
       required: true
+    },
+    crew: {
+      type: String,
+      required: true
+    },
+    boss: {
+      type: String,
+      required: true
     }
   }
 
@@ -7418,7 +7435,7 @@ var Component = __webpack_require__(2)(
   /* styles */
   injectStyle,
   /* scopeId */
-  null,
+  "data-v-18ea6e3d",
   /* moduleIdentifier (server only) */
   null
 )
@@ -7456,13 +7473,13 @@ var content = __webpack_require__(249);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("6881665e", content, false);
+var update = __webpack_require__(5)("25c346d0", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18ea6e3d\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WinResult.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18ea6e3d\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WinResult.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18ea6e3d\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WinResult.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18ea6e3d\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WinResult.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -7480,7 +7497,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "\n.raid-result {\n  margin: 10px;\n  text-align: center;\n  border: 1px dotted black;\n  background-color: #8E8D8A;\n}\n\n", ""]);
+exports.push([module.i, "\n.raid-result[data-v-18ea6e3d] {\n  margin: 10px;\n  text-align: center;\n  border: 1px dotted black;\n  background-color: #8E8D8A;\n}\n.winner[data-v-18ea6e3d] {\n  color: green;\n  font-size: 14px;\n}\n.looser[data-v-18ea6e3d] {\n  color: red;\n  font-size: 14px;\n}\n\n", ""]);
 
 // exports
 
@@ -7491,6 +7508,14 @@ exports.push([module.i, "\n.raid-result {\n  margin: 10px;\n  text-align: center
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7530,7 +7555,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('div', {
     staticClass: "raid-result"
-  }, [_vm._v("\n    " + _vm._s(_vm.round.message) + "\n    "), (_vm.round.points > 0) ? _c('div', [_vm._v("\n      " + _vm._s(_vm.round.points) + " Points\n    ")]) : _vm._e(), _vm._v(" "), (_vm.round.gold > 0) ? _c('div', [_vm._v("\n      " + _vm._s(_vm.round.gold) + " Gold\n    ")]) : _vm._e(), _vm._v(" "), (_vm.round.exp > 0) ? _c('div', [_vm._v("\n      " + _vm._s(_vm.round.exp) + " Exp\n    ")]) : _vm._e()])])
+  }, [(_vm.round.win) ? _c('div', [_c('span', {
+    staticClass: "winner"
+  }, [_vm._v("Winner!")])]) : _c('div', [_c('span', {
+    staticClass: "looser"
+  }, [_vm._v("Loss!")])]), _vm._v("\n\n    " + _vm._s(_vm.round.message) + "\n    "), (_vm.round.points > 0) ? _c('div', [_vm._v("\n      " + _vm._s(_vm.round.points) + " Points\n    ")]) : _vm._e(), _vm._v(" "), (_vm.round.gold > 0) ? _c('div', [_vm._v("\n      " + _vm._s(_vm.round.gold) + " Gold\n    ")]) : _vm._e(), _vm._v(" "), (_vm.round.exp > 0) ? _c('div', [_vm._v("\n      " + _vm._s(_vm.round.exp) + " Exp\n    ")]) : _vm._e()])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -7679,7 +7708,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  return _c('div', [_c('div', {
     staticClass: "col-md-8 col-md-offset-2",
     staticStyle: {
       "font-weight": "bold",
@@ -7702,28 +7731,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.showElem.user = false
         }
       }
-    }, [_vm._v("\n          " + _vm._s(round.message) + "\n          "), _c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (round.critical),
-        expression: "round.critical"
-      }],
+    }, [_vm._v("\n          " + _vm._s(round.message) + "\n          "), (round.critical) ? _c('span', {
       staticClass: "critical-hit"
-    }, [_vm._v("CRITICAL")]), _vm._v(" "), _c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (round.miss),
-        expression: "round.miss"
-      }],
+    }, [_vm._v("CRITICAL")]) : _vm._e(), _vm._v(" "), (round.miss) ? _c('span', {
       staticClass: "miss-hit"
-    }, [_vm._v("MISSED")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("MISSED")]) : _vm._e(), _vm._v(" "), _c('div', {
       directives: [{
         name: "show",
         rawName: "v-show",
-        value: (_vm.showElem.user === round && !round.crew),
-        expression: "showElem.user === round && !round.crew"
+        value: (!round.miss && _vm.showElem.user === round && !round.crew),
+        expression: "!round.miss && showElem.user === round && !round.crew"
       }]
     }, [_c('elementals', {
       attrs: {
@@ -7760,23 +7777,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })])
   }))])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-md-4 col-md-offset-1"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://via.placeholder.com/250x250"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-md-4 col-md-offset-1"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://via.placeholder.com/250x250"
-    }
-  })])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

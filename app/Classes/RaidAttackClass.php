@@ -3,24 +3,35 @@ namespace App\Classes;
 
 use App\User;
 use App\Models\Crew;
+use App\Models\Raid;
 use App\Repositories\Contracts\RaidInterface;
 
 class RaidAttackClass
 {
     private $raid;
 
-    public function __construct(RaidInterface $raid)
+    private $bossid;
+
+    private $raidid;
+
+    private $crewid;
+
+    public function __construct(RaidInterface $raid, $bossid, $raidid, $crewid)
     {
         $this->raid = $raid;
+        $this->bossid = $bossid;
+        $this->raidid = $raidid;
+        $this->crewid = $crewid;
     }
 
-    public function launchRaid($raidid, $crewid, $bossid, $usersArr = [], $raidArr = [], $winner = null): array
+    //public function launchRaid($raidid, $crewid, $bossid, $usersArr = [], $raidArr = [], $winner = null): array
+    public function launchRaid($usersArr = [], $raidArr = [], $winner = null): array
     {
-        $raid = $this->raid->find($bossid);
+        $raid = $this->raid->find($this->bossid);
 
-        $users = $this->raid->raidUsers($raidid, $crewid);
+        $users = $this->raid->raidUsers($this->raidid, $this->crewid);
 
-        $crew = Crew::find($crewid);
+        $crew = Crew::find($this->crewid);
 
         foreach ($users as $user) {
             $usersArr[] = User::find($user->user_id);
@@ -30,7 +41,7 @@ class RaidAttackClass
 
             static $turn = 'crew';
 
-            if ($turn == 'crew') {
+            if ($turn === 'crew') {
                 // set defaults
                 $crewDamage = 0;
                 $raidUsers = [];
@@ -38,6 +49,7 @@ class RaidAttackClass
                     // set defaults
                     $damage = 0;
                     $elemDamage = 0;
+                    $critical = false;
                     $miss = false;
                     $defaultUser = User::find($user->id);
 
@@ -50,14 +62,14 @@ class RaidAttackClass
                         );
 
                         $critical = $this->criticalHit($user->stats->critical);
-
-                        $elemDamage = $this->createElemDamage($this->elementalDmg($user));
+                        $elemDamage = $this->createElementalDamage($user, $raid);
 
                         $damage += $elemDamage;
 
-                        if ($raid->stats->block >= mt_rand(1, 200)) {
+                        if ($this->blockChance($raid->stats->block)) {
                             $miss = true;
                             $damage = 0;
+                            $critical = false;
                         }
 
                         $crewDamage += $damage;
@@ -85,16 +97,11 @@ class RaidAttackClass
                     'users' => $raidUsers
                 ];
 
-                $raid->stats->hp -= $damage;
+                $raid->stats->hp -= $crewDamage;
 
-                if ($raid->stats->hp <= 0) {
-                    $turn = 'winner';
-                    $winner = $crew->name;
-                } else {
-                    $turn = 'boss';
-                }
+                $turn = ($raid->stats->hp <= 0) ? 'winner' : 'boss';
 
-            } elseif ($turn == 'boss') {
+            } elseif ($turn === 'boss') {
                 // set defaults
                 $damage = 0;
                 $elemDamage = 0;
@@ -105,7 +112,9 @@ class RaidAttackClass
                     $raid->stats->level
                 );
 
-                $elemDamage = $this->createElemDamage($this->elementalDmg($raid));
+                //$elemDamage = $this->createElemDamage($this->elementalDmg($raid));
+                $elemDamage = $this->createElementalDamage($raid, $user);
+
                 $damage += $elemDamage;
 
                 $raidArr[] = [
@@ -114,6 +123,7 @@ class RaidAttackClass
                     'elementals' => [
                         'dmg' => $this->elementalDmg($raid)
                     ],
+                    'elemDamage' => $elemDamage,
                     'damage' => $damage
                 ];
 
@@ -124,32 +134,16 @@ class RaidAttackClass
                     }
                 }
 
-                if (empty($usersArr)) {
-                    $turn = 'winner';
-                    $winner = $raid->name;
-                } else {
-                    $turn = 'crew';
-                }
+                $turn = (empty($usersArr)) ? 'winner' : 'crew';
 
-            } elseif ($turn == 'winner') {
+            } elseif ($turn === 'winner') {
 
-                /*if ($winner) {
-                    $message = "{$crew->name} has won!";
-                } else {
-                    $message = "{$raid->name} has won!";
-                }*/
+                $winner = (empty($usersArr)) ? $raid->name : $crew->name;
 
-
-                $raidArr[] = $this->buildWinner($winner);
-                /*[
-                    'turn' => 'winner',
-                    'message' => "{$winner} win!",
-                    'gold' => 0,
-                    'exp' => 0,
-                    'items' => [],
-                    'points' => 0,
-                    'winner' => $winner
-                ];*/
+                $raidArr[] = $this->buildWinner(
+                    $winner,
+                    ((string)$winner === (string)$crew->name) ? true : false
+                );
 
                 break;
 
@@ -160,6 +154,11 @@ class RaidAttackClass
 
         return $raidArr;
 
+    }
+
+    private function blockChance($block): bool
+    {
+        return ($block >= random_int(1, 200)) ? true : false;
     }
 
     private function pointGain(): int
@@ -177,28 +176,33 @@ class RaidAttackClass
         return random_int(1, 1000);
     }
 
-    private function buildWinner($winner): array
+    private function buildWinner($winner, $win): array
     {
         return [
             'turn' => 'winner',
             'message' => "{$winner} win the raid!",
-            'gold' => $this->goldGain(),
-            'points' => $this->pointGain(),
-            'exp' => $this->expGain(),
+            'gold' => $win ? $this->goldGain() : 0,
+            'points' => $win ? $this->pointGain() : 0,
+            'exp' => $win ? $this->expGain() : 0,
             'items' => [],
-            'winner' => $winner
+            'winner' => $winner,
+            'win' => $win
         ];
     }
 
-    private function createElemDamage($elems, $damage = 0): int
+    private function createElementalDamage($attacker, $defender, $damage = 0): int
     {
-        foreach ($elems as $elem) {
+        $elemDmg = $this->elementalDmg($attacker);
+        $elemRes = $this->elementalRes($defender);
+        foreach ($elemDmg  as $key => $elem) {
             if ($elem['dmg'] > 0) {
                 $damage += $elem['dmg'];
-            }
+                $damage -= $elemRes[$key];
+             }
         }
         return $damage;
     }
+
 
     private function elementalRes($data): array
     {

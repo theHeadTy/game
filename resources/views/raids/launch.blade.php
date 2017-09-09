@@ -10,7 +10,29 @@
                 <div class="panel-body">
 
 
-                    <raid-attack :data="{{ $log->data }}"></raid-attack>
+                    <!-- Crew & boss name/image -->
+                    <div class="col-md-8 col-md-offset-2">
+                      <div class="col-md-4">
+                        <div style="text-align: right">
+                            <strong>{{ $crew }}</strong>
+                        </div>
+                        <img src="http://via.placeholder.com/250x250">
+                      </div>
+                      <div class="col-md-4 col-md-offset-2">
+                        <div style="text-align: right">
+                          <strong>{{ $boss }}</strong>
+                        </div>
+                        <img src="http://via.placeholder.com/250x250">
+                      </div>
+                    </div>
+
+
+
+                    <raid-attack
+                        :data="{{ $log->data }}"
+                        crew="{{ $crew }}"
+                        boss="{{ $boss }}">
+                    </raid-attack>
 
                 </div>
             </div>

@@ -27,7 +27,9 @@
                                 <td>{{ $crew->leader->name }}</td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="text-align:center">Raid Results</td>
+                                <td colspan="2" style="text-align:center">
+                                    <a href="/raids/log/{{ $crew->id }}">Raid Results</a>
+                                </td>
                             </tr>
                         </table>
 

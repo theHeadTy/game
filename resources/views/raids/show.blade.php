@@ -49,10 +49,13 @@
                                     @endif
                                 </div>
                             </div>
-
+                            <div class="col-xs-12 col-md-offset-3">
+                                <p><small>{{ $raid->message }}</small></p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
 
                 </div>
             </div>

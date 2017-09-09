@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Carbon\Carbon;
+use App\Models\Crew;
 use App\Models\Raid;
 use App\Models\RaidLog;
 use App\Models\RaidCrew;
@@ -36,7 +37,11 @@ class RaidController extends Controller
     {
         $log = $this->log->find($id);
 
-        return view('raids.launch', compact('log'));
+        $boss = Raid::find($log->raid_id)->value('name');
+
+        $crew = Crew::find($log->crew_id)->value('name');
+
+        return view('raids.launch', compact('log', 'crew', 'boss'));
     }
 
     public function join($id)
@@ -77,8 +82,11 @@ class RaidController extends Controller
             if (!$this->raid->hasLaunched($raid->id, $raid->crew_id)) {
 
                 //$raidAttack = new RaidAttackClass($this->raid);
-                $raidAttack = new RaidAttackClass();
-                $data = $raidAttack->launchRaid($raid->id, $raid->crew_id, $raid->raid_id);
+                $raidAttack = new RaidAttackClass($this->raid, $raid->raid_id, $raid->id, $raid->crew_id);
+                $data = $raidAttack->launchRaid();
+                //$data = $raidAttack->launchRaid($raid->id, $raid->crew_id, $raid->raid_id);
+
+
                 $raiders = count($this->raid->raidUsers($raid->id, $raid->crew_id));
                 $outcome = $raidAttack->getOutcome($data);
 
